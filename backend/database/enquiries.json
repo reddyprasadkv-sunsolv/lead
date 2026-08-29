@@ -1,0 +1,148 @@
+[
+  {
+    "id": "SUN-2026-1003",
+    "createdAt": "2026-08-29T12:14:32.448Z",
+    "status": "Qualified",
+    "priority": "High",
+    "assignedTo": "Prasad (Solution Architect)",
+    "notes": [
+      {
+        "date": "2026-08-29T12:14:32.453Z",
+        "author": "Prasad",
+        "text": "Client reviewed the AI blueprint. Scheduled architecture workshop for next Tuesday."
+      }
+    ],
+    "contact": {
+      "name": "Siddharth Verma",
+      "company": "Apex Healthcare Tech",
+      "email": "siddharth@apexhealth.in",
+      "phone": "+91 91234 56789",
+      "country": "India"
+    },
+    "category": "ai_automation",
+    "categoryName": "AI & Automation",
+    "goals": [
+      "Use AI in my business",
+      "Automate manual work"
+    ],
+    "situation": "Repetitive data entry & manual email tasks",
+    "profile": {
+      "industry": "Healthcare",
+      "companySize": "51–200",
+      "businessStage": "Growing business"
+    },
+    "successVision": "We want to automate patient records intake and launch an AI WhatsApp assistant.",
+    "investment": "₹5 Lakh – ₹10 Lakh",
+    "currency": "INR",
+    "timeline": "Immediately",
+    "digitalPresence": {},
+    "solutionBlueprint": {
+      "packageTitle": "Enterprise AI Agents & Intelligent Workflow Automation",
+      "direction": "Custom AI Agents + LLM Document Extraction + WhatsApp Automation",
+      "modules": [
+        "24/7 AI Sales & Customer Support Chatbot",
+        "Intelligent OCR Document Extraction"
+      ]
+    },
+    "updatedAt": "2026-08-29T12:14:32.453Z"
+  },
+  {
+    "id": "SUN-2026-1001",
+    "createdAt": "2026-08-27T12:08:20.652Z",
+    "status": "Contacted",
+    "priority": "High",
+    "contact": {
+      "name": "Rajesh Kumar",
+      "company": "Apex Realty Group",
+      "email": "rajesh@apexrealty.in",
+      "phone": "+91 98450 12345",
+      "country": "India"
+    },
+    "category": "website",
+    "categoryName": "Build a Website",
+    "goals": [
+      "Generate more qualified leads",
+      "Improve search visibility"
+    ],
+    "situation": "My website doesn't generate enquiries",
+    "profile": {
+      "industry": "Real Estate",
+      "companySize": "51–200",
+      "businessStage": "Established company"
+    },
+    "successVision": "We want to generate 100+ qualified property inquiries every month with WhatsApp lead automation.",
+    "investment": "₹3 Lakh – ₹5 Lakh",
+    "currency": "INR",
+    "timeline": "Within 30 days",
+    "digitalPresence": {
+      "websiteUrl": "apexrealty.in",
+      "appUrl": "",
+      "competitorUrl": "prestige.in",
+      "fileName": "Apex_Realty_Scope_2026.pdf"
+    },
+    "solutionBlueprint": {
+      "packageTitle": "Digital Growth & High-Velocity Lead Engine for Real Estate",
+      "direction": "Website Conversion + Local SEO + Lead Automation",
+      "modules": [
+        "High-Speed Interactive Property Portal & Virtual Tour Viewer",
+        "Direct WhatsApp Lead Qualification Bot & Instant CRM Routing",
+        "Hyper-Local Real Estate SEO & Google Ads Search Campaign"
+      ]
+    },
+    "assignedTo": "Prasad (Lead Architect)",
+    "notes": [
+      {
+        "date": "2026-08-28T12:08:20.652Z",
+        "author": "Prasad",
+        "text": "Had initial discovery call. Client wants WhatsApp lead routing set up by end of next month."
+      }
+    ]
+  },
+  {
+    "id": "SUN-2026-1002",
+    "createdAt": "2026-08-28T12:08:20.652Z",
+    "status": "New",
+    "priority": "High",
+    "contact": {
+      "name": "Ananya Patel",
+      "company": "Global Logistics Ltd",
+      "email": "ananya.patel@globallogistics.com",
+      "phone": "+91 99887 65432",
+      "country": "India"
+    },
+    "category": "software",
+    "categoryName": "Business Software",
+    "goals": [
+      "Replace spreadsheets/manual processes",
+      "Automate manual work",
+      "Reduce operational costs"
+    ],
+    "situation": "Currently using Excel / manual processes",
+    "profile": {
+      "industry": "Logistics",
+      "companySize": "201–500",
+      "businessStage": "Growing business"
+    },
+    "successVision": "Replace 15+ disconnected spreadsheets with centralized ERP for warehouse stock & automated billing.",
+    "investment": "₹5 Lakh – ₹10 Lakh",
+    "currency": "INR",
+    "timeline": "Immediately",
+    "digitalPresence": {
+      "websiteUrl": "globallogistics.com",
+      "appUrl": "",
+      "competitorUrl": "",
+      "fileName": ""
+    },
+    "solutionBlueprint": {
+      "packageTitle": "Custom Operations ERP & Workflow Automation System",
+      "direction": "Custom ERP / CRM + Workflow Automation + Cloud Database",
+      "modules": [
+        "Custom Role-Based Employee & Client Management Portal",
+        "Automated Invoicing, Billing & Real-Time Financial Sync",
+        "Centralized Cloud Database with Automated Daily Backups"
+      ]
+    },
+    "assignedTo": "Unassigned",
+    "notes": []
+  }
+]

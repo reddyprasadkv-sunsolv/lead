@@ -1,0 +1,1489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Business Solution Finder | Sunsolv Technologies</title>
+  <meta name="description" content="Discover the right technology, digital, cloud, AI, or growth solution for your business. Tell us where you are today and get a tailored strategy blueprint from Sunsolv Technologies." />
+  
+  <!-- Google Fonts: Roboto -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400;1,700&display=swap" rel="stylesheet" />
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- Background Ambient Glows -->
+  <div class="ambient-glow glow-1"></div>
+  <div class="ambient-glow glow-2"></div>
+  <div class="ambient-glow glow-3"></div>
+
+  <!-- Header / Navigation -->
+  <header class="site-header" id="siteHeader">
+    <div class="header-container">
+      <a href="#" class="brand-logo" id="brandLogo">
+        <img src="logo.png" alt="Sunsolv Technologies" class="sunsolv-official-logo" />
+      </a>
+
+      <nav class="nav-links">
+        <a href="#whyOutcomeApproach" class="nav-link">Our Approach</a>
+        <a href="#servicesCoverage" class="nav-link">Capabilities</a>
+        <a href="#clientReviews" class="nav-link">Results</a>
+        <a href="#faqSection" class="nav-link">FAQ</a>
+      </nav>
+
+      <div class="header-actions">
+        <button class="btn btn-header-cta" id="headerCtaBtn" onclick="scrollToSolutionFinder()">
+          <span>Find Solution</span>
+          <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero-section" id="heroSection">
+    <div class="hero-wrapper">
+      <div class="hero-badge animate-fade-in">
+        <span class="pulse-dot"></span>
+        <span>Intelligent Business Solution Finder 2.0</span>
+      </div>
+
+      <h1 class="hero-headline animate-slide-up" id="mainHeadline">
+        What Are You Looking to <span class="gradient-text">Achieve for Your Business?</span>
+      </h1>
+
+      <p class="hero-subheadline animate-slide-up delay-1">
+        Tell us where you are today and where you want to go. We’ll help identify the right technology, digital, cloud, or growth solution for your business.
+      </p>
+
+      <div class="hero-cta-group animate-slide-up delay-2">
+        <button class="btn btn-primary-hero glow-button" id="startSolutionFinderBtn" onclick="scrollToSolutionFinder()">
+          <span>Find My Solution</span>
+          <i class="fa-solid fa-arrow-right-long icon-bounce"></i>
+        </button>
+        <a href="#whyOutcomeApproach" class="btn btn-secondary-hero">
+          <i class="fa-regular fa-circle-play"></i>
+          <span>Why Outcomes Beat Services</span>
+        </a>
+      </div>
+
+      <!-- Quick Trust Indicators -->
+      <div class="hero-trust-bar animate-fade-in delay-3">
+        <div class="trust-item">
+          <div class="trust-icon"><i class="fa-solid fa-clock-rotate-left"></i></div>
+          <div class="trust-text">
+            <strong>Takes Only 2 Mins</strong>
+            <span>No jargon, pure business focus</span>
+          </div>
+        </div>
+        <div class="trust-divider"></div>
+        <div class="trust-item">
+          <div class="trust-icon"><i class="fa-solid fa-brain"></i></div>
+          <div class="trust-text">
+            <strong>Dynamic Solution Matching</strong>
+            <span>Instant customized blueprint</span>
+          </div>
+        </div>
+        <div class="trust-divider"></div>
+        <div class="trust-item">
+          <div class="trust-icon"><i class="fa-solid fa-shield-halved"></i></div>
+          <div class="trust-text">
+            <strong>100% Confidential & Free</strong>
+            <span>No obligation consultation</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hero Interactive Teaser Preview Cards -->
+      <div class="hero-preview-cards animate-slide-up delay-4">
+        <div class="preview-card" onclick="preselectAndStart('website')">
+          <span class="preview-icon">🌐</span>
+          <span class="preview-title">Websites & Portals</span>
+          <span class="preview-action">Explore <i class="fa-solid fa-chevron-right"></i></span>
+        </div>
+        <div class="preview-card" onclick="preselectAndStart('app')">
+          <span class="preview-icon">📱</span>
+          <span class="preview-title">Mobile & SaaS Apps</span>
+          <span class="preview-action">Explore <i class="fa-solid fa-chevron-right"></i></span>
+        </div>
+        <div class="preview-card" onclick="preselectAndStart('digital_transformation')">
+          <span class="preview-icon">🔄</span>
+          <span class="preview-title">Digital Transformation</span>
+          <span class="preview-action">Explore <i class="fa-solid fa-chevron-right"></i></span>
+        </div>
+        <div class="preview-card" onclick="preselectAndStart('ai_automation')">
+          <span class="preview-icon">🤖</span>
+          <span class="preview-title">AI & Automation</span>
+          <span class="preview-action">Explore <i class="fa-solid fa-chevron-right"></i></span>
+        </div>
+        <div class="preview-card" onclick="preselectAndStart('marketing')">
+          <span class="preview-icon">📈</span>
+          <span class="preview-title">Digital Marketing & SEO</span>
+          <span class="preview-action">Explore <i class="fa-solid fa-chevron-right"></i></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive Solution Finder Application Section -->
+  <section class="finder-section" id="solutionFinderApp">
+    <div class="finder-container">
+      
+      <!-- Wizard Card Frame -->
+      <div class="wizard-card-wrapper" id="wizardCard">
+        
+        <!-- Wizard Header & Progress Bar -->
+        <div class="wizard-header">
+          <div class="wizard-header-top">
+            <div class="wizard-title-badge">
+              <i class="fa-solid fa-sliders"></i>
+              <span>Interactive Solution Assessment</span>
+            </div>
+            <div class="step-indicator" id="stepCounterText">
+              Step <span id="currentStepNum">1</span> of 8
+            </div>
+          </div>
+
+          <!-- Multi-step Visual Progress Bar -->
+          <div class="progress-bar-container">
+            <div class="progress-bar-fill" id="progressBarFill" style="width: 12.5%;"></div>
+          </div>
+
+          <!-- Wizard Breadcrumbs Track -->
+          <div class="wizard-steps-track" id="wizardStepsTrack">
+            <div class="step-node active" data-step="1" title="Service Category">1. Category</div>
+            <div class="step-node" data-step="2" title="Business Goal">2. Goals</div>
+            <div class="step-node" data-step="3" title="Current State">3. Situation</div>
+            <div class="step-node" data-step="4" title="Business Profile">4. Profile</div>
+            <div class="step-node" data-step="5" title="Success Metric">5. Success</div>
+            <div class="step-node" data-step="6" title="Budget & Timeline">6. Investment</div>
+            <div class="step-node" data-step="7" title="Digital Assets">7. Assets</div>
+            <div class="step-node" data-step="8" title="Contact & Delivery">8. Delivery</div>
+          </div>
+        </div>
+
+        <!-- Wizard Step Body Form Container -->
+        <div class="wizard-body">
+          <form id="solutionFinderForm" onsubmit="handleFormSubmission(event)">
+
+            <!-- ================= STEP 1: What are you looking for? ================= -->
+            <div class="wizard-step-pane active" id="stepPane1" data-step="1">
+              <div class="step-heading-group">
+                <span class="step-tag">Step 1 — Solution Direction</span>
+                <h2 class="step-title">What are you looking for?</h2>
+                <p class="step-desc">Select the area that best represents your vision, or choose "Not Sure" if you want us to diagnose from scratch.</p>
+              </div>
+
+              <div class="cards-grid-step1" id="categoryCardsGrid">
+                <!-- 1. Website -->
+                <div class="selection-card" data-category="website" onclick="selectCategory('website', this)">
+                  <div class="card-icon-bubble">🌐</div>
+                  <div class="card-content">
+                    <h3 class="card-name">Build a Website</h3>
+                    <p class="card-subtext">Corporate website, portal, ecommerce</p>
+                  </div>
+                  <div class="card-check"><i class="fa-solid fa-circle-check"></i></div>
+                </div>
+
+                <!-- 2. Build an App -->
+                <div class="selection-card" data-category="app" onclick="selectCategory('app', this)">
+                  <div class="card-icon-bubble">📱</div>
+                  <div class="card-content">
+                    <h3 class="card-name">Build an App</h3>
+                    <p class="card-subtext">Mobile app, web app, SaaS platform</p>
+                  </div>
+                  <div class="card-check"><i class="fa-solid fa-circle-check"></i></div>
+                </div>
+
+                <!-- 3. Digital Transformation -->
+                <div class="selection-card" data-category="digital_transformation" onclick="selectCategory('digital_transformation', this)">
+                  <div class="card-icon-bubble">🔄</div>
+                  <div class="card-content">
+                    <h3 class="card-name">Digital Transformation</h3>
+                    <p class="card-subtext">Digitise existing business processes</p>
+                  </div>
+                  <div class="card-check"><i class="fa-solid fa-circle-check"></i></div>
+                </div>
+
+                <!-- 4. Cloud Solutions -->
+                <div class="selection-card" data-category="cloud" onclick="selectCategory('cloud', this)">
+                  <div class="card-icon-bubble">☁️</div>
+                  <div class="card-content">
+                    <h3 class="card-name">Cloud Solutions</h3>
+                    <p class="card-subtext">AWS, migration, hosting, optimisation</p>
+                  </div>
+                  <div class="card-check"><i class="fa-solid fa-circle-check"></i></div>
+                </div>
+
+                <!-- 5. AI & Automation -->
+                <div class="selection-card" data-category="ai_automation" onclick="selectCategory('ai_automation', this)">
+                  <div class="card-icon-bubble">🤖</div>
+                  <div class="card-content">
+                    <h3 class="card-name">AI & Automation</h3>
+                    <p class="card-subtext">AI solutions, workflow automation</p>
+                  </div>
+                  <div class="card-check"><i class="fa-solid fa-circle-check"></i></div>
+                </div>
+
+                <!-- 6. Digital Marketing -->
+                <div class="selection-card" data-category="marketing" onclick="selectCategory('marketing', this)">
+                  <div class="card-icon-bubble">📈</div>
+                  <div class="card-content">
+                    <h3 class="card-name">Digital Marketing</h3>
+                    <p class="card-subtext">SEO, Google Ads, Social Media, GEO/AIO</p>
+                  </div>
+                  <div class="card-check"><i class="fa-solid fa-circle-check"></i></div>
+                </div>
+
+                <!-- 7. Ecommerce -->
+                <div class="selection-card" data-category="ecommerce" onclick="selectCategory('ecommerce', this)">
+                  <div class="card-icon-bubble">🛒</div>
+                  <div class="card-content">
+                    <h3 class="card-name">Ecommerce</h3>
+                    <p class="card-subtext">Online store, multi-vendor marketplace</p>
+                  </div>
+                  <div class="card-check"><i class="fa-solid fa-circle-check"></i></div>
+                </div>
+
+                <!-- 8. Business Software -->
+                <div class="selection-card" data-category="software" onclick="selectCategory('software', this)">
+                  <div class="card-icon-bubble">🏢</div>
+                  <div class="card-content">
+                    <h3 class="card-name">Business Software</h3>
+                    <p class="card-subtext">ERP, CRM, billing, custom applications</p>
+                  </div>
+                  <div class="card-check"><i class="fa-solid fa-circle-check"></i></div>
+                </div>
+
+                <!-- 9. Improve Existing System -->
+                <div class="selection-card" data-category="improve_system" onclick="selectCategory('improve_system', this)">
+                  <div class="card-icon-bubble">🔧</div>
+                  <div class="card-content">
+                    <h3 class="card-name">Improve Existing System</h3>
+                    <p class="card-subtext">Redesign, performance, integrations</p>
+                  </div>
+                  <div class="card-check"><i class="fa-solid fa-circle-check"></i></div>
+                </div>
+
+                <!-- 10. I Have an Idea -->
+                <div class="selection-card" data-category="idea" onclick="selectCategory('idea', this)">
+                  <div class="card-icon-bubble">💡</div>
+                  <div class="card-content">
+                    <h3 class="card-name">I Have an Idea</h3>
+                    <p class="card-subtext">Need consultation, roadmap & guidance</p>
+                  </div>
+                  <div class="card-check"><i class="fa-solid fa-circle-check"></i></div>
+                </div>
+
+                <!-- 11. Not Sure -->
+                <div class="selection-card highlight-card" data-category="not_sure" onclick="selectCategory('not_sure', this)">
+                  <div class="card-icon-bubble">❓</div>
+                  <div class="card-content">
+                    <h3 class="card-name">Not Sure</h3>
+                    <p class="card-subtext">Help me identify what I need</p>
+                  </div>
+                  <div class="card-badge">Popular for Owners</div>
+                  <div class="card-check"><i class="fa-solid fa-circle-check"></i></div>
+                </div>
+              </div>
+
+              <div class="validation-message" id="step1Validation">Please select one option to proceed.</div>
+            </div>
+
+
+            <!-- ================= STEP 2: Actual Business Problem / Improvement ================= -->
+            <div class="wizard-step-pane" id="stepPane2" data-step="2">
+              <div class="step-heading-group">
+                <span class="step-tag">Step 2 — Business Outcomes</span>
+                <h2 class="step-title">What would you like to improve in your business?</h2>
+                <p class="step-desc">Select all objectives that apply. We formulate our technical recommendations around these tangible outcomes.</p>
+              </div>
+
+              <div class="multi-select-grid" id="goalsGrid">
+                <!-- Goal 1 -->
+                <label class="multi-select-item" onclick="toggleMultiSelect(this)">
+                  <input type="checkbox" name="goals" value="Get more customers" />
+                  <div class="item-inner">
+                    <div class="checkbox-box"><i class="fa-solid fa-check"></i></div>
+                    <div class="item-label-group">
+                      <span class="item-title">🎯 Get more customers</span>
+                      <span class="item-sub">Expand client base & market share</span>
+                    </div>
+                  </div>
+                </label>
+
+                <!-- Goal 2 -->
+                <label class="multi-select-item" onclick="toggleMultiSelect(this)">
+                  <input type="checkbox" name="goals" value="Generate more qualified leads" />
+                  <div class="item-inner">
+                    <div class="checkbox-box"><i class="fa-solid fa-check"></i></div>
+                    <div class="item-label-group">
+                      <span class="item-title">🔥 Generate more qualified leads</span>
+                      <span class="item-sub">Higher intent enquiries for your sales team</span>
+                    </div>
+                  </div>
+                </label>
+
+                <!-- Goal 3 -->
+                <label class="multi-select-item" onclick="toggleMultiSelect(this)">
+                  <input type="checkbox" name="goals" value="Increase online sales" />
+                  <div class="item-inner">
+                    <div class="checkbox-box"><i class="fa-solid fa-check"></i></div>
+                    <div class="item-label-group">
+                      <span class="item-title">🛍️ Increase online sales</span>
+                      <span class="item-sub">Boost checkout conversion & average order value</span>
+                    </div>
+                  </div>
+                </label>
+
+                <!-- Goal 4 -->
+                <label class="multi-select-item" onclick="toggleMultiSelect(this)">
+                  <input type="checkbox" name="goals" value="Improve my brand presence" />
+                  <div class="item-inner">
+                    <div class="checkbox-box"><i class="fa-solid fa-check"></i></div>
+                    <div class="item-label-group">
+                      <span class="item-title">✨ Improve my brand presence</span>
+                      <span class="item-sub">Modern aesthetic, trust badges & authority</span>
+                    </div>
+                  </div>
+                </label>
+
+                <!-- Goal 5 -->
+                <label class="multi-select-item" onclick="toggleMultiSelect(this)">
+                  <input type="checkbox" name="goals" value="Automate manual work" />
+                  <div class="item-inner">
+                    <div class="checkbox-box"><i class="fa-solid fa-check"></i></div>
+                    <div class="item-label-group">
+                      <span class="item-title">⚡ Automate manual work</span>
+                      <span class="item-sub">Eliminate repetitive tasks with workflows</span>
+                    </div>
+                  </div>
+                </label>
+
+                <!-- Goal 6 -->
+                <label class="multi-select-item" onclick="toggleMultiSelect(this)">
+                  <input type="checkbox" name="goals" value="Reduce operational costs" />
+                  <div class="item-inner">
+                    <div class="checkbox-box"><i class="fa-solid fa-check"></i></div>
+                    <div class="item-label-group">
+                      <span class="item-title">📉 Reduce operational costs</span>
+                      <span class="item-sub">Optimize overheads and software expenditures</span>
+                    </div>
+                  </div>
+                </label>
+
+                <!-- Goal 7 -->
+                <label class="multi-select-item" onclick="toggleMultiSelect(this)">
+                  <input type="checkbox" name="goals" value="Improve customer experience" />
+                  <div class="item-inner">
+                    <div class="checkbox-box"><i class="fa-solid fa-check"></i></div>
+                    <div class="item-label-group">
+                      <span class="item-title">🤝 Improve customer experience</span>
+                      <span class="item-sub">Faster support, self-service portals, chatbots</span>
+                    </div>
+                  </div>
+                </label>
+
+                <!-- Goal 8 -->
+                <label class="multi-select-item" onclick="toggleMultiSelect(this)">
+                  <input type="checkbox" name="goals" value="Replace spreadsheets/manual processes" />
+                  <div class="item-inner">
+                    <div class="checkbox-box"><i class="fa-solid fa-check"></i></div>
+                    <div class="item-label-group">
+                      <span class="item-title">📊 Replace spreadsheets & manual sheets</span>
+                      <span class="item-sub">Centralized database & role-based software</span>
+                    </div>
+                  </div>
+                </label>
+
+                <!-- Goal 9 -->
+                <label class="multi-select-item" onclick="toggleMultiSelect(this)">
+                  <input type="checkbox" name="goals" value="Build a new digital product" />
+                  <div class="item-inner">
+                    <div class="checkbox-box"><i class="fa-solid fa-check"></i></div>
+                    <div class="item-label-group">
+                      <span class="item-title">🚀 Build a new digital product</span>
+                      <span class="item-sub">SaaS application, mobile app or platform MVP</span>
+                    </div>
+                  </div>
+                </label>
+
+                <!-- Goal 10 -->
+                <label class="multi-select-item" onclick="toggleMultiSelect(this)">
+                  <input type="checkbox" name="goals" value="Modernise an existing application" />
+                  <div class="item-inner">
+                    <div class="checkbox-box"><i class="fa-solid fa-check"></i></div>
+                    <div class="item-label-group">
+                      <span class="item-title">💎 Modernise an existing application</span>
+                      <span class="item-sub">Refactor legacy architecture, upgrade UI/UX</span>
+                    </div>
+                  </div>
+                </label>
+
+                <!-- Goal 11 -->
+                <label class="multi-select-item" onclick="toggleMultiSelect(this)">
+                  <input type="checkbox" name="goals" value="Move infrastructure to cloud" />
+                  <div class="item-inner">
+                    <div class="checkbox-box"><i class="fa-solid fa-check"></i></div>
+                    <div class="item-label-group">
+                      <span class="item-title">☁️ Move infrastructure to cloud</span>
+                      <span class="item-sub">AWS, serverless scalability, automated backups</span>
+                    </div>
+                  </div>
+                </label>
+
+                <!-- Goal 12 -->
+                <label class="multi-select-item" onclick="toggleMultiSelect(this)">
+                  <input type="checkbox" name="goals" value="Improve website performance" />
+                  <div class="item-inner">
+                    <div class="checkbox-box"><i class="fa-solid fa-check"></i></div>
+                    <div class="item-label-group">
+                      <span class="item-title">⚡ Improve speed & core web vitals</span>
+                      <span class="item-sub">Sub-second load times & technical SEO</span>
+                    </div>
+                  </div>
+                </label>
+
+                <!-- Goal 13 -->
+                <label class="multi-select-item" onclick="toggleMultiSelect(this)">
+                  <input type="checkbox" name="goals" value="Improve search visibility" />
+                  <div class="item-inner">
+                    <div class="checkbox-box"><i class="fa-solid fa-check"></i></div>
+                    <div class="item-label-group">
+                      <span class="item-title">🔍 Improve search visibility & GEO/AIO</span>
+                      <span class="item-sub">Rank top on Google search and AI engines</span>
+                    </div>
+                  </div>
+                </label>
+
+                <!-- Goal 14 -->
+                <label class="multi-select-item" onclick="toggleMultiSelect(this)">
+                  <input type="checkbox" name="goals" value="Use AI in my business" />
+                  <div class="item-inner">
+                    <div class="checkbox-box"><i class="fa-solid fa-check"></i></div>
+                    <div class="item-label-group">
+                      <span class="item-title">🤖 Use AI in my business</span>
+                      <span class="item-sub">Custom AI agents, document processing & LLMs</span>
+                    </div>
+                  </div>
+                </label>
+
+                <!-- Goal 15 -->
+                <label class="multi-select-item" onclick="toggleMultiSelect(this)">
+                  <input type="checkbox" name="goals" value="Something else" />
+                  <div class="item-inner">
+                    <div class="checkbox-box"><i class="fa-solid fa-check"></i></div>
+                    <div class="item-label-group">
+                      <span class="item-title">💡 Something else</span>
+                      <span class="item-sub">Unique requirements or bespoke challenges</span>
+                    </div>
+                  </div>
+                </label>
+              </div>
+
+              <div class="validation-message" id="step2Validation">Please select at least one goal to proceed.</div>
+            </div>
+
+
+            <!-- ================= STEP 3: Current Situation (Dynamic Adaptive) ================= -->
+            <div class="wizard-step-pane" id="stepPane3" data-step="3">
+              <div class="step-heading-group">
+                <span class="step-tag">Step 3 — Baseline Analysis</span>
+                <h2 class="step-title">Where are you currently?</h2>
+                <p class="step-desc" id="step3DynamicSubtext">Select the situation that best matches your present operational or digital state.</p>
+              </div>
+
+              <!-- Dynamic container rendered via JavaScript depending on Step 1 selection -->
+              <div class="dynamic-situation-grid" id="dynamicSituationContainer">
+                <!-- Injected dynamically by app.js -->
+              </div>
+
+              <div class="validation-message" id="step3Validation">Please select your current situation.</div>
+            </div>
+
+
+            <!-- ================= STEP 4: Business Profile ================= -->
+            <div class="wizard-step-pane" id="stepPane4" data-step="4">
+              <div class="step-heading-group">
+                <span class="step-tag">Step 4 — Organization Context</span>
+                <h2 class="step-title">Tell us a little about your business.</h2>
+                <p class="step-desc">This helps us gauge enterprise compliance, scale dynamics, and relevant industry best practices.</p>
+              </div>
+
+              <div class="form-grid-three-col">
+                <!-- Industry -->
+                <div class="form-group-card">
+                  <label class="form-label-header">
+                    <i class="fa-solid fa-industry"></i> Industry
+                  </label>
+                  <div class="custom-select-wrapper">
+                    <select id="industrySelect" name="industry" class="custom-form-select" onchange="validateField(this)">
+                      <option value="" disabled selected>Select Industry</option>
+                      <option value="Real Estate">Real Estate & Construction</option>
+                      <option value="Healthcare">Healthcare & Life Sciences</option>
+                      <option value="Education">Education & EdTech</option>
+                      <option value="Retail">Retail & Consumer Goods</option>
+                      <option value="Ecommerce">Ecommerce & D2C Brands</option>
+                      <option value="Manufacturing">Manufacturing & Engineering</option>
+                      <option value="Finance">Finance & FinTech</option>
+                      <option value="Insurance">Insurance & InsurTech</option>
+                      <option value="Hospitality">Hospitality & Tourism</option>
+                      <option value="Professional Services">Professional & Legal Services</option>
+                      <option value="Logistics">Logistics & Supply Chain</option>
+                      <option value="Startup">Tech Startup / Emerging Venture</option>
+                      <option value="Other">Other Specialized Sector</option>
+                    </select>
+                  </div>
+                </div>
+
+                <!-- Company Size -->
+                <div class="form-group-card">
+                  <label class="form-label-header">
+                    <i class="fa-solid fa-users"></i> Company Size (Team)
+                  </label>
+                  <div class="pill-radio-group" id="companySizeGroup">
+                    <label class="pill-radio-option" onclick="selectRadioPill(this, 'company_size')">
+                      <input type="radio" name="company_size" value="1–10" />
+                      <span>1–10</span>
+                    </label>
+                    <label class="pill-radio-option" onclick="selectRadioPill(this, 'company_size')">
+                      <input type="radio" name="company_size" value="11–50" />
+                      <span>11–50</span>
+                    </label>
+                    <label class="pill-radio-option" onclick="selectRadioPill(this, 'company_size')">
+                      <input type="radio" name="company_size" value="51–200" />
+                      <span>51–200</span>
+                    </label>
+                    <label class="pill-radio-option" onclick="selectRadioPill(this, 'company_size')">
+                      <input type="radio" name="company_size" value="201–500" />
+                      <span>201–500</span>
+                    </label>
+                    <label class="pill-radio-option" onclick="selectRadioPill(this, 'company_size')">
+                      <input type="radio" name="company_size" value="500+" />
+                      <span>500+</span>
+                    </label>
+                  </div>
+                </div>
+
+                <!-- Business Stage -->
+                <div class="form-group-card">
+                  <label class="form-label-header">
+                    <i class="fa-solid fa-chart-line"></i> Business Stage
+                  </label>
+                  <div class="pill-radio-group vertical-pills" id="businessStageGroup">
+                    <label class="pill-radio-option" onclick="selectRadioPill(this, 'business_stage')">
+                      <input type="radio" name="business_stage" value="Idea / Startup" />
+                      <span>🌱 Idea / Early Startup</span>
+                    </label>
+                    <label class="pill-radio-option" onclick="selectRadioPill(this, 'business_stage')">
+                      <input type="radio" name="business_stage" value="Growing business" />
+                      <span>🚀 Growing Business</span>
+                    </label>
+                    <label class="pill-radio-option" onclick="selectRadioPill(this, 'business_stage')">
+                      <input type="radio" name="business_stage" value="Established company" />
+                      <span>🏛️ Established Company</span>
+                    </label>
+                    <label class="pill-radio-option" onclick="selectRadioPill(this, 'business_stage')">
+                      <input type="radio" name="business_stage" value="Enterprise" />
+                      <span>🏢 Enterprise Corporation</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="validation-message" id="step4Validation">Please complete all 3 profile fields to proceed.</div>
+            </div>
+
+
+            <!-- ================= STEP 5: What would success look like for you? ================= -->
+            <div class="wizard-step-pane" id="stepPane5" data-step="5">
+              <div class="step-heading-group">
+                <span class="step-tag">Step 5 — Target Success Metrics</span>
+                <h2 class="step-title">What would success look like for you?</h2>
+                <p class="step-desc">Define your North Star metric. What tangible breakthrough must this project deliver for you to consider it a 100% win?</p>
+              </div>
+
+              <!-- Quick suggestion chips -->
+              <div class="suggestion-chips-container">
+                <span class="chips-label"><i class="fa-solid fa-lightbulb"></i> Click to insert inspiration:</span>
+                <div class="chips-wrap">
+                  <button type="button" class="chip-btn" onclick="insertSuccessPrompt('We want to generate 100+ qualified enquiries and inbound leads every month.')">
+                    "100+ qualified leads/mo"
+                  </button>
+                  <button type="button" class="chip-btn" onclick="insertSuccessPrompt('We want to automate our billing, onboarding, and lead assignment process to save 40+ staff hours/week.')">
+                    "Automate billing & save 40 hrs/wk"
+                  </button>
+                  <button type="button" class="chip-btn" onclick="insertSuccessPrompt('We want to build and launch our scalable SaaS MVP in 90 days to onboard first 50 paying customers.')">
+                    "Launch SaaS MVP in 90 days"
+                  </button>
+                  <button type="button" class="chip-btn" onclick="insertSuccessPrompt('We want a modern, high-converting website redesign that ranks on Google page 1 for key business terms.')">
+                    "Redesign website & rank page 1"
+                  </button>
+                  <button type="button" class="chip-btn" onclick="insertSuccessPrompt('We want to eliminate Excel sheets and run company operations on a secure custom ERP portal.')">
+                    "Replace Excel with custom ERP"
+                  </button>
+                </div>
+              </div>
+
+              <div class="success-textarea-wrapper">
+                <textarea 
+                  id="successVisionInput" 
+                  name="success_vision" 
+                  class="custom-textarea" 
+                  rows="4" 
+                  placeholder="Example: “We want to generate 100 qualified enquiries every month,” “We want to automate our billing process,” or “We want to launch our SaaS product.”"
+                ></textarea>
+                <div class="textarea-footer">
+                  <span class="char-tip"><i class="fa-solid fa-circle-info"></i> Specific metrics help our solution architects propose exact ROI timelines.</span>
+                </div>
+              </div>
+
+              <div class="validation-message" id="step5Validation">Please write a brief sentence or click an example above.</div>
+            </div>
+
+
+            <!-- ================= STEP 6: Investment & Timeline ================= -->
+            <div class="wizard-step-pane" id="stepPane6" data-step="6">
+              <div class="step-heading-group">
+                <span class="step-tag">Step 6 — Budget & Timeline Alignment</span>
+                <h2 class="step-title">What level of investment & timeline are you considering?</h2>
+                <p class="step-desc">Transparent guidance ensures we design an architecture that maximizes value within your comfortable parameters.</p>
+              </div>
+
+              <!-- Investment Level Card -->
+              <div class="investment-timeline-container">
+                
+                <div class="investment-box">
+                  <div class="box-header-row">
+                    <label class="form-label-header">
+                      <i class="fa-solid fa-wallet"></i> Level of Investment
+                    </label>
+                    
+                    <!-- Currency Switcher Toggle -->
+                    <div class="currency-toggle-wrapper">
+                      <span class="currency-label">Currency:</span>
+                      <div class="currency-switch">
+                        <button type="button" class="curr-btn active" data-curr="INR" onclick="setCurrency('INR')">₹ INR</button>
+                        <button type="button" class="curr-btn" data-curr="USD" onclick="setCurrency('USD')">$ USD</button>
+                        <button type="button" class="curr-btn" data-curr="EUR" onclick="setCurrency('EUR')">€ EUR</button>
+                        <button type="button" class="curr-btn" data-curr="GBP" onclick="setCurrency('GBP')">£ GBP</button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Dynamic Investment Options Grid -->
+                  <div class="investment-tier-grid" id="investmentTierContainer">
+                    <!-- Populated dynamically based on currency -->
+                  </div>
+                </div>
+
+                <!-- Timeline Preference Box -->
+                <div class="timeline-box">
+                  <label class="form-label-header">
+                    <i class="fa-regular fa-calendar-check"></i> When would you like to start?
+                  </label>
+                  
+                  <div class="timeline-options-grid" id="timelineGroup">
+                    <label class="timeline-option-card" onclick="selectTimeline(this)">
+                      <input type="radio" name="timeline" value="Immediately" />
+                      <div class="timeline-card-inner">
+                        <span class="t-badge urgent">High Priority</span>
+                        <span class="t-title">Immediately</span>
+                        <span class="t-sub">Ready to kick off this week</span>
+                      </div>
+                    </label>
+
+                    <label class="timeline-option-card" onclick="selectTimeline(this)">
+                      <input type="radio" name="timeline" value="Within 30 days" />
+                      <div class="timeline-card-inner">
+                        <span class="t-badge standard">Active</span>
+                        <span class="t-title">Within 30 days</span>
+                        <span class="t-sub">Planning phase underway</span>
+                      </div>
+                    </label>
+
+                    <label class="timeline-option-card" onclick="selectTimeline(this)">
+                      <input type="radio" name="timeline" value="1–3 months" />
+                      <div class="timeline-card-inner">
+                        <span class="t-badge medium">Upcoming</span>
+                        <span class="t-title">1–3 months</span>
+                        <span class="t-sub">Next quarter roadmap</span>
+                      </div>
+                    </label>
+
+                    <label class="timeline-option-card" onclick="selectTimeline(this)">
+                      <input type="radio" name="timeline" value="3–6 months" />
+                      <div class="timeline-card-inner">
+                        <span class="t-badge future">Future</span>
+                        <span class="t-title">3–6 months</span>
+                        <span class="t-sub">Budgeting & evaluation</span>
+                      </div>
+                    </label>
+
+                    <label class="timeline-option-card" onclick="selectTimeline(this)">
+                      <input type="radio" name="timeline" value="Just exploring" />
+                      <div class="timeline-card-inner">
+                        <span class="t-badge info">Exploring</span>
+                        <span class="t-title">Just exploring</span>
+                        <span class="t-sub">Gathering ideas & feasibility</span>
+                      </div>
+                    </label>
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="validation-message" id="step6Validation">Please select an investment level and start timeline.</div>
+            </div>
+
+
+            <!-- ================= STEP 7: Existing Digital Presence (Optional) ================= -->
+            <div class="wizard-step-pane" id="stepPane7" data-step="7">
+              <div class="step-heading-group">
+                <span class="step-tag">Step 7 — Digital Footprint (Optional)</span>
+                <h2 class="step-title">Share anything you'd like us to review.</h2>
+                <p class="step-desc">Provide your current assets, inspiration links, or RFP document so our technical team can conduct a free pre-audit.</p>
+              </div>
+
+              <div class="links-form-grid">
+                <!-- Website URL -->
+                <div class="form-field-wrapper">
+                  <label class="input-label" for="websiteUrlInput">
+                    <i class="fa-solid fa-globe"></i> Existing Website URL
+                  </label>
+                  <div class="input-with-prefix">
+                    <span class="url-prefix">https://</span>
+                    <input type="text" id="websiteUrlInput" name="website_url" class="custom-text-input" placeholder="yourcompany.com" />
+                  </div>
+                </div>
+
+                <!-- App / Product URL -->
+                <div class="form-field-wrapper">
+                  <label class="input-label" for="appUrlInput">
+                    <i class="fa-solid fa-mobile-screen"></i> App / Product / Demo URL
+                  </label>
+                  <div class="input-with-prefix">
+                    <span class="url-prefix">https://</span>
+                    <input type="text" id="appUrlInput" name="app_url" class="custom-text-input" placeholder="app.yourcompany.com" />
+                  </div>
+                </div>
+
+                <!-- Competitor or Inspiration -->
+                <div class="form-field-wrapper">
+                  <label class="input-label" for="competitorUrlInput">
+                    <i class="fa-solid fa-bullseye"></i> Competitor or Benchmark Inspiration URL
+                  </label>
+                  <div class="input-with-prefix">
+                    <span class="url-prefix">https://</span>
+                    <input type="text" id="competitorUrlInput" name="competitor_url" class="custom-text-input" placeholder="inspiration-company.com" />
+                  </div>
+                </div>
+
+                <!-- Document Upload Area (Interactive Simulation) -->
+                <div class="form-field-wrapper full-width">
+                  <label class="input-label">
+                    <i class="fa-solid fa-file-arrow-up"></i> Upload Requirement / RFP / Wireframe / Scope Document (Optional)
+                  </label>
+                  <div class="file-dropzone" id="fileDropzone" onclick="document.getElementById('rfpFileInput').click()">
+                    <input type="file" id="rfpFileInput" class="hidden-file-input" accept=".pdf,.doc,.docx,.ppt,.pptx,.png,.jpg,.zip" onchange="handleFileUpload(this)" />
+                    <div class="dropzone-inner" id="dropzoneContent">
+                      <div class="dropzone-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+                      <span class="dropzone-text"><strong>Click to browse</strong> or drag & drop RFP / Scope Document</span>
+                      <span class="dropzone-sub">PDF, DOCX, PPTX, ZIP, or Screenshots up to 25MB</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="optional-step-note">
+                <i class="fa-solid fa-circle-check"></i> This step is optional. You can proceed directly if you don't have existing links.
+              </div>
+            </div>
+
+
+            <!-- ================= STEP 8: Contact Details & Recommendation Delivery ================= -->
+            <div class="wizard-step-pane" id="stepPane8" data-step="8">
+              <div class="step-heading-group">
+                <span class="step-tag">Step 8 — Instant Blueprint Delivery</span>
+                <h2 class="step-title">Where should we send your customized recommendations?</h2>
+                <p class="step-desc">Enter your business details below to unlock your immediate Recommended Solution blueprint and receive a copy by email.</p>
+              </div>
+
+              <div class="contact-form-grid">
+                <!-- Full Name -->
+                <div class="form-field-wrapper">
+                  <label class="input-label" for="contactName">
+                    <i class="fa-solid fa-user"></i> Full Name <span class="req">*</span>
+                  </label>
+                  <input type="text" id="contactName" name="contact_name" class="custom-text-input" placeholder="e.g. Prasad Reddy" required />
+                </div>
+
+                <!-- Company Name -->
+                <div class="form-field-wrapper">
+                  <label class="input-label" for="contactCompany">
+                    <i class="fa-solid fa-building"></i> Company / Organization <span class="req">*</span>
+                  </label>
+                  <input type="text" id="contactCompany" name="contact_company" class="custom-text-input" placeholder="e.g. Sunsolv Innovations" required />
+                </div>
+
+                <!-- Business Email -->
+                <div class="form-field-wrapper">
+                  <label class="input-label" for="contactEmail">
+                    <i class="fa-solid fa-envelope"></i> Business Email <span class="req">*</span>
+                  </label>
+                  <input type="email" id="contactEmail" name="contact_email" class="custom-text-input" placeholder="prasad@company.com" required />
+                </div>
+
+                <!-- Phone / WhatsApp -->
+                <div class="form-field-wrapper">
+                  <label class="input-label" for="contactPhone">
+                    <i class="fa-brands fa-whatsapp"></i> Phone / WhatsApp Number <span class="req">*</span>
+                  </label>
+                  <div class="phone-input-group">
+                    <input type="text" id="contactPhone" name="contact_phone" class="custom-text-input" placeholder="+91 98765 43210" required />
+                  </div>
+                </div>
+
+                <!-- Country -->
+                <div class="form-field-wrapper full-width">
+                  <label class="input-label" for="contactCountry">
+                    <i class="fa-solid fa-earth-americas"></i> Country / Region <span class="req">*</span>
+                  </label>
+                  <select id="contactCountry" name="contact_country" class="custom-form-select" required>
+                    <option value="" disabled selected>Select Your Country</option>
+                    <option value="India">🇮🇳 India</option>
+                    <option value="United States">🇺🇸 United States</option>
+                    <option value="United Kingdom">🇬🇧 United Kingdom</option>
+                    <option value="United Arab Emirates">🇦🇪 United Arab Emirates</option>
+                    <option value="Singapore">🇸🇬 Singapore</option>
+                    <option value="Australia">🇦🇺 Australia</option>
+                    <option value="Canada">🇨🇦 Canada</option>
+                    <option value="Germany">🇩🇪 Germany</option>
+                    <option value="Saudi Arabia">🇸🇦 Saudi Arabia</option>
+                    <option value="Other">🌍 Other International</option>
+                  </select>
+                </div>
+
+                <!-- Anti-Spam Security CAPTCHA Challenge -->
+                <div class="form-field-wrapper full-width captcha-section-wrapper">
+                  <label class="input-label" for="captchaInput">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <span>Security Verification <span class="req">*</span></span>
+                  </label>
+                  <div class="captcha-box-container">
+                    <div class="captcha-visual-badge">
+                      <div class="captcha-code-display" id="captchaCodeDisplay" title="Security Challenge Code">
+                        <!-- Rendered by JS -->
+                      </div>
+                      <button type="button" class="btn-refresh-captcha" onclick="refreshCaptcha()" title="Get new verification code">
+                        <i class="fa-solid fa-rotate-right"></i>
+                      </button>
+                    </div>
+                    <div class="captcha-input-wrapper">
+                      <input 
+                        type="text" 
+                        id="captchaInput" 
+                        class="custom-text-input captcha-input" 
+                        placeholder="Type the 4 characters shown on left" 
+                        maxlength="6"
+                        autocomplete="off"
+                        required 
+                      />
+                    </div>
+                  </div>
+                  <span class="captcha-hint">
+                    <i class="fa-solid fa-circle-info"></i> Please enter the 4 security characters above to prevent automated bot submissions.
+                  </span>
+                </div>
+              </div>
+
+              <!-- Trust & Privacy Guarantee -->
+              <div class="privacy-guarantee-box">
+                <i class="fa-solid fa-lock"></i>
+                <span>We respect your privacy. No spam guaranteed. Your requirement is handled under standard mutual non-disclosure policy.</span>
+              </div>
+
+              <div class="validation-message" id="step8Validation">Please fill in all required contact information.</div>
+            </div>
+
+            <!-- Wizard Footer Action Buttons -->
+            <div class="wizard-footer">
+              <button type="button" class="btn btn-wizard-back" id="wizardBackBtn" onclick="prevStep()" style="display: none;">
+                <i class="fa-solid fa-arrow-left"></i>
+                <span>Previous</span>
+              </button>
+
+              <div class="wizard-footer-right">
+                <button type="button" class="btn btn-wizard-next glow-button" id="wizardNextBtn" onclick="nextStep()">
+                  <span>Continue</span>
+                  <i class="fa-solid fa-arrow-right"></i>
+                </button>
+
+                <button type="submit" class="btn btn-wizard-submit glow-button" id="wizardSubmitBtn" style="display: none;">
+                  <i class="fa-solid fa-wand-magic-sparkles"></i>
+                  <span>Get My Business Solution</span>
+                </button>
+              </div>
+            </div>
+
+          </form>
+        </div>
+
+      </div>
+
+      <!-- ================= DYNAMIC POST-SUBMISSION SOLUTION DOSSIER (Initial hidden) ================= -->
+      <div class="solution-dossier-card" id="solutionDossier" style="display: none;">
+        
+        <!-- Dossier Top Header -->
+        <div class="dossier-header-banner">
+          <div class="dossier-status-pill">
+            <span class="pulse-dot"></span>
+            <span>Tailored Solution Blueprint Generated</span>
+          </div>
+          <h2 class="dossier-greeting" id="dossierGreeting">
+            Thank you, <span class="highlight-name" id="resClientName">Prasad</span>. We understand what you're looking for.
+          </h2>
+          <p class="dossier-subtitle">
+            Based on your business profile and growth targets, our solution architects have mapped out your recommended technical and strategic roadmap.
+          </p>
+        </div>
+
+        <!-- High-Level Executive Summary Grid -->
+        <div class="dossier-summary-grid">
+          <div class="dossier-summary-card">
+            <div class="summary-icon"><i class="fa-solid fa-bullseye"></i></div>
+            <div class="summary-details">
+              <span class="summary-label">Your Objective</span>
+              <strong class="summary-val" id="resObjectiveVal">Increase qualified leads & automate processes</strong>
+            </div>
+          </div>
+
+          <div class="dossier-summary-card">
+            <div class="summary-icon"><i class="fa-solid fa-compass-drafting"></i></div>
+            <div class="summary-details">
+              <span class="summary-label">Recommended Direction</span>
+              <strong class="summary-val" id="resDirectionVal">Full-Stack Digital Growth & Automation</strong>
+            </div>
+          </div>
+
+          <div class="dossier-summary-card">
+            <div class="summary-icon"><i class="fa-solid fa-building-flag"></i></div>
+            <div class="summary-details">
+              <span class="summary-label">Business Context</span>
+              <strong class="summary-val" id="resStageVal">Established Business · Real Estate</strong>
+            </div>
+          </div>
+
+          <div class="dossier-summary-card">
+            <div class="summary-icon"><i class="fa-solid fa-clock-rotate-left"></i></div>
+            <div class="summary-details">
+              <span class="summary-label">Target Timeline</span>
+              <strong class="summary-val" id="resTimelineVal">Within 30 days</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- Main Recommended Package Blueprint -->
+        <div class="recommended-blueprint-box">
+          <div class="blueprint-header-row">
+            <div class="blueprint-badge">Recommended Solution Package</div>
+            <h3 class="blueprint-title" id="resPackageTitle">Digital Growth & Lead Engine for Real Estate</h3>
+            <p class="blueprint-desc" id="resPackageDesc">
+              A synchronized technology stack that converts cold visitor traffic into pre-qualified sales appointments, reduces manual handling, and modernizes your digital authority.
+            </p>
+          </div>
+
+          <div class="blueprint-columns">
+            <!-- Included Modules Breakdown -->
+            <div class="blueprint-col">
+              <h4 class="col-title"><i class="fa-solid fa-layer-group"></i> Recommended Solution Modules</h4>
+              <ul class="solution-modules-list" id="resModulesList">
+                <!-- Dynamically generated -->
+              </ul>
+            </div>
+
+            <!-- Expected Business Outcomes & Deliverables -->
+            <div class="blueprint-col">
+              <h4 class="col-title"><i class="fa-solid fa-chart-pie"></i> Projected Impact & Deliverables</h4>
+              <div class="impact-cards-stack" id="resImpactStack">
+                <!-- Dynamically generated -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Solution Consultant Next Step Notice -->
+          <div class="consultant-notice-box">
+            <div class="consultant-avatar-group">
+              <div class="avatar-circle">
+                <i class="fa-solid fa-user-tie"></i>
+              </div>
+            </div>
+            <div class="consultant-notice-text">
+              <strong>Dedicated Solution Consultant Assigned</strong>
+              <p>One of our senior technology consultants will review your requirement brief and reach out within 2–4 business hours with an architectural breakdown.</p>
+            </div>
+          </div>
+
+          <!-- Immediate Action Buttons -->
+          <div class="dossier-action-bar">
+            <button class="btn btn-consultation-cta glow-button" onclick="openBookingModal()">
+              <i class="fa-solid fa-calendar-days"></i>
+              <span>Schedule a Consultation</span>
+            </button>
+
+            <a href="#" id="whatsappCtaLink" target="_blank" class="btn btn-whatsapp-cta">
+              <i class="fa-brands fa-whatsapp"></i>
+              <span>WhatsApp Solution Team</span>
+            </a>
+
+            <button class="btn btn-download-brief" onclick="printSolutionBlueprint()">
+              <i class="fa-solid fa-file-arrow-down"></i>
+              <span>Print / Save Blueprint</span>
+            </button>
+
+            <button class="btn btn-restart-finder" onclick="restartSolutionFinder()">
+              <i class="fa-solid fa-arrow-rotate-left"></i>
+              <span>Refine Responses</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+  <!-- Proprietary Sunsolv Product Showcase: Digital Assessment Platform -->
+  <section class="assessment-spotlight-section" id="digitalAssessmentProduct" style="padding: 85px 24px; background: radial-gradient(circle at 50% 10%, #03045e 0%, #021b4d 50%, #010224 100%); border-top: 1px solid rgba(72, 202, 228, 0.2); border-bottom: 1px solid rgba(72, 202, 228, 0.2);">
+    <div class="section-container">
+      <div style="max-width: 860px; margin: 0 auto 45px; text-align: center;">
+        <div style="display: inline-flex; align-items: center; gap: 8px; padding: 6px 16px; background: rgba(0, 180, 216, 0.2); border: 1px solid rgba(72, 202, 228, 0.4); border-radius: 100px; color: var(--c-cyan-300); font-size: 0.85rem; font-weight: 800; text-transform: uppercase; margin-bottom: 16px;">
+          <i class="fa-solid fa-graduation-cap"></i>
+          <span>Proprietary Sunsolv Product</span>
+        </div>
+        <h2 style="font-size: 2.5rem; font-weight: 900; color: #ffffff; margin-bottom: 16px;">
+          Sunsolv Digital Assessment Platform
+        </h2>
+        <p style="font-size: 1.05rem; color: var(--c-cyan-100); line-height: 1.7; margin-bottom: 26px;">
+          A unified, connected digital assessment ecosystem engineered for <strong>Schools, Colleges, Universities, Coaching Centres & Training Academies</strong>—bringing administrators, faculty, and students into one clear, structured workflow.
+        </p>
+        <div style="display: flex; justify-content: center; gap: 16px; flex-wrap: wrap;">
+          <a href="https://digitalassessment.sunsolv.in/" target="_blank" rel="noopener noreferrer" class="btn" style="background: #ffffff; color: var(--c-navy-900); font-weight: 800; padding: 12px 26px; border-radius: 10px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px;">
+            <span>Explore Live Platform</span>
+            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+          </a>
+          <button type="button" class="btn btn-primary-hero" onclick="scrollToSolutionFinder()">
+            <i class="fa-solid fa-wand-magic-sparkles"></i>
+            <span>Get Assessment Blueprint</span>
+          </button>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;">
+        <div style="background: rgba(3, 16, 68, 0.7); border: 1px solid rgba(72, 202, 228, 0.25); border-radius: 20px; padding: 30px 24px;">
+          <div style="color: var(--c-cyan-300); font-size: 1.6rem; margin-bottom: 12px;"><i class="fa-solid fa-sliders"></i></div>
+          <span style="font-size: 0.75rem; font-weight: 800; color: var(--c-cyan-400); text-transform: uppercase;">Administrator Control</span>
+          <h3 style="color: #ffffff; font-size: 1.25rem; font-weight: 800; margin: 6px 0 10px;">Structured Operations</h3>
+          <p style="color: var(--c-cyan-100); font-size: 0.9rem; line-height: 1.6;">Configure branches, manage faculty teams, schedule timed question banks, and oversee live test activity in real time.</p>
+        </div>
+
+        <div style="background: rgba(3, 16, 68, 0.7); border: 1px solid rgba(72, 202, 228, 0.25); border-radius: 20px; padding: 30px 24px;">
+          <div style="color: var(--c-cyan-300); font-size: 1.6rem; margin-bottom: 12px;"><i class="fa-solid fa-user-graduate"></i></div>
+          <span style="font-size: 0.75rem; font-weight: 800; color: var(--c-cyan-400); text-transform: uppercase;">Student Experience</span>
+          <h3 style="color: #ffffff; font-size: 1.25rem; font-weight: 800; margin: 6px 0 10px;">Calm, Guided Test Flow</h3>
+          <p style="color: var(--c-cyan-100); font-size: 0.9rem; line-height: 1.6;">A reassuring, distraction-free test interface with auto-save, clear timers, and responsive experience across laptops, tablets, and phones.</p>
+        </div>
+
+        <div style="background: rgba(3, 16, 68, 0.7); border: 1px solid rgba(72, 202, 228, 0.25); border-radius: 20px; padding: 30px 24px;">
+          <div style="color: var(--c-cyan-300); font-size: 1.6rem; margin-bottom: 12px;"><i class="fa-solid fa-shield-halved"></i></div>
+          <span style="font-size: 0.75rem; font-weight: 800; color: var(--c-cyan-400); text-transform: uppercase;">Enterprise Security</span>
+          <h3 style="color: #ffffff; font-size: 1.25rem; font-weight: 800; margin: 6px 0 10px;">AWS High Concurrency</h3>
+          <p style="color: var(--c-cyan-100); font-size: 0.9rem; line-height: 1.6;">Cloud auto-scaling handling thousands of concurrent exam takers with anti-cheating audit trails, instant grading, and batch analytics.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Business Outcome Approach Beats Conventional "Request a Quote" -->
+  <section class="outcome-advantage-section" id="whyOutcomeApproach">
+    <div class="section-container">
+      <div class="section-badge">Outcome-Driven Engineering</div>
+      <h2 class="section-title">Why We Focus on <span class="gradient-text">Business Outcomes</span>, Not Jargon</h2>
+      <p class="section-subtitle">
+        Most agencies ask "What technology stack do you want?" We believe business leaders care about revenue, automation, reliability, and growth.
+      </p>
+
+      <div class="comparison-grid">
+        <div class="comparison-card conventional">
+          <div class="card-header-badge bad">Traditional Web / IT Agency</div>
+          <h3 class="comp-title">The "Service Menu" Pitfall</h3>
+          <ul class="comp-list">
+            <li><i class="fa-solid fa-xmark"></i> Asks client to pick frameworks & cloud servers they shouldn't have to study</li>
+            <li><i class="fa-solid fa-xmark"></i> Delivers disconnected code without marketing, CRM, or lead workflows</li>
+            <li><i class="fa-solid fa-xmark"></i> Rigid quotes that don't solve real operational bottlenecks</li>
+            <li><i class="fa-solid fa-xmark"></i> Generic templates that look like competitors</li>
+          </ul>
+        </div>
+
+        <div class="comparison-card sunsolv-approach">
+          <div class="card-header-badge good">Sunsolv Solution Architecture</div>
+          <h3 class="comp-title">The "Outcome Engineering" Model</h3>
+          <ul class="comp-list">
+            <li><i class="fa-solid fa-check"></i> Starts with your revenue, lead, and efficiency targets</li>
+            <li><i class="fa-solid fa-check"></i> Designs complete end-to-end ecosystems: Web + Cloud + AI Automation + Marketing</li>
+            <li><i class="fa-solid fa-check"></i> High ROI architecture that scales from 100 to 1,000,000+ users</li>
+            <li><i class="fa-solid fa-check"></i> Direct access to solution architects & dedicated project steering</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Full Services Coverage Grid -->
+  <section class="services-coverage-section" id="servicesCoverage">
+    <div class="section-container">
+      <div class="section-badge">Capabilities</div>
+      <h2 class="section-title">End-to-End Capabilities <span class="gradient-text">Under One Roof</span></h2>
+      <p class="section-subtitle">Whether you need custom software, cloud infrastructure, AI automation, or high-performance digital marketing, Sunsolv delivers.</p>
+
+      <div class="services-six-grid">
+        <!-- 1 -->
+        <div class="service-box">
+          <div class="service-icon"><i class="fa-solid fa-globe"></i></div>
+          <h3>Web & Portal Development</h3>
+          <p>High-converting corporate websites, bespoke customer portals, enterprise intranet platforms, and lightning-fast web experiences.</p>
+          <span class="service-tag">Next.js · React · Node · Headless CMS</span>
+        </div>
+
+        <!-- 2 -->
+        <div class="service-box">
+          <div class="service-icon"><i class="fa-solid fa-mobile-screen-button"></i></div>
+          <h3>Custom Mobile & SaaS Apps</h3>
+          <p>Native & cross-platform iOS/Android apps, SaaS multi-tenant platforms, and enterprise progressive web applications (PWA).</p>
+          <span class="service-tag">Flutter · React Native · Microservices · APIs</span>
+        </div>
+
+        <!-- 3 -->
+        <div class="service-box">
+          <div class="service-icon"><i class="fa-solid fa-robot"></i></div>
+          <h3>AI & Workflow Automation</h3>
+          <p>Eliminate manual operational drag with custom AI assistants, WhatsApp bots, automated document extraction, and CRM sync.</p>
+          <span class="service-tag">LLMs · Make/Zapier · Python · Custom Bots</span>
+        </div>
+
+        <!-- 4 -->
+        <div class="service-box">
+          <div class="service-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+          <h3>Cloud & DevOps Architecture</h3>
+          <p>Reliable, auto-scaling cloud migrations, AWS/GCP architecture, serverless design, database clustering, and 99.99% uptime SLAs.</p>
+          <span class="service-tag">AWS · Google Cloud · Docker · Kubernetes</span>
+        </div>
+
+        <!-- 5 -->
+        <div class="service-box">
+          <div class="service-icon"><i class="fa-solid fa-bullhorn"></i></div>
+          <h3>Growth Marketing & GEO/AIO</h3>
+          <p>Dominance across search engines and AI engines. Organic SEO, Google Ads, high-intent social campaigns, and conversion rate optimization.</p>
+          <span class="service-tag">SEO · Google Ads · GEO · Conversion CRO</span>
+        </div>
+
+        <!-- 6 -->
+        <div class="service-box">
+          <div class="service-icon"><i class="fa-solid fa-cubes-stacked"></i></div>
+          <h3>Custom Business Software & ERP</h3>
+          <p>Tailor-made ERP, CRM, inventory, and billing software engineered around your unique company workflow rather than forcing you into rigid templates.</p>
+          <span class="service-tag">Custom CRM · ERP · Billing · Integrations</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Client Testimonials & Social Proof -->
+  <section class="social-proof-section" id="clientReviews">
+    <div class="section-container">
+      <div class="section-badge">Client Success</div>
+      <h2 class="section-title">Built for Leaders Who Value <span class="gradient-text">Tangible Growth</span></h2>
+      <p class="section-subtitle">See how companies transitioned from scattered tools to unified high-performance digital engines.</p>
+
+      <div class="testimonials-slider-grid">
+        <div class="testimonial-card">
+          <div class="stars-row">
+            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+          </div>
+          <p class="test-quote">
+            “Instead of just giving us a generic web quote, Sunsolv audited our real estate sales funnel and built a high-converting web portal with WhatsApp automated lead routing. Our qualified inquiries jumped 240% in 90 days.”
+          </p>
+          <div class="test-author">
+            <div class="author-avatar">RK</div>
+            <div class="author-info">
+              <strong>Rajesh Kumar</strong>
+              <span>Managing Director · Apex Realty Group</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars-row">
+            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+          </div>
+          <p class="test-quote">
+            “We were drowning in Excel sheets across 5 warehouses. Sunsolv built a custom ERP that synchronized inventory and billing in real-time. It cut our operational processing time by half.”
+          </p>
+          <div class="test-author">
+            <div class="author-avatar">AP</div>
+            <div class="author-info">
+              <strong>Ananya Patel</strong>
+              <span>COO · Global Logistics & Supply</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars-row">
+            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+          </div>
+          <p class="test-quote">
+            “Our SaaS platform needed a robust AWS migration and AI automation layer. Sunsolv handled the full architecture flawlessly with zero downtime and 40% cloud cost reduction.”
+          </p>
+          <div class="test-author">
+            <div class="author-avatar">SM</div>
+            <div class="author-info">
+              <strong>Siddharth Mehta</strong>
+              <span>Founder & CTO · NovaScale Technologies</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="faq-section" id="faqSection">
+    <div class="section-container">
+      <div class="section-badge">Got Questions?</div>
+      <h2 class="section-title">Frequently Asked <span class="gradient-text">Questions</span></h2>
+      <p class="section-subtitle">Everything you need to know about the Solution Finder and partnering with Sunsolv Technologies.</p>
+
+      <div class="faq-accordion-container">
+        <div class="faq-item active" onclick="toggleFaq(this)">
+          <div class="faq-question">
+            <span>What happens after I complete the Solution Finder?</span>
+            <i class="fa-solid fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            <p>You instantly receive a personalized solution blueprint on your screen and in your email. One of our dedicated Solution Consultants will review your submission, perform a complimentary initial assessment, and reach out to schedule a focused strategy call.</p>
+          </div>
+        </div>
+
+        <div class="faq-item" onclick="toggleFaq(this)">
+          <div class="faq-question">
+            <span>What if I don't know the exact technical specifications I need?</span>
+            <i class="fa-solid fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            <p>That is exactly why we built the Solution Finder! You do not need to know coding languages, cloud infrastructure types, or API protocols. Simply tell us your business problem (e.g. "We need more leads" or "We want to automate invoicing"), and our architects will select the best-fitting technology stack for you.</p>
+          </div>
+        </div>
+
+        <div class="faq-item" onclick="toggleFaq(this)">
+          <div class="faq-question">
+            <span>Is there any cost or commitment to use the Solution Finder?</span>
+            <i class="fa-solid fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            <p>No, the Solution Finder and the initial discovery consultation are 100% free with zero obligation. We believe in demonstrating clear value and architectural clarity before you make any investment decision.</p>
+          </div>
+        </div>
+
+        <div class="faq-item" onclick="toggleFaq(this)">
+          <div class="faq-question">
+            <span>Can Sunsolv integrate with our existing software and databases?</span>
+            <i class="fa-solid fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            <p>Yes. We routinely integrate with Salesforce, Zoho, HubSpot, SAP, custom SQL databases, payment gateways, WhatsApp Business API, and bespoke legacy systems through secure REST/GraphQL APIs and webhooks.</p>
+          </div>
+        </div>
+
+        <div class="faq-item" onclick="toggleFaq(this)">
+          <div class="faq-question">
+            <span>Do you work with international clients outside India?</span>
+            <i class="fa-solid fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            <p>Absolutely. We partner with businesses across the United States, UK, UAE, Europe, Singapore, and Australia, providing flexible time-zone coverage, transparent sprint communications, and international invoicing.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bottom High-Impact CTA Strip -->
+  <section class="bottom-cta-banner">
+    <div class="banner-inner">
+      <div class="banner-text">
+        <h2>Ready to Engineer Your Next Level of Business Growth?</h2>
+        <p>Start your 2-minute diagnostic and discover the exact technology roadmap for your goals.</p>
+      </div>
+      <div class="banner-cta">
+        <button class="btn btn-primary-hero glow-button" onclick="scrollToSolutionFinder()">
+          <span>Find My Solution Now</span>
+          <i class="fa-solid fa-arrow-right-long"></i>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Consultation Booking Modal -->
+  <div class="modal-backdrop" id="bookingModal" onclick="closeModalOnOutsideClick(event)">
+    <div class="modal-card">
+      <button class="modal-close-btn" onclick="closeBookingModal()"><i class="fa-solid fa-xmark"></i></button>
+      
+      <div class="modal-header">
+        <div class="modal-badge"><i class="fa-solid fa-calendar-check"></i> Strategy Session</div>
+        <h3 class="modal-title">Schedule Your 1-on-1 Solution Consultation</h3>
+        <p class="modal-subtitle">Meet directly with a Senior Technical Solution Architect to review your blueprint.</p>
+      </div>
+
+      <div class="modal-body">
+        <div class="booking-form-grid">
+          <div class="form-field-wrapper">
+            <label class="input-label"><i class="fa-regular fa-calendar"></i> Preferred Date</label>
+            <input type="date" id="bookingDate" class="custom-text-input" />
+          </div>
+
+          <div class="form-field-wrapper">
+            <label class="input-label"><i class="fa-regular fa-clock"></i> Preferred Time Slot</label>
+            <select id="bookingTime" class="custom-form-select">
+              <option value="10:00 AM - 11:00 AM">10:00 AM – 11:00 AM IST</option>
+              <option value="02:00 PM - 03:00 PM">02:00 PM – 03:00 PM IST</option>
+              <option value="04:30 PM - 05:30 PM">04:30 PM – 05:30 PM IST</option>
+              <option value="07:00 PM - 08:00 PM">07:00 PM – 08:00 PM IST (US / EU Friendly)</option>
+              <option value="09:00 PM - 10:00 PM">09:00 PM – 10:00 PM IST (US Morning)</option>
+            </select>
+          </div>
+
+          <div class="form-field-wrapper full-width">
+            <label class="input-label"><i class="fa-solid fa-video"></i> Preferred Meeting Format</label>
+            <div class="pill-radio-group">
+              <label class="pill-radio-option active">
+                <input type="radio" name="meeting_type" value="Google Meet" checked />
+                <span>Google Meet</span>
+              </label>
+              <label class="pill-radio-option">
+                <input type="radio" name="meeting_type" value="Zoom" />
+                <span>Zoom Video</span>
+              </label>
+              <label class="pill-radio-option">
+                <input type="radio" name="meeting_type" value="Phone Call" />
+                <span>Direct Phone</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="booking-confirmation-banner">
+          <button class="btn btn-consultation-cta glow-button full-width" onclick="confirmConsultationBooking()">
+            <i class="fa-solid fa-circle-check"></i>
+            <span>Confirm Consultation Booking</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-top-grid">
+        
+        <!-- Brand Info -->
+        <div class="footer-brand-col">
+          <div class="footer-brand-logo">
+            <svg class="sunsolv-svg-logo" viewBox="0 0 40 40" fill="none" style="width:36px;height:36px;">
+              <circle cx="20" cy="20" r="18" stroke="#00B4D8" stroke-width="2" fill="#03045E"/>
+              <path d="M20 7L23 15L31 16L25 21L27 29L20 24L13 29L15 21L9 16L17 15L20 7Z" fill="#ADE8F4"/>
+            </svg>
+            <span class="f-brand-title">SUNSOLV TECHNOLOGIES</span>
+          </div>
+          <p class="footer-desc">
+            Empowering businesses worldwide with end-to-end technology solutions, cloud modernization, digital transformation, custom software, and outcome-focused marketing engines.
+          </p>
+          <div class="social-links-row">
+            <a href="#" class="social-circle"><i class="fa-brands fa-linkedin-in"></i></a>
+            <a href="#" class="social-circle"><i class="fa-brands fa-x-twitter"></i></a>
+            <a href="#" class="social-circle"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="#" class="social-circle"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#" class="social-circle"><i class="fa-brands fa-whatsapp"></i></a>
+          </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="footer-links-col">
+          <h4 class="f-col-title">Solution Areas</h4>
+          <ul>
+            <li><a href="#" onclick="preselectAndStart('website')">Websites & Portals</a></li>
+            <li><a href="#" onclick="preselectAndStart('app')">Mobile & SaaS Apps</a></li>
+            <li><a href="#" onclick="preselectAndStart('ai_automation')">AI & Workflow Automation</a></li>
+            <li><a href="#" onclick="preselectAndStart('cloud')">Cloud Infrastructure (AWS)</a></li>
+            <li><a href="#" onclick="preselectAndStart('software')">Custom ERP & CRM</a></li>
+            <li><a href="#" onclick="preselectAndStart('marketing')">Growth SEO & GEO/AIO</a></li>
+          </ul>
+        </div>
+
+        <!-- Solutions for Industries -->
+        <div class="footer-links-col">
+          <h4 class="f-col-title">Industries Served</h4>
+          <ul>
+            <li><a href="#solutionFinderApp">Real Estate & Construction</a></li>
+            <li><a href="#solutionFinderApp">Healthcare & Clinics</a></li>
+            <li><a href="#solutionFinderApp">Ecommerce & Retail</a></li>
+            <li><a href="#solutionFinderApp">Manufacturing & Logistics</a></li>
+            <li><a href="#solutionFinderApp">EdTech & Institutes</a></li>
+            <li><a href="#solutionFinderApp">FinTech & Professional Services</a></li>
+          </ul>
+        </div>
+
+        <!-- Direct Contact -->
+        <div class="footer-links-col">
+          <h4 class="f-col-title">Contact & Advisory</h4>
+          <ul class="contact-info-list">
+            <li>
+              <i class="fa-solid fa-location-dot"></i>
+              <span>Sunsolv HQ · Hyderabad, India</span>
+            </li>
+            <li>
+              <i class="fa-solid fa-envelope"></i>
+              <a href="mailto:info@sunsolv.in" style="color: var(--c-cyan-200); text-decoration: none;">info&#64;sunsolv.in</a>
+            </li>
+            <li>
+              <i class="fa-solid fa-clock"></i>
+              <span>Mon – Fri: 9:00 AM – 7:00 PM</span>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="footer-bottom-bar">
+        <p>&copy; 2026 Sunsolv Technologies. All rights reserved.</p>
+        <div class="legal-links">
+          <a href="privacy-policy.html">Privacy Policy</a>
+          <a href="terms-of-service.html">Terms of Service</a>
+          <a href="security-compliance.html">Security & Compliance</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Confetti Canvas for Celebration -->
+  <canvas id="confettiCanvas" class="confetti-canvas"></canvas>
+
+  <!-- Application Logic Scripts -->
+  <script src="app.js"></script>
+</body>
+</html>

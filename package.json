@@ -1,0 +1,14 @@
+{
+  "name": "sunsolv-lead-project",
+  "version": "1.0.0",
+  "description": "Sunsolv Technologies Business Solution Finder & CRM",
+  "scripts": {
+    "start:backend": "cd backend && npm start",
+    "start:frontend": "cd frontend && npm start",
+    "build:frontend": "cd frontend && npm run build",
+    "dev": "npm run start:backend & npm run start:frontend"
+  },
+  "keywords": ["angular", "crm", "lead-generation", "solution-finder"],
+  "author": "Sunsolv Technologies",
+  "license": "ISC"
+}
