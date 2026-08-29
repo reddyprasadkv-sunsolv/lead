@@ -30,7 +30,7 @@ export class SolutionService {
 
   // 12 Solution Categories (Including Sunsolv Digital Assessment Platform)
   readonly categories: CategoryOption[] = [
-    { id: 'digital_assessment', name: 'Digital Assessment Platform', subtext: 'Institutions, Schools, Colleges & Tests', icon: '📝', highlight: true },
+    { id: 'digital_assessment', name: 'Digital Assessment Platform', subtext: 'Institutions, Schools, Colleges & Tests', icon: '📝' },
     { id: 'website', name: 'Build a Website', subtext: 'Corporate website, portal, ecommerce', icon: '🌐' },
     { id: 'app', name: 'Build an App', subtext: 'Mobile app, web app, SaaS platform', icon: '📱' },
     { id: 'digital_transformation', name: 'Digital Transformation', subtext: 'Digitise existing business processes', icon: '🔄' },

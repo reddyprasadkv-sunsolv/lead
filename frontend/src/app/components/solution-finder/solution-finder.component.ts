@@ -60,7 +60,6 @@ import { EnquiryRecord, SolutionBlueprint } from '../../models/enquiry.model';
                 <div 
                   *ngFor="let cat of solutionService.categories"
                   class="selection-card"
-                  [class.highlight-card]="cat.highlight"
                   [class.selected]="selectedCategory === cat.id"
                   (click)="selectCategory(cat)"
                 >
@@ -69,7 +68,6 @@ import { EnquiryRecord, SolutionBlueprint } from '../../models/enquiry.model';
                     <h3 class="card-name">{{ cat.name }}</h3>
                     <p class="card-subtext">{{ cat.subtext }}</p>
                   </div>
-                  <div *ngIf="cat.highlight" class="card-badge">Popular for Owners</div>
                   <div class="card-check"><i class="fa-solid fa-circle-check"></i></div>
                 </div>
               </div>
