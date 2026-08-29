@@ -738,15 +738,57 @@ export class SolutionFinderComponent implements OnInit {
         this.isSubmitting.set(false);
         const record = res.data || { ...payload, status: 'New' as const };
         this.solutionService.activeDossier.set(record as EnquiryRecord);
+        this.sendLeadEmailNotification(record as EnquiryRecord);
         this.triggerCelebration();
       },
       error: (err) => {
         console.warn('CRM API network error, utilizing client-side fallback blueprint:', err);
         this.isSubmitting.set(false);
         this.solutionService.activeDossier.set(payload as EnquiryRecord);
+        this.sendLeadEmailNotification(payload as EnquiryRecord);
         this.triggerCelebration();
       }
     });
+  }
+
+  sendLeadEmailNotification(record: EnquiryRecord | Partial<EnquiryRecord>) {
+    const profileDetails = record.profile ? 
+      `Industry/Type: ${record.profile.industry || 'N/A'} | Size/Scale: ${record.profile.companySize || 'N/A'} | Stage: ${record.profile.businessStage || 'N/A'}` : 'N/A';
+
+    const notificationPayload = {
+      _subject: `🔥 New Lead Generated: ${record.contact?.name} (${record.contact?.company || 'Direct'}) - ${record.categoryName || record.category}`,
+      _template: 'table',
+      _captcha: 'false',
+      'Lead Reference ID': record.id || 'SUN-' + Date.now(),
+      'Lead Status': 'NEW INQUIRY',
+      'Customer Name': record.contact?.name,
+      'Company / Organization': record.contact?.company || 'Not Specified',
+      'Business Email': record.contact?.email,
+      'Phone / WhatsApp': record.contact?.phone,
+      'Country': record.contact?.country || 'India',
+      'Selected Category': record.categoryName || record.category,
+      'Selected Outcomes & Goals': Array.isArray(record.goals) ? record.goals.join(', ') : record.goals,
+      'Current Situation / Setup': record.situation || 'Not Specified',
+      'Organization Profile': profileDetails,
+      'Investment Tier': record.investment,
+      'Start Timeline': record.timeline,
+      'Recommended Solution': record.solutionBlueprint?.packageTitle,
+      'Customer Success Vision': record.successVision || 'Not Provided',
+      'Existing Website / Link': record.digitalPresence?.websiteUrl || 'None',
+      'Direct WhatsApp Call': `https://wa.me/${(record.contact?.phone || '').replace(/[^0-9]/g, '')}`,
+      'Direct Email Reply': `mailto:${record.contact?.email}?subject=Sunsolv%20Solution%20Proposal%20-%20${encodeURIComponent(record.contact?.company || record.contact?.name || '')}`,
+      'CRM Portal Access': 'https://solutionfinder.sunsolv.in/crm.html',
+      'Captured Timestamp': new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }) + ' (IST)'
+    };
+
+    fetch('https://formsubmit.co/ajax/reddyprasadkv@sunsolv.in', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify(notificationPayload)
+    }).catch(e => console.warn('Lead email notification notice:', e));
   }
 
   triggerCelebration() {

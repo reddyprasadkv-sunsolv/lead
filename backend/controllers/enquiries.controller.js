@@ -24,9 +24,43 @@ exports.createEnquiry = (req, res) => {
       solutionBlueprint: solutionBlueprint || null
     });
     
+    // Dispatch instant notification to reddyprasadkv@sunsolv.in
+    try {
+      const emailPayload = {
+        _subject: `🔥 New Lead Generated: ${newRecord.contact?.name} (${newRecord.contact?.company || 'Direct'}) - ${newRecord.categoryName}`,
+        _template: "table",
+        _captcha: "false",
+        "Lead Reference ID": newRecord.id,
+        "Customer Name": newRecord.contact?.name,
+        "Company / Organization": newRecord.contact?.company || "Not Specified",
+        "Business Email": newRecord.contact?.email,
+        "Phone / WhatsApp": newRecord.contact?.phone,
+        "Country": newRecord.contact?.country || "India",
+        "Selected Category": newRecord.categoryName,
+        "Selected Outcomes & Goals": (newRecord.goals || []).join(', '),
+        "Current Situation": newRecord.situation || "Not Specified",
+        "Investment Tier": newRecord.investment,
+        "Timeline": newRecord.timeline,
+        "Recommended Blueprint": newRecord.solutionBlueprint?.packageTitle,
+        "Success Vision": newRecord.successVision || "Not Provided",
+        "Direct WhatsApp": `https://wa.me/${(newRecord.contact?.phone || '').replace(/[^0-9]/g, '')}`,
+        "Direct Email": `mailto:${newRecord.contact?.email}`,
+        "CRM Portal": "https://solutionfinder.sunsolv.in/crm.html",
+        "Timestamp": new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }) + " IST"
+      };
+
+      fetch('https://formsubmit.co/ajax/reddyprasadkv@sunsolv.in', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(emailPayload)
+      }).catch(err => console.warn('Backend email notification notice:', err.message));
+    } catch (e) {
+      console.warn("Could not dispatch email notification", e);
+    }
+
     return res.status(201).json({
       success: true,
-      message: "Enquiry successfully logged in CRM.",
+      message: "Enquiry successfully logged in CRM and notification sent to reddyprasadkv@sunsolv.in.",
       data: newRecord
     });
   } catch (error) {
