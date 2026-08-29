@@ -402,22 +402,22 @@ import { EnquiryRecord, SolutionBlueprint } from '../../models/enquiry.model';
               <div class="contact-form-grid">
                 <div class="form-field-wrapper">
                   <label class="input-label"><i class="fa-solid fa-user"></i> Full Name <span class="req">*</span></label>
-                  <input type="text" [(ngModel)]="contact.name" class="custom-text-input" placeholder="e.g. Prasad Reddy" required />
+                  <input type="text" [(ngModel)]="contact.name" class="custom-text-input" placeholder="Your Name" required />
                 </div>
 
                 <div class="form-field-wrapper">
                   <label class="input-label"><i class="fa-solid fa-building"></i> Company / Organization <span class="req">*</span></label>
-                  <input type="text" [(ngModel)]="contact.company" class="custom-text-input" placeholder="e.g. Sunsolv Innovations" required />
+                  <input type="text" [(ngModel)]="contact.company" class="custom-text-input" placeholder="Your Company Name or Organisation" required />
                 </div>
 
                 <div class="form-field-wrapper">
                   <label class="input-label"><i class="fa-solid fa-envelope"></i> Business Email <span class="req">*</span></label>
-                  <input type="email" [(ngModel)]="contact.email" class="custom-text-input" placeholder="prasad@company.com" required />
+                  <input type="email" [(ngModel)]="contact.email" class="custom-text-input" placeholder="Your Business Email Address" required />
                 </div>
 
                 <div class="form-field-wrapper">
                   <label class="input-label"><i class="fa-brands fa-whatsapp"></i> Phone / WhatsApp Number <span class="req">*</span></label>
-                  <input type="tel" [(ngModel)]="contact.phone" class="custom-text-input" placeholder="+91 98765 43210" required />
+                  <input type="tel" [(ngModel)]="contact.phone" class="custom-text-input" placeholder="Your Phone / WhatsApp Number" required />
                 </div>
 
                 <div class="form-field-wrapper full-width">
