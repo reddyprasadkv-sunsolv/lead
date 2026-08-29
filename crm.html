@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sales CRM & Lead Management | Sunsolv Technologies</title>
+  <meta name="description" content="Sunsolv Technologies internal sales CRM and lead management portal.">
+  <link rel="icon" type="image/png" href="logo.png">
+
+  <!-- Google Fonts & Font Awesome Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    :root {
+      --c-navy-950: #010224;
+      --c-navy-900: #03045e;
+      --c-navy-800: #023e8a;
+      --c-navy-700: #0077b6;
+      --c-cyan-500: #00b4d8;
+      --c-cyan-400: #48cae4;
+      --c-cyan-300: #90e0ef;
+      --c-cyan-100: #caf0f8;
+      --font-main: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--font-main);
+      background-color: var(--c-navy-950);
+      color: #ffffff;
+      min-height: 100vh;
+    }
+
+    /* Auth Screen */
+    .auth-overlay {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 24px;
+      background: radial-gradient(circle at 50% 10%, #03045e 0%, #021b4d 50%, #010224 100%);
+    }
+    .auth-card {
+      width: 100%;
+      max-width: 480px;
+      background: rgba(3, 16, 68, 0.75);
+      border: 1px solid rgba(72, 202, 228, 0.35);
+      border-radius: 20px;
+      padding: 40px 32px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+      text-align: center;
+    }
+    .auth-logo { height: 48px; margin-bottom: 20px; }
+    .auth-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 14px;
+      background: rgba(0, 180, 216, 0.2);
+      border: 1px solid rgba(72, 202, 228, 0.3);
+      border-radius: 100px;
+      color: var(--c-cyan-300);
+      font-size: 0.78rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+    .auth-title { font-size: 1.6rem; font-weight: 800; margin-bottom: 8px; }
+    .auth-desc { font-size: 0.88rem; color: var(--c-cyan-100); margin-bottom: 28px; line-height: 1.5; }
+    
+    .form-group { text-align: left; margin-bottom: 18px; }
+    .form-label { display: block; font-size: 0.82rem; font-weight: 700; color: var(--c-cyan-200); margin-bottom: 6px; }
+    .form-input {
+      width: 100%;
+      background: rgba(1, 2, 36, 0.7);
+      border: 1px solid rgba(72, 202, 228, 0.3);
+      border-radius: 10px;
+      padding: 12px 14px;
+      color: #ffffff;
+      font-size: 0.95rem;
+      font-family: inherit;
+    }
+    .form-input:focus { outline: none; border-color: var(--c-cyan-400); box-shadow: 0 0 12px rgba(72, 202, 228, 0.3); }
+
+    .btn-login {
+      width: 100%;
+      background: linear-gradient(135deg, var(--c-navy-800), var(--c-cyan-500));
+      color: var(--c-navy-950);
+      border: none;
+      border-radius: 10px;
+      padding: 14px;
+      font-size: 1rem;
+      font-weight: 800;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn-login:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0, 180, 216, 0.5); }
+    
+    .auth-alert {
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 18px;
+      display: none;
+      align-items: center;
+      gap: 8px;
+    }
+    .auth-alert.error { background: rgba(239, 68, 68, 0.2); border: 1px solid rgba(239, 68, 68, 0.5); color: #fca5a5; display: flex; }
+    
+    .demo-creds {
+      margin-top: 24px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(72, 202, 228, 0.2);
+      font-size: 0.78rem;
+      color: var(--c-cyan-300);
+      text-align: left;
+    }
+
+    /* Dashboard Screen */
+    .dashboard-view { display: none; padding: 24px; max-width: 1360px; margin: 0 auto; }
+    .crm-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(72, 202, 228, 0.2);
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+    }
+    .crm-title-area { display: flex; align-items: center; gap: 16px; }
+    .btn-back-site {
+      width: 42px;
+      height: 42px;
+      background: rgba(3, 16, 68, 0.7);
+      border: 1px solid rgba(72, 202, 228, 0.3);
+      border-radius: 10px;
+      color: var(--c-cyan-300);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+    }
+    .crm-title-text h1 { font-size: 1.6rem; font-weight: 800; }
+    .crm-title-text p { font-size: 0.85rem; color: var(--c-cyan-200); }
+
+    .crm-actions { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .btn-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      border: 1px solid rgba(72, 202, 228, 0.3);
+      background: rgba(3, 16, 68, 0.7);
+      color: #ffffff;
+      transition: background 0.2s;
+    }
+    .btn-action:hover { background: rgba(0, 180, 216, 0.3); border-color: var(--c-cyan-400); }
+    .btn-action.primary { background: var(--c-cyan-400); color: var(--c-navy-950); border: none; }
+    .btn-logout { color: #f87171; border-color: rgba(239, 68, 68, 0.4); }
+    .btn-logout:hover { background: rgba(239, 68, 68, 0.2); }
+
+    /* KPI Cards */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+    .kpi-card {
+      background: rgba(3, 16, 68, 0.6);
+      border: 1px solid rgba(72, 202, 228, 0.25);
+      border-radius: 14px;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .kpi-icon {
+      width: 46px;
+      height: 46px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      background: rgba(0, 180, 216, 0.15);
+      color: var(--c-cyan-300);
+    }
+    .kpi-icon.new { background: rgba(245, 158, 11, 0.15); color: #fbbf24; }
+    .kpi-icon.won { background: rgba(16, 185, 129, 0.15); color: #34d399; }
+    .kpi-label { font-size: 0.78rem; text-transform: uppercase; font-weight: 700; color: var(--c-cyan-200); }
+    .kpi-val { font-size: 1.6rem; font-weight: 900; color: #ffffff; }
+
+    /* Filter Toolbar */
+    .toolbar {
+      background: rgba(3, 16, 68, 0.5);
+      border: 1px solid rgba(72, 202, 228, 0.2);
+      border-radius: 12px;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    .search-box {
+      position: relative;
+      flex: 1;
+      min-width: 260px;
+    }
+    .search-box i {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--c-cyan-300);
+    }
+    .search-input {
+      width: 100%;
+      background: rgba(1, 2, 36, 0.7);
+      border: 1px solid rgba(72, 202, 228, 0.3);
+      border-radius: 8px;
+      padding: 10px 14px 10px 38px;
+      color: #ffffff;
+      font-size: 0.88rem;
+    }
+    .status-filters {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .filter-btn {
+      padding: 7px 14px;
+      border-radius: 20px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      background: rgba(1, 2, 36, 0.7);
+      border: 1px solid rgba(72, 202, 228, 0.25);
+      color: var(--c-cyan-100);
+      cursor: pointer;
+    }
+    .filter-btn.active {
+      background: var(--c-cyan-400);
+      color: var(--c-navy-950);
+      border-color: var(--c-cyan-400);
+    }
+
+    /* Leads Table */
+    .table-container {
+      background: rgba(3, 16, 68, 0.6);
+      border: 1px solid rgba(72, 202, 228, 0.25);
+      border-radius: 14px;
+      overflow-x: auto;
+    }
+    table { width: 100%; border-collapse: collapse; text-align: left; }
+    th {
+      padding: 14px 18px;
+      font-size: 0.8rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--c-cyan-300);
+      border-bottom: 1px solid rgba(72, 202, 228, 0.25);
+      background: rgba(1, 2, 36, 0.4);
+    }
+    td {
+      padding: 16px 18px;
+      font-size: 0.88rem;
+      border-bottom: 1px solid rgba(72, 202, 228, 0.15);
+      vertical-align: middle;
+    }
+    tr:hover { background: rgba(0, 180, 216, 0.05); }
+
+    .lead-name-col strong { display: block; font-size: 0.95rem; color: #ffffff; }
+    .lead-name-col span { font-size: 0.8rem; color: var(--c-cyan-200); }
+
+    .badge-status {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 100px;
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+    .badge-status.new { background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.4); }
+    .badge-status.contacted { background: rgba(59, 130, 246, 0.2); color: #93c5fd; border: 1px solid rgba(59, 130, 246, 0.4); }
+    .badge-status.proposal_sent { background: rgba(168, 85, 247, 0.2); color: #d8b4fe; border: 1px solid rgba(168, 85, 247, 0.4); }
+    .badge-status.won { background: rgba(16, 185, 129, 0.2); color: #6ee7b7; border: 1px solid rgba(16, 185, 129, 0.4); }
+    .badge-status.lost { background: rgba(239, 68, 68, 0.2); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.4); }
+
+    .action-icons { display: flex; align-items: center; gap: 8px; }
+    .btn-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(1, 2, 36, 0.7);
+      border: 1px solid rgba(72, 202, 228, 0.3);
+      color: var(--c-cyan-300);
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .btn-icon:hover { background: var(--c-cyan-400); color: var(--c-navy-950); }
+    .btn-icon.wa { color: #25d366; border-color: rgba(37, 211, 102, 0.4); }
+    .btn-icon.wa:hover { background: #25d366; color: #ffffff; }
+
+    /* Dossier Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(8px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      z-index: 1000;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal-card {
+      width: 100%;
+      max-width: 720px;
+      max-height: 90vh;
+      overflow-y: auto;
+      background: #02143d;
+      border: 1px solid rgba(72, 202, 228, 0.4);
+      border-radius: 20px;
+      padding: 32px;
+    }
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(72, 202, 228, 0.2);
+    }
+    .modal-close {
+      background: none;
+      border: none;
+      color: var(--c-cyan-300);
+      font-size: 1.4rem;
+      cursor: pointer;
+    }
+    .detail-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    .detail-item {
+      background: rgba(1, 2, 36, 0.6);
+      padding: 12px 16px;
+      border-radius: 10px;
+      border: 1px solid rgba(72, 202, 228, 0.2);
+    }
+    .detail-item span { display: block; font-size: 0.75rem; text-transform: uppercase; color: var(--c-cyan-300); margin-bottom: 4px; font-weight: 700; }
+    .detail-item strong { font-size: 0.95rem; color: #ffffff; }
+
+    .status-select {
+      background: rgba(1, 2, 36, 0.8);
+      border: 1px solid rgba(72, 202, 228, 0.4);
+      color: #ffffff;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 0.88rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 1. AUTH LOGIN VIEW -->
+  <div class="auth-overlay" id="authView">
+    <div class="auth-card">
+      <img src="logo.png" alt="Sunsolv Technologies" class="auth-logo">
+      <div>
+        <span class="auth-badge"><i class="fa-solid fa-shield-halved"></i> Internal Staff Portal</span>
+      </div>
+      <h1 class="auth-title">Sales CRM Login</h1>
+      <p class="auth-desc">Enter your authorized Sunsolv credentials to access lead submissions and client solution blueprints.</p>
+
+      <div class="auth-alert error" id="loginAlert">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+        <span id="loginAlertText">Invalid credentials.</span>
+      </div>
+
+      <form id="loginForm" onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label class="form-label">Email Address</label>
+          <input type="email" id="emailInput" class="form-input" placeholder="admin@sunsolv.in" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <input type="password" id="passInput" class="form-input" placeholder="••••••••••••" required>
+        </div>
+        <button type="submit" class="btn-login">Sign In to Lead Dashboard</button>
+      </form>
+
+      <div class="demo-creds">
+        <strong>Authorized Demo Accounts:</strong><br>
+        • Super Admin: <code>admin@sunsolv.in</code> / <code>Sunsolv@2026Secure!</code><br>
+        • Solution Architect: <code>consultant@sunsolv.in</code> / <code>Sunsolv#Advisory2026</code>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. CRM DASHBOARD VIEW -->
+  <div class="dashboard-view" id="dashboardView">
+    
+    <!-- Header -->
+    <header class="crm-header">
+      <div class="crm-title-area">
+        <a href="index.html" class="btn-back-site" title="Return to Public Site">
+          <i class="fa-solid fa-arrow-left"></i>
+        </a>
+        <div class="crm-title-text">
+          <h1>Sunsolv Sales CRM & Lead Dashboard</h1>
+          <p>Real-time inquiries and AI Solution Finder submissions</p>
+        </div>
+      </div>
+
+      <div class="crm-actions">
+        <button class="btn-action" onclick="refreshLeads()">
+          <i class="fa-solid fa-rotate"></i>
+          <span>Refresh</span>
+        </button>
+        <button class="btn-action" onclick="exportCsv()">
+          <i class="fa-solid fa-file-csv"></i>
+          <span>Export CSV</span>
+        </button>
+        <div class="btn-action" style="cursor: default;">
+          <i class="fa-solid fa-user-shield"></i>
+          <span id="userBadge">Admin</span>
+        </div>
+        <button class="btn-action btn-logout" onclick="handleLogout()">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i>
+          <span>Sign Out</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- KPI Cards -->
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-icon"><i class="fa-solid fa-inbox"></i></div>
+        <div>
+          <div class="kpi-label">Total Leads</div>
+          <div class="kpi-val" id="kpiTotal">0</div>
+        </div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-icon new"><i class="fa-solid fa-fire"></i></div>
+        <div>
+          <div class="kpi-label">New Leads</div>
+          <div class="kpi-val" id="kpiNew">0</div>
+        </div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-icon"><i class="fa-solid fa-phone"></i></div>
+        <div>
+          <div class="kpi-label">Contacted</div>
+          <div class="kpi-val" id="kpiContacted">0</div>
+        </div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-icon won"><i class="fa-solid fa-circle-check"></i></div>
+        <div>
+          <div class="kpi-label">Won / Closed</div>
+          <div class="kpi-val" id="kpiWon">0</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filter Toolbar -->
+    <div class="toolbar">
+      <div class="search-box">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" id="searchInput" class="search-input" placeholder="Search by name, company, email, or blueprint..." oninput="renderTable()">
+      </div>
+      <div class="status-filters">
+        <button class="filter-btn active" onclick="setStatusFilter('ALL', this)">All Leads</button>
+        <button class="filter-btn" onclick="setStatusFilter('NEW', this)">New</button>
+        <button class="filter-btn" onclick="setStatusFilter('CONTACTED', this)">Contacted</button>
+        <button class="filter-btn" onclick="setStatusFilter('PROPOSAL_SENT', this)">Proposal Sent</button>
+        <button class="filter-btn" onclick="setStatusFilter('WON', this)">Won</button>
+      </div>
+    </div>
+
+    <!-- Table -->
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Client & Company</th>
+            <th>Solution Direction</th>
+            <th>Budget / Stage</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="leadsTableBody">
+          <!-- Populated by JavaScript -->
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <!-- 3. LEAD DOSSIER MODAL -->
+  <div class="modal-overlay" id="dossierModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2 id="modalLeadTitle">Lead Solution Blueprint</h2>
+        <button class="modal-close" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <div class="detail-grid">
+        <div class="detail-item">
+          <span>Client Name</span>
+          <strong id="mName">-</strong>
+        </div>
+        <div class="detail-item">
+          <span>Company Name</span>
+          <strong id="mCompany">-</strong>
+        </div>
+        <div class="detail-item">
+          <span>Email Address</span>
+          <strong id="mEmail">-</strong>
+        </div>
+        <div class="detail-item">
+          <span>Phone / WhatsApp</span>
+          <strong id="mPhone">-</strong>
+        </div>
+        <div class="detail-item">
+          <span>Country</span>
+          <strong id="mCountry">-</strong>
+        </div>
+        <div class="detail-item">
+          <span>Solution Category</span>
+          <strong id="mCategory">-</strong>
+        </div>
+        <div class="detail-item">
+          <span>Target Timeline</span>
+          <strong id="mTimeline">-</strong>
+        </div>
+        <div class="detail-item">
+          <span>Budget Tier</span>
+          <strong id="mBudget">-</strong>
+        </div>
+      </div>
+
+      <div class="detail-item" style="margin-bottom: 16px;">
+        <span>Recommended Architecture Blueprint</span>
+        <strong id="mBlueprintTitle" style="color: var(--c-cyan-300); font-size: 1.05rem;">-</strong>
+      </div>
+
+      <div class="detail-item" style="margin-bottom: 24px;">
+        <span>Update Lead Status</span>
+        <select id="modalStatusSelect" class="status-select" onchange="updateLeadStatus(this.value)">
+          <option value="NEW">New Lead</option>
+          <option value="CONTACTED">Contacted</option>
+          <option value="IN_REVIEW">In Review</option>
+          <option value="PROPOSAL_SENT">Proposal Sent</option>
+          <option value="WON">Won / Closed</option>
+          <option value="LOST">Lost</option>
+        </select>
+      </div>
+
+      <div style="display: flex; gap: 12px; justify-content: flex-end;">
+        <a id="modalWaBtn" href="#" target="_blank" class="btn-action primary">
+          <i class="fa-brands fa-whatsapp"></i> Chat on WhatsApp
+        </a>
+        <a id="modalMailBtn" href="#" class="btn-action">
+          <i class="fa-solid fa-envelope"></i> Send Email
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Initial Seed / Sample Leads
+    const DEFAULT_LEADS = [
+      {
+        id: "SUN-2026-8801",
+        createdAt: "2026-08-29 18:30",
+        name: "Dr. Arvind Rao",
+        company: "St. Xavier Educational Trust",
+        email: "arvind.rao@stxavieredu.org",
+        phone: "+91 9845012345",
+        country: "India",
+        category: "Digital Assessment Platform",
+        situation: "Universities & Multi-Campus Institutions",
+        goals: ["Replace paper exams", "Automate grading", "Multi-branch hierarchy"],
+        budget: "Enterprise Tier ($5,000 - $15,000)",
+        timeline: "1 - 3 Months",
+        blueprintTitle: "Sunsolv Digital Assessment Platform · Institutional Deployment Blueprint",
+        status: "NEW"
+      },
+      {
+        id: "SUN-2026-8802",
+        createdAt: "2026-08-29 17:15",
+        name: "Rajesh Sharma",
+        company: "Apex Global Logistics",
+        email: "rajesh@apexlogistics.com",
+        phone: "+91 9811099887",
+        country: "India",
+        category: "AI & Automation",
+        situation: "Looking to automate document parsing & customer support",
+        goals: ["Automate manual work", "Reduce operational costs"],
+        budget: "Growth ($2,500 - $5,000)",
+        timeline: "Immediate (< 1 Month)",
+        blueprintTitle: "Enterprise AI Agents & Intelligent Workflow Automation",
+        status: "CONTACTED"
+      },
+      {
+        id: "SUN-2026-8803",
+        createdAt: "2026-08-29 15:45",
+        name: "Priya Sundaram",
+        company: "Veda Health Clinic",
+        email: "priya@vedahealth.in",
+        phone: "+91 9740112233",
+        country: "India",
+        category: "Build a Website",
+        situation: "Need modern clinic booking & local SEO",
+        goals: ["Get more customers", "Improve brand presence"],
+        budget: "Starter ($1,000 - $2,500)",
+        timeline: "1 - 3 Months",
+        blueprintTitle: "Patient Acquisition & Clinic Automation Portal",
+        status: "WON"
+      }
+    ];
+
+    let currentFilter = 'ALL';
+    let activeLeadId = null;
+
+    // Load Leads from LocalStorage or Default
+    function getLeads() {
+      const stored = localStorage.getItem('sunsolv_crm_leads');
+      if (stored) {
+        try { return JSON.parse(stored); } catch (e) {}
+      }
+      localStorage.setItem('sunsolv_crm_leads', JSON.stringify(DEFAULT_LEADS));
+      return DEFAULT_LEADS;
+    }
+
+    function saveLeads(leads) {
+      localStorage.setItem('sunsolv_crm_leads', JSON.stringify(leads));
+    }
+
+    // Check Auth State
+    function checkAuth() {
+      const authUser = sessionStorage.getItem('sunsolv_auth_user');
+      if (authUser) {
+        document.getElementById('authView').style.display = 'none';
+        document.getElementById('dashboardView').style.display = 'block';
+        document.getElementById('userBadge').textContent = JSON.parse(authUser).name;
+        renderDashboard();
+      } else {
+        document.getElementById('authView').style.display = 'flex';
+        document.getElementById('dashboardView').style.display = 'none';
+      }
+    }
+
+    // Handle Login
+    function handleLogin(e) {
+      e.preventDefault();
+      const email = document.getElementById('emailInput').value.trim();
+      const pass = document.getElementById('passInput').value;
+      const alertBox = document.getElementById('loginAlert');
+
+      if ((email === 'admin@sunsolv.in' && pass === 'Sunsolv@2026Secure!') ||
+          (email === 'consultant@sunsolv.in' && pass === 'Sunsolv#Advisory2026')) {
+        const user = {
+          name: email === 'admin@sunsolv.in' ? 'Super Admin' : 'Solution Architect',
+          email: email
+        };
+        sessionStorage.setItem('sunsolv_auth_user', JSON.stringify(user));
+        alertBox.style.display = 'none';
+        checkAuth();
+      } else {
+        alertBox.style.display = 'flex';
+      }
+    }
+
+    function handleLogout() {
+      sessionStorage.removeItem('sunsolv_auth_user');
+      checkAuth();
+    }
+
+    // Render Dashboard & KPIs
+    function renderDashboard() {
+      const leads = getLeads();
+      
+      // Update KPIs
+      document.getElementById('kpiTotal').textContent = leads.length;
+      document.getElementById('kpiNew').textContent = leads.filter(l => l.status === 'NEW').length;
+      document.getElementById('kpiContacted').textContent = leads.filter(l => l.status === 'CONTACTED').length;
+      document.getElementById('kpiWon').textContent = leads.filter(l => l.status === 'WON').length;
+
+      renderTable();
+    }
+
+    // Render Table
+    function renderTable() {
+      const leads = getLeads();
+      const search = document.getElementById('searchInput').value.toLowerCase();
+      const tbody = document.getElementById('leadsTableBody');
+
+      const filtered = leads.filter(l => {
+        const matchesFilter = (currentFilter === 'ALL' || l.status === currentFilter);
+        const matchesSearch = !search || 
+          l.name.toLowerCase().includes(search) || 
+          l.company.toLowerCase().includes(search) || 
+          l.email.toLowerCase().includes(search) ||
+          (l.blueprintTitle && l.blueprintTitle.toLowerCase().includes(search));
+        return matchesFilter && matchesSearch;
+      });
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding: 30px; color: var(--c-cyan-300);">No leads found matching query.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = filtered.map(l => `
+        <tr>
+          <td style="color: var(--c-cyan-300); font-size: 0.8rem;">${l.createdAt}</td>
+          <td class="lead-name-col">
+            <strong>${l.name}</strong>
+            <span>${l.company} · ${l.country}</span>
+          </td>
+          <td>
+            <div style="font-weight: 700; color: #ffffff;">${l.category || 'General'}</div>
+            <span style="font-size: 0.78rem; color: var(--c-cyan-300);">${l.blueprintTitle || ''}</span>
+          </td>
+          <td>
+            <div style="font-size: 0.85rem;">${l.budget || 'Standard'}</div>
+            <span style="font-size: 0.78rem; color: var(--c-cyan-200);">${l.timeline || 'Flexible'}</span>
+          </td>
+          <td>
+            <span class="badge-status ${l.status.toLowerCase()}">${l.status.replace('_', ' ')}</span>
+          </td>
+          <td>
+            <div class="action-icons">
+              <button class="btn-icon" title="View Blueprint Dossier" onclick="viewLeadDetails('${l.id}')">
+                <i class="fa-solid fa-eye"></i>
+              </button>
+              <a href="https://wa.me/${l.phone.replace(/[^0-9]/g, '')}?text=Hello%20${encodeURIComponent(l.name)}%2C%20following%20up%20on%20your%20Sunsolv%20Technologies%20inquiry." target="_blank" class="btn-icon wa" title="Chat on WhatsApp">
+                <i class="fa-brands fa-whatsapp"></i>
+              </a>
+              <a href="mailto:${l.email}?subject=Sunsolv%20Technologies%20Solution%20Blueprint" class="btn-icon" title="Send Email">
+                <i class="fa-solid fa-envelope"></i>
+              </a>
+            </div>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function setStatusFilter(status, btn) {
+      currentFilter = status;
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderTable();
+    }
+
+    function refreshLeads() {
+      renderDashboard();
+    }
+
+    // Modal Details
+    function viewLeadDetails(leadId) {
+      const leads = getLeads();
+      const lead = leads.find(l => l.id === leadId);
+      if (!lead) return;
+
+      activeLeadId = leadId;
+      document.getElementById('mName').textContent = lead.name;
+      document.getElementById('mCompany').textContent = lead.company;
+      document.getElementById('mEmail').textContent = lead.email;
+      document.getElementById('mPhone').textContent = lead.phone;
+      document.getElementById('mCountry').textContent = lead.country;
+      document.getElementById('mCategory').textContent = lead.category;
+      document.getElementById('mTimeline').textContent = lead.timeline;
+      document.getElementById('mBudget').textContent = lead.budget;
+      document.getElementById('mBlueprintTitle').textContent = lead.blueprintTitle;
+      document.getElementById('modalStatusSelect').value = lead.status;
+
+      document.getElementById('modalWaBtn').href = `https://wa.me/${lead.phone.replace(/[^0-9]/g, '')}?text=Hello%20${encodeURIComponent(lead.name)}%2C%20following%20up%20on%20your%20Sunsolv%20inquiry.`;
+      document.getElementById('modalMailBtn').href = `mailto:${lead.email}?subject=Sunsolv%20Solution%20Blueprint`;
+
+      document.getElementById('dossierModal').classList.add('open');
+    }
+
+    function closeModal() {
+      document.getElementById('dossierModal').classList.remove('open');
+    }
+
+    function updateLeadStatus(newStatus) {
+      if (!activeLeadId) return;
+      const leads = getLeads();
+      const lead = leads.find(l => l.id === activeLeadId);
+      if (lead) {
+        lead.status = newStatus;
+        saveLeads(leads);
+        renderDashboard();
+      }
+    }
+
+    // CSV Export
+    function exportCsv() {
+      const leads = getLeads();
+      let csv = "ID,Date,Name,Company,Email,Phone,Country,Category,Budget,Timeline,Blueprint,Status\n";
+      leads.forEach(l => {
+        csv += `"${l.id}","${l.createdAt}","${l.name}","${l.company}","${l.email}","${l.phone}","${l.country}","${l.category}","${l.budget}","${l.timeline}","${l.blueprintTitle}","${l.status}"\n`;
+      });
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `Sunsolv_Leads_${new Date().toISOString().slice(0,10)}.csv`;
+      a.click();
+    }
+
+    // Check auth on load
+    window.addEventListener('DOMContentLoaded', checkAuth);
+  </script>
+</body>
+</html>
