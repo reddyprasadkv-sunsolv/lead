@@ -37,6 +37,17 @@ const finderState = {
 
 // Dynamic Situation Database per Category
 const situationDatabase = {
+  digital_assessment: {
+    subtext: "What best describes your institution type and assessment setup?",
+    options: [
+      { id: "schools_batches", title: "K-12 Schools / Student Groups", sub: "Coordinate structured classroom tests and periodic exams" },
+      { id: "colleges_depts", title: "Colleges & Higher Ed Departments", sub: "Bring departments, faculty and student batches into one clear flow" },
+      { id: "universities_multibranch", title: "Universities & Multi-Campus Institutions", sub: "Support large-scale assessment journeys across programmes" },
+      { id: "coaching_testprep", title: "Coaching Centres & Test Prep Batches", sub: "Create focused timed mock tests and instant scorecards" },
+      { id: "corporate_training", title: "Training Academies & Corporate Upskilling", sub: "Manage standardized digital skill evaluations & certifications" },
+      { id: "replace_paper", title: "Looking to replace manual / paper tests", sub: "Eliminate printing, physical invigilation and delayed grading" }
+    ]
+  },
   website: {
     subtext: "What is the primary challenge or status with your website?",
     options: [
@@ -649,7 +660,24 @@ function computeIntelligentRecommendation(state) {
   let direction = "Full-Stack Technology & Growth";
   
   // Specific Branching Rules with category precedence
-  if (selectedCategory === 'ai_automation' || selectedGoals.some(g => g.includes('AI in my business'))) {
+  if (selectedCategory === 'digital_assessment' || selectedGoals.some(g => g.toLowerCase().includes('assessment') || g.toLowerCase().includes('student'))) {
+    title = `Sunsolv Digital Assessment Platform · Institutional Deployment Blueprint`;
+    desc = `A unified, cloud-native assessment ecosystem connecting academic administrators, faculty, and students into one structured, anti-cheating digital testing workflow for ${industry}.`;
+    direction = `Sunsolv Digital Assessment SaaS + Multi-Branch Setup + Cloud Exam Engine`;
+    modules = [
+      `Multi-Campus / Multi-Branch & Department Operational Hierarchy`,
+      `Role-Based Faculty & Coordinator Assessment Authoring Workspace`,
+      `Timed Question Bank Management with Randomized Test Generation`,
+      `Calm, Distraction-Free Student Test Taking Interface (Web & Mobile)`,
+      `Anti-Cheating Safeguards, Browser Lockdown & Audit Trails`,
+      `Automated Instant Scoring, Batch Performance & Accreditation Analytics`
+    ];
+    impacts = [
+      { title: "80% Faster Exam Operations", desc: "Eliminates paper printing, manual invigilation friction, and grading delays." },
+      { title: "Calm Student Experience", desc: "Reassuring, guided flow with auto-save and clear progress tracking." },
+      { title: "99.99% Cloud Concurrency", desc: "Engineered on AWS to support thousands of concurrent students seamlessly." }
+    ];
+  } else if (selectedCategory === 'ai_automation' || selectedGoals.some(g => g.includes('AI in my business'))) {
     title = `Enterprise AI Agents & Intelligent Workflow Automation`;
     desc = `Custom artificial intelligence assistants, automated document parsers, and intelligent CRM automations to unlock exponential team productivity for ${industry}.`;
     direction = `Custom AI Agents + LLM Document Extraction + WhatsApp Automation`;

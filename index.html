@@ -183,7 +183,17 @@
               </div>
 
               <div class="cards-grid-step1" id="categoryCardsGrid">
-                <!-- 1. Website -->
+                <!-- 1. Digital Assessment Platform (Proprietary SaaS) -->
+                <div class="selection-card highlight-card" data-category="digital_assessment" onclick="selectCategory('digital_assessment', this)">
+                  <div class="card-icon-bubble">📝</div>
+                  <div class="card-content">
+                    <h3 class="card-name">Digital Assessment Platform</h3>
+                    <p class="card-subtext">Institutions, Schools, Colleges & Tests</p>
+                  </div>
+                  <div class="card-check"><i class="fa-solid fa-circle-check"></i></div>
+                </div>
+
+                <!-- 2. Website -->
                 <div class="selection-card" data-category="website" onclick="selectCategory('website', this)">
                   <div class="card-icon-bubble">🌐</div>
                   <div class="card-content">
@@ -1058,54 +1068,119 @@
 
       </div>
 
+    </div>
+  </section>
+
   <!-- Proprietary Sunsolv Product Showcase: Digital Assessment Platform -->
-  <section class="assessment-spotlight-section" id="digitalAssessmentProduct" style="padding: 85px 24px; background: radial-gradient(circle at 50% 10%, #03045e 0%, #021b4d 50%, #010224 100%); border-top: 1px solid rgba(72, 202, 228, 0.2); border-bottom: 1px solid rgba(72, 202, 228, 0.2);">
-    <div class="section-container">
-      <div style="max-width: 860px; margin: 0 auto 45px; text-align: center;">
-        <div style="display: inline-flex; align-items: center; gap: 8px; padding: 6px 16px; background: rgba(0, 180, 216, 0.2); border: 1px solid rgba(72, 202, 228, 0.4); border-radius: 100px; color: var(--c-cyan-300); font-size: 0.85rem; font-weight: 800; text-transform: uppercase; margin-bottom: 16px;">
+  <section class="assessment-spotlight-section" id="digitalAssessmentProduct">
+    <div class="spotlight-container">
+      
+      <!-- Section Header Badge -->
+      <div class="spotlight-header text-center">
+        <div class="product-origin-badge">
           <i class="fa-solid fa-graduation-cap"></i>
           <span>Proprietary Sunsolv Product</span>
         </div>
-        <h2 style="font-size: 2.5rem; font-weight: 900; color: #ffffff; margin-bottom: 16px;">
+        <h2 class="spotlight-title">
           Sunsolv Digital Assessment Platform
         </h2>
-        <p style="font-size: 1.05rem; color: var(--c-cyan-100); line-height: 1.7; margin-bottom: 26px;">
+        <p class="spotlight-subtitle">
           A unified, connected digital assessment ecosystem engineered for <strong>Schools, Colleges, Universities, Coaching Centres & Training Academies</strong>—bringing administrators, faculty, and students into one clear, structured workflow.
         </p>
-        <div style="display: flex; justify-content: center; gap: 16px; flex-wrap: wrap;">
-          <a href="https://digitalassessment.sunsolv.in/" target="_blank" rel="noopener noreferrer" class="btn" style="background: #ffffff; color: var(--c-navy-900); font-weight: 800; padding: 12px 26px; border-radius: 10px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px;">
+        
+        <div class="spotlight-cta-row">
+          <a href="https://digitalassessment.sunsolv.in/" target="_blank" rel="noopener noreferrer" class="btn btn-product-live">
             <span>Explore Live Platform</span>
             <i class="fa-solid fa-arrow-up-right-from-square"></i>
           </a>
-          <button type="button" class="btn btn-primary-hero" onclick="scrollToSolutionFinder()">
+          <button type="button" class="btn btn-product-blueprint" onclick="scrollToSolutionFinder()">
             <i class="fa-solid fa-wand-magic-sparkles"></i>
-            <span>Get Assessment Blueprint</span>
+            <span>Get Implementation Blueprint</span>
           </button>
         </div>
       </div>
 
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;">
-        <div style="background: rgba(3, 16, 68, 0.7); border: 1px solid rgba(72, 202, 228, 0.25); border-radius: 20px; padding: 30px 24px;">
-          <div style="color: var(--c-cyan-300); font-size: 1.6rem; margin-bottom: 12px;"><i class="fa-solid fa-sliders"></i></div>
-          <span style="font-size: 0.75rem; font-weight: 800; color: var(--c-cyan-400); text-transform: uppercase;">Administrator Control</span>
-          <h3 style="color: #ffffff; font-size: 1.25rem; font-weight: 800; margin: 6px 0 10px;">Structured Operations</h3>
-          <p style="color: var(--c-cyan-100); font-size: 0.9rem; line-height: 1.6;">Configure branches, manage faculty teams, schedule timed question banks, and oversee live test activity in real time.</p>
+      <!-- 3 Core Pillars -->
+      <div class="pillars-grid">
+        <!-- Pillar 1: Admin Experience -->
+        <div class="pillar-card admin">
+          <div class="pillar-icon-box">
+            <i class="fa-solid fa-sliders"></i>
+          </div>
+          <div class="pillar-role">Administrator & Faculty</div>
+          <h3>Structured Institution Operations</h3>
+          <p>Complete control over institution structure, branches, team roles, assessment schedules, and real-time activity oversight.</p>
+          <ul class="pillar-feature-list">
+            <li><i class="fa-solid fa-check"></i> Multi-branch & department hierarchy</li>
+            <li><i class="fa-solid fa-check"></i> Role-based team access & coordinators</li>
+            <li><i class="fa-solid fa-check"></i> Question bank management & timed tests</li>
+            <li><i class="fa-solid fa-check"></i> Real-time student participation tracking</li>
+          </ul>
         </div>
 
-        <div style="background: rgba(3, 16, 68, 0.7); border: 1px solid rgba(72, 202, 228, 0.25); border-radius: 20px; padding: 30px 24px;">
-          <div style="color: var(--c-cyan-300); font-size: 1.6rem; margin-bottom: 12px;"><i class="fa-solid fa-user-graduate"></i></div>
-          <span style="font-size: 0.75rem; font-weight: 800; color: var(--c-cyan-400); text-transform: uppercase;">Student Experience</span>
-          <h3 style="color: #ffffff; font-size: 1.25rem; font-weight: 800; margin: 6px 0 10px;">Calm, Guided Test Flow</h3>
-          <p style="color: var(--c-cyan-100); font-size: 0.9rem; line-height: 1.6;">A reassuring, distraction-free test interface with auto-save, clear timers, and responsive experience across laptops, tablets, and phones.</p>
+        <!-- Pillar 2: Student Journey -->
+        <div class="pillar-card student">
+          <div class="pillar-icon-box">
+            <i class="fa-solid fa-user-graduate"></i>
+          </div>
+          <div class="pillar-role">Student Experience</div>
+          <h3>Calm, Distraction-Free Flow</h3>
+          <p>A guided, reassuring interface that keeps the next action obvious and minimizes exam anxiety from access to submission.</p>
+          <ul class="pillar-feature-list">
+            <li><i class="fa-solid fa-check"></i> One-click assigned assessment access</li>
+            <li><i class="fa-solid fa-check"></i> Clean question view & auto-save</li>
+            <li><i class="fa-solid fa-check"></i> Responsive across laptops, tablets & mobile</li>
+            <li><i class="fa-solid fa-check"></i> Instant completion & verification receipts</li>
+          </ul>
         </div>
 
-        <div style="background: rgba(3, 16, 68, 0.7); border: 1px solid rgba(72, 202, 228, 0.25); border-radius: 20px; padding: 30px 24px;">
-          <div style="color: var(--c-cyan-300); font-size: 1.6rem; margin-bottom: 12px;"><i class="fa-solid fa-shield-halved"></i></div>
-          <span style="font-size: 0.75rem; font-weight: 800; color: var(--c-cyan-400); text-transform: uppercase;">Enterprise Security</span>
-          <h3 style="color: #ffffff; font-size: 1.25rem; font-weight: 800; margin: 6px 0 10px;">AWS High Concurrency</h3>
-          <p style="color: var(--c-cyan-100); font-size: 0.9rem; line-height: 1.6;">Cloud auto-scaling handling thousands of concurrent exam takers with anti-cheating audit trails, instant grading, and batch analytics.</p>
+        <!-- Pillar 3: Architecture & Security -->
+        <div class="pillar-card security">
+          <div class="pillar-icon-box">
+            <i class="fa-solid fa-shield-halved"></i>
+          </div>
+          <div class="pillar-role">Enterprise Tech Stack</div>
+          <h3>High-Concurrency Scalability</h3>
+          <p>Cloud-native architecture designed to handle thousands of concurrent test takers with 99.99% uptime and zero latency spikes.</p>
+          <ul class="pillar-feature-list">
+            <li><i class="fa-solid fa-check"></i> AWS auto-scaling containerized backend</li>
+            <li><i class="fa-solid fa-check"></i> Encrypted responses & tamper-proof audit log</li>
+            <li><i class="fa-solid fa-check"></i> Browser lockdown & anti-cheating protections</li>
+            <li><i class="fa-solid fa-check"></i> Automated scoring & batch performance analytics</li>
+          </ul>
         </div>
       </div>
+
+      <!-- Environments Supported Horizontal Scroll/Grid -->
+      <div class="supported-institutions-banner">
+        <div class="supported-title">
+          <i class="fa-solid fa-building-columns"></i>
+          <span>Tailored for Every Education Environment:</span>
+        </div>
+        <div class="institutions-tags">
+          <span class="inst-tag">🏫 K-12 Schools</span>
+          <span class="inst-tag">🏛️ Colleges & Higher Ed</span>
+          <span class="inst-tag">🎓 Universities & Multi-Campus</span>
+          <span class="inst-tag">🎯 Coaching & Test Prep Batches</span>
+          <span class="inst-tag">🏢 Corporate & Skill Certification</span>
+        </div>
+      </div>
+
+      <!-- Live Platform Embed / Preview Strip -->
+      <div class="product-preview-card">
+        <div class="preview-content">
+          <div class="preview-tag">Official Product Portal</div>
+          <h3>Ready to modernize your institution’s assessment operations?</h3>
+          <p>Replace fragmented spreadsheets, paper tests, and disconnected tools with a single unified platform.</p>
+        </div>
+        <div class="preview-actions">
+          <a href="https://digitalassessment.sunsolv.in/" target="_blank" rel="noopener noreferrer" class="btn btn-visit-portal">
+            <span>Visit digitalassessment.sunsolv.in</span>
+            <i class="fa-solid fa-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+
     </div>
   </section>
 
