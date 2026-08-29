@@ -80,14 +80,14 @@ import { EnquiryRecord, SolutionBlueprint } from '../../models/enquiry.model';
             <!-- STEP 2: Business Improvement Goals (Multi-Select) -->
             <div class="wizard-step-pane" [class.active]="currentStep() === 2">
               <div class="step-heading-group">
-                <span class="step-tag">Step 2 — Business Outcomes</span>
-                <h2 class="step-title">What would you like to improve in your business?</h2>
-                <p class="step-desc">Select all objectives that apply. We formulate our technical recommendations around these tangible outcomes.</p>
+                <span class="step-tag">{{ currentGoals().tag }}</span>
+                <h2 class="step-title">{{ currentGoals().title }}</h2>
+                <p class="step-desc">{{ currentGoals().desc }}</p>
               </div>
 
               <div class="multi-select-grid">
                 <label 
-                  *ngFor="let goal of solutionService.goalsList"
+                  *ngFor="let goal of currentGoals().goals"
                   class="multi-select-item"
                   [class.selected]="isGoalSelected(goal.title)"
                   (click)="toggleGoal(goal.title, $event)"
@@ -140,66 +140,49 @@ import { EnquiryRecord, SolutionBlueprint } from '../../models/enquiry.model';
             <!-- STEP 4: Business Profile -->
             <div class="wizard-step-pane" [class.active]="currentStep() === 4">
               <div class="step-heading-group">
-                <span class="step-tag">Step 4 — Organization Context</span>
-                <h2 class="step-title">Tell us a little about your business.</h2>
-                <p class="step-desc">This helps us gauge enterprise compliance, scale dynamics, and relevant industry best practices.</p>
+                <span class="step-tag">{{ currentProfile().tag }}</span>
+                <h2 class="step-title">{{ currentProfile().title }}</h2>
+                <p class="step-desc">{{ currentProfile().desc }}</p>
               </div>
 
               <div class="form-grid-three-col">
-                <!-- Industry -->
-                <div class="form-group-card">
-                  <label class="form-label-header"><i class="fa-solid fa-industry"></i> Industry</label>
+                <!-- Field 1 -->
+                <div class="form-group-card" *ngIf="currentProfile().field1">
+                  <label class="form-label-header" [innerHTML]="currentProfile().field1.label"></label>
                   <div class="custom-select-wrapper">
                     <select [(ngModel)]="profile.industry" class="custom-form-select">
-                      <option value="" disabled selected>Select Industry</option>
-                      <option value="Real Estate">Real Estate & Construction</option>
-                      <option value="Healthcare">Healthcare & Life Sciences</option>
-                      <option value="Education">Education & EdTech</option>
-                      <option value="Retail">Retail & Consumer Goods</option>
-                      <option value="Ecommerce">Ecommerce & D2C Brands</option>
-                      <option value="Manufacturing">Manufacturing & Engineering</option>
-                      <option value="Finance">Finance & FinTech</option>
-                      <option value="Insurance">Insurance & InsurTech</option>
-                      <option value="Hospitality">Hospitality & Tourism</option>
-                      <option value="Professional Services">Professional & Legal Services</option>
-                      <option value="Logistics">Logistics & Supply Chain</option>
-                      <option value="Startup">Tech Startup / Emerging Venture</option>
-                      <option value="Other">Other Specialized Sector</option>
+                      <option value="" disabled selected>{{ currentProfile().field1.placeholder }}</option>
+                      <option *ngFor="let opt of currentProfile().field1.options" [value]="opt.val">{{ opt.label }}</option>
                     </select>
                   </div>
                 </div>
 
-                <!-- Company Size -->
-                <div class="form-group-card">
-                  <label class="form-label-header"><i class="fa-solid fa-users"></i> Company Size (Team)</label>
+                <!-- Field 2 -->
+                <div class="form-group-card" *ngIf="currentProfile().field2">
+                  <label class="form-label-header" [innerHTML]="currentProfile().field2.label"></label>
                   <div class="pill-radio-group">
                     <label 
-                      *ngFor="let size of ['1–10', '11–50', '51–200', '201–500', '500+']"
+                      *ngFor="let opt of currentProfile().field2.options"
                       class="pill-radio-option"
-                      [class.active]="profile.companySize === size"
-                      (click)="profile.companySize = size"
+                      [class.active]="profile.companySize === opt.val"
+                      (click)="profile.companySize = opt.val"
                     >
-                      <span>{{ size }}</span>
+                      <span>{{ opt.label }}</span>
                     </label>
                   </div>
                 </div>
 
-                <!-- Business Stage -->
-                <div class="form-group-card">
-                  <label class="form-label-header"><i class="fa-solid fa-chart-line"></i> Business Stage</label>
+                <!-- Field 3 -->
+                <div class="form-group-card" *ngIf="currentProfile().field3">
+                  <label class="form-label-header" [innerHTML]="currentProfile().field3.label"></label>
                   <div class="pill-radio-group vertical-pills">
                     <label 
-                      *ngFor="let st of [
-                        { val: 'Idea / Startup', label: '🌱 Idea / Early Startup' },
-                        { val: 'Growing business', label: '🚀 Growing Business' },
-                        { val: 'Established company', label: '🏛️ Established Company' },
-                        { val: 'Enterprise', label: '🏢 Enterprise Corporation' }
-                      ]"
+                      *ngFor="let opt of currentProfile().field3.options"
                       class="pill-radio-option"
-                      [class.active]="profile.businessStage === st.val"
-                      (click)="profile.businessStage = st.val"
+                      [class.active]="profile.businessStage === opt.val"
+                      (click)="profile.businessStage = opt.val"
                     >
-                      <span>{{ st.label }}</span>
+                      <span>{{ opt.label }}</span>
                     </label>
                   </div>
                 </div>
@@ -213,28 +196,21 @@ import { EnquiryRecord, SolutionBlueprint } from '../../models/enquiry.model';
             <!-- STEP 5: Success Metric -->
             <div class="wizard-step-pane" [class.active]="currentStep() === 5">
               <div class="step-heading-group">
-                <span class="step-tag">Step 5 — Target Success Metrics</span>
-                <h2 class="step-title">What would success look like for you?</h2>
-                <p class="step-desc">Define your North Star metric. What tangible breakthrough must this project deliver for you to consider it a 100% win?</p>
+                <span class="step-tag">{{ currentSuccess().tag }}</span>
+                <h2 class="step-title">{{ currentSuccess().title }}</h2>
+                <p class="step-desc">{{ currentSuccess().desc }}</p>
               </div>
 
               <div class="suggestion-chips-container">
                 <span class="chips-label"><i class="fa-solid fa-lightbulb"></i> Click to insert inspiration:</span>
                 <div class="chips-wrap">
-                  <button type="button" class="chip-btn" (click)="insertSuccess('We want to generate 100+ qualified enquiries and inbound leads every month.')">
-                    "100+ qualified leads/mo"
-                  </button>
-                  <button type="button" class="chip-btn" (click)="insertSuccess('We want to automate our billing, onboarding, and lead assignment process to save 40+ staff hours/week.')">
-                    "Automate billing & save 40 hrs/wk"
-                  </button>
-                  <button type="button" class="chip-btn" (click)="insertSuccess('We want to build and launch our scalable SaaS MVP in 90 days to onboard first 50 paying customers.')">
-                    "Launch SaaS MVP in 90 days"
-                  </button>
-                  <button type="button" class="chip-btn" (click)="insertSuccess('We want a modern, high-converting website redesign that ranks on Google page 1 for key business terms.')">
-                    "Redesign website & rank page 1"
-                  </button>
-                  <button type="button" class="chip-btn" (click)="insertSuccess('We want to eliminate Excel sheets and run company operations on a secure custom ERP portal.')">
-                    "Replace Excel with custom ERP"
+                  <button 
+                    type="button" 
+                    class="chip-btn" 
+                    *ngFor="let chip of currentSuccess().chips"
+                    (click)="insertSuccess(chip)"
+                  >
+                    "{{ chip }}"
                   </button>
                 </div>
               </div>
@@ -244,7 +220,7 @@ import { EnquiryRecord, SolutionBlueprint } from '../../models/enquiry.model';
                   [(ngModel)]="successVision"
                   class="custom-textarea" 
                   rows="4" 
-                  placeholder="Example: “We want to generate 100 qualified enquiries every month,” “We want to automate our billing process,” or “We want to launch our SaaS product.”"
+                  [placeholder]="currentSuccess().placeholder"
                 ></textarea>
                 <div class="textarea-footer">
                   <span class="char-tip"><i class="fa-solid fa-circle-info"></i> Specific metrics help our solution architects propose exact ROI timelines.</span>
@@ -564,6 +540,9 @@ export class SolutionFinderComponent implements OnInit {
   captchaInput = '';
 
   currentSituations = signal<{ subtext: string; options: SituationOption[] }>({ subtext: '', options: [] });
+  currentGoals = signal<{ tag: string; title: string; desc: string; goals: { title: string; sub: string; icon: string }[] }>({ tag: '', title: '', desc: '', goals: [] });
+  currentProfile = signal<any>({ tag: '', title: '', desc: '', field1: {}, field2: {}, field3: {} });
+  currentSuccess = signal<{ tag: string; title: string; desc: string; chips: string[]; placeholder: string }>({ tag: '', title: '', desc: '', chips: [], placeholder: '' });
   currentInvestmentTiers: InvestmentTier[] = [];
 
   constructor(
@@ -572,7 +551,7 @@ export class SolutionFinderComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.updateDynamicSituations('website');
+    this.updateDynamicConfig('website');
     this.updateInvestmentTiers('INR');
     this.generateCaptcha();
   }
@@ -591,13 +570,18 @@ export class SolutionFinderComponent implements OnInit {
   selectCategory(cat: CategoryOption) {
     this.selectedCategory = cat.id;
     this.selectedCategoryName = cat.name;
+    this.selectedGoals = [];
+    this.selectedSituation = '';
+    this.profile = { industry: '', companySize: '', businessStage: '' };
     this.validationMsg.set('');
-    this.updateDynamicSituations(cat.id);
+    this.updateDynamicConfig(cat.id);
   }
 
-  updateDynamicSituations(catId: string) {
-    const sit = this.solutionService.getSituationsForCategory(catId);
-    this.currentSituations.set(sit);
+  updateDynamicConfig(catId: string) {
+    this.currentSituations.set(this.solutionService.getSituationsForCategory(catId));
+    this.currentGoals.set(this.solutionService.getGoalsForCategory(catId));
+    this.currentProfile.set(this.solutionService.getProfileConfigForCategory(catId));
+    this.currentSuccess.set(this.solutionService.getSuccessConfigForCategory(catId));
   }
 
   isGoalSelected(title: string): boolean {

@@ -311,9 +311,9 @@
             <!-- ================= STEP 2: Actual Business Problem / Improvement ================= -->
             <div class="wizard-step-pane" id="stepPane2" data-step="2">
               <div class="step-heading-group">
-                <span class="step-tag">Step 2 — Business Outcomes</span>
-                <h2 class="step-title">What would you like to improve in your business?</h2>
-                <p class="step-desc">Select all objectives that apply. We formulate our technical recommendations around these tangible outcomes.</p>
+                <span class="step-tag" id="step2Tag">Step 2 — Business Outcomes</span>
+                <h2 class="step-title" id="step2Title">What would you like to improve in your business?</h2>
+                <p class="step-desc" id="step2Desc">Select all objectives that apply. We formulate our technical recommendations around these tangible outcomes.</p>
               </div>
 
               <div class="multi-select-grid" id="goalsGrid">
@@ -522,18 +522,18 @@
             <!-- ================= STEP 4: Business Profile ================= -->
             <div class="wizard-step-pane" id="stepPane4" data-step="4">
               <div class="step-heading-group">
-                <span class="step-tag">Step 4 — Organization Context</span>
-                <h2 class="step-title">Tell us a little about your business.</h2>
-                <p class="step-desc">This helps us gauge enterprise compliance, scale dynamics, and relevant industry best practices.</p>
+                <span class="step-tag" id="step4Tag">Step 4 — Organization Context</span>
+                <h2 class="step-title" id="step4Title">Tell us a little about your business.</h2>
+                <p class="step-desc" id="step4Desc">This helps us gauge enterprise compliance, scale dynamics, and relevant industry best practices.</p>
               </div>
 
-              <div class="form-grid-three-col">
+              <div class="form-grid-three-col" id="step4ProfileContainer">
                 <!-- Industry -->
                 <div class="form-group-card">
-                  <label class="form-label-header">
+                  <label class="form-label-header" id="step4Field1Label">
                     <i class="fa-solid fa-industry"></i> Industry
                   </label>
-                  <div class="custom-select-wrapper">
+                  <div class="custom-select-wrapper" id="step4Field1Wrapper">
                     <select id="industrySelect" name="industry" class="custom-form-select" onchange="validateField(this)">
                       <option value="" disabled selected>Select Industry</option>
                       <option value="Real Estate">Real Estate & Construction</option>
@@ -555,7 +555,7 @@
 
                 <!-- Company Size -->
                 <div class="form-group-card">
-                  <label class="form-label-header">
+                  <label class="form-label-header" id="step4Field2Label">
                     <i class="fa-solid fa-users"></i> Company Size (Team)
                   </label>
                   <div class="pill-radio-group" id="companySizeGroup">
@@ -584,7 +584,7 @@
 
                 <!-- Business Stage -->
                 <div class="form-group-card">
-                  <label class="form-label-header">
+                  <label class="form-label-header" id="step4Field3Label">
                     <i class="fa-solid fa-chart-line"></i> Business Stage
                   </label>
                   <div class="pill-radio-group vertical-pills" id="businessStageGroup">
@@ -615,15 +615,15 @@
             <!-- ================= STEP 5: What would success look like for you? ================= -->
             <div class="wizard-step-pane" id="stepPane5" data-step="5">
               <div class="step-heading-group">
-                <span class="step-tag">Step 5 — Target Success Metrics</span>
-                <h2 class="step-title">What would success look like for you?</h2>
-                <p class="step-desc">Define your North Star metric. What tangible breakthrough must this project deliver for you to consider it a 100% win?</p>
+                <span class="step-tag" id="step5Tag">Step 5 — Target Success Metrics</span>
+                <h2 class="step-title" id="step5Title">What would success look like for you?</h2>
+                <p class="step-desc" id="step5Desc">Define your North Star metric. What tangible breakthrough must this project deliver for you to consider it a 100% win?</p>
               </div>
 
               <!-- Quick suggestion chips -->
               <div class="suggestion-chips-container">
                 <span class="chips-label"><i class="fa-solid fa-lightbulb"></i> Click to insert inspiration:</span>
-                <div class="chips-wrap">
+                <div class="chips-wrap" id="step5ChipsWrap">
                   <button type="button" class="chip-btn" onclick="insertSuccessPrompt('We want to generate 100+ qualified enquiries and inbound leads every month.')">
                     "100+ qualified leads/mo"
                   </button>

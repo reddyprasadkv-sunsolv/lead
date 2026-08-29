@@ -154,6 +154,346 @@ const situationDatabase = {
   }
 };
 
+// Dynamic Goals Database per Category (Layman-friendly)
+const categoryGoalsDatabase = {
+  digital_assessment: {
+    tag: "Step 2 — Assessment Objectives",
+    title: "What are your primary goals for your digital assessment platform?",
+    desc: "Select all that apply. We tailor your institution's testing flow around these requirements.",
+    goals: [
+      { title: "Replace paper exams & manual test correction", sub: "Save staff grading hours and eliminate printing costs", icon: "📝" },
+      { title: "Conduct online timed mock tests & subject exams", sub: "Automated timer, randomized question banks & sections", icon: "⏱️" },
+      { title: "Automate test grading & instant student scorecards", sub: "Zero manual calculation, instant results & marks export", icon: "⚡" },
+      { title: "Manage multi-branch, department & batch schedules", sub: "Group students by class, branch, year or batch", icon: "🏫" },
+      { title: "Prevent cheating with secure test safeguards", sub: "Browser lockdown, tab-switch warnings & full audit logs", icon: "🛡️" },
+      { title: "Detailed student performance & subject reports", sub: "Track weak topics, class averages and pass rates", icon: "📊" },
+      { title: "Calm, distraction-free test screen on mobile & laptops", sub: "Easy for students of all age groups with autosave", icon: "📱" }
+    ]
+  },
+  app: {
+    tag: "Step 2 — App Objectives",
+    title: "What would you like your application to achieve?",
+    desc: "Select all features and outcomes you have in mind for your app.",
+    goals: [
+      { title: "Launch a new mobile app for iOS (iPhone) & Android", sub: "Cross-platform app published on App Store & Google Play", icon: "📱" },
+      { title: "Build a modern web app / SaaS software for customers", sub: "Browser-based application with logins, billing & accounts", icon: "🌐" },
+      { title: "Convert our existing website into a mobile app", sub: "Deliver a faster, native smartphone experience for users", icon: "🔄" },
+      { title: "Create an MVP to test our business idea with real users", sub: "Fast 60-90 day build to validate market demand", icon: "🚀" },
+      { title: "Accept online payments, subscriptions or bookings", sub: "Integrated Stripe, Razorpay, UPI & recurring billing", icon: "💳" },
+      { title: "Send push notifications & engage users daily", sub: "Direct alerts, offers, reminders & live order updates", icon: "🔔" },
+      { title: "User accounts, member profiles & role dashboards", sub: "Secure signups with OTP, Google Auth & activity history", icon: "👥" }
+    ]
+  },
+  website: {
+    tag: "Step 2 — Website Objectives",
+    title: "What is the main goal for your new website?",
+    desc: "Select what you want your website to deliver for your business.",
+    goals: [
+      { title: "Get more customer enquiries & quote requests", sub: "Turn website visitors into high-intent sales leads", icon: "🎯" },
+      { title: "Sell products online (Ecommerce Store)", sub: "Online shop with shopping cart & payment gateway", icon: "🛍️" },
+      { title: "Give our company a modern, premium brand look", sub: "Build strong authority, trust badges & client reviews", icon: "✨" },
+      { title: "Rank on Page 1 of Google Search (SEO)", sub: "Attract free organic traffic when customers search your services", icon: "🔍" },
+      { title: "Sub-second loading speed on mobile phones", sub: "Fast, smooth browsing with zero bounce rate", icon: "⚡" },
+      { title: "WhatsApp quick chat & instant inquiry forms", sub: "Make it effortless for customers to message you immediately", icon: "💬" }
+    ]
+  },
+  ai_automation: {
+    tag: "Step 2 — AI & Automation Objectives",
+    title: "Where would you like AI to save time in your business?",
+    desc: "Select the tasks you want to automate with artificial intelligence.",
+    goals: [
+      { title: "Automate customer replies 24/7 on WhatsApp & Website", sub: "AI chatbot that answers FAQs and books consultations", icon: "🤖" },
+      { title: "Scan & read invoices/documents automatically (OCR)", sub: "Extract text, amounts & dates directly into your database", icon: "📄" },
+      { title: "Stop repetitive manual copy-pasting across tools", sub: "Connect CRM, email, accounting & spreadsheets automatically", icon: "⚡" },
+      { title: "Company AI knowledge assistant for employees", sub: "Ask questions on internal SOPs, manuals & company files", icon: "🧠" },
+      { title: "AI lead qualification & smart sales scoring", sub: "Filter high-value customers automatically before sales calls", icon: "🔥" }
+    ]
+  },
+  digital_transformation: {
+    tag: "Step 2 — Digital Modernisation Goals",
+    title: "What operations do you want to modernize?",
+    desc: "Select all areas where digital systems will streamline your business.",
+    goals: [
+      { title: "Eliminate paper forms, physical files & manual approvals", sub: "Move completely to digital workflows with electronic signatures", icon: "📑" },
+      { title: "Centralize data across disconnected tools & departments", sub: "Single source of truth for operations, inventory & staff", icon: "🔄" },
+      { title: "Self-service customer onboarding & client portal", sub: "Let customers sign up, submit requests & track progress online", icon: "🤝" },
+      { title: "Real-time executive performance & KPI dashboards", sub: "Instant financial and operational clarity on one screen", icon: "📈" },
+      { title: "Automate routine staff emails & reminder follow-ups", sub: "Save 20+ hours per week with smart notification triggers", icon: "⚡" }
+    ]
+  },
+  cloud: {
+    tag: "Step 2 — Cloud & Infrastructure Goals",
+    title: "What do you want to improve in your cloud setup?",
+    desc: "Select your hosting, performance, and uptime goals.",
+    goals: [
+      { title: "Migrate servers to AWS / Cloud with zero downtime", sub: "Safe, structured transfer of website, app and databases", icon: "☁️" },
+      { title: "Cut monthly hosting bills & optimize cloud waste", sub: "Right-size server instances and eliminate unused resources", icon: "📉" },
+      { title: "Prevent website crashes during high traffic spikes", sub: "Auto-scaling and load balancing for 99.99% uptime", icon: "🚀" },
+      { title: "Automated daily backups & disaster recovery", sub: "Never lose business data with automated multi-location backups", icon: "🛡️" },
+      { title: "Automated release pipeline (CI/CD) for fast updates", sub: "Push new features smoothly with zero service interruption", icon: "⚡" }
+    ]
+  },
+  marketing: {
+    tag: "Step 2 — Marketing & Growth Goals",
+    title: "What is your primary customer acquisition goal?",
+    desc: "Select what you want your digital marketing campaign to achieve.",
+    goals: [
+      { title: "Rank #1 on Google Search for high-value keywords", sub: "Attract organic customers ready to buy your services", icon: "🔍" },
+      { title: "Run high-return Google Ads & Meta Ad campaigns", sub: "Get profitable leads with laser-targeted ad creatives", icon: "🔥" },
+      { title: "Dominant local Google Maps & Business presence", sub: "Get customer calls and visits in your city/locality", icon: "📍" },
+      { title: "Get recommended by AI engines (ChatGPT & Gemini)", sub: "GEO optimization so AI tools cite your brand as the top choice", icon: "✨" },
+      { title: "High-converting sales landing page & funnel", sub: "Turn advertising clicks into booked phone consultations", icon: "🎯" }
+    ]
+  },
+  ecommerce: {
+    tag: "Step 2 — Ecommerce Goals",
+    title: "What are your primary goals for your online store?",
+    desc: "Select what you want your ecommerce platform to achieve.",
+    goals: [
+      { title: "Launch our direct-to-consumer (D2C) online store", sub: "Beautiful product pages with fast 1-click mobile checkout", icon: "🛍️" },
+      { title: "Increase checkout conversion & lower cart drop-offs", sub: "Optimized checkout flow, coupons and abandoned cart alerts", icon: "📈" },
+      { title: "B2B wholesale portal with custom dealer pricing", sub: "Bulk ordering, tier pricing and credit terms for distributors", icon: "🏢" },
+      { title: "Automated inventory sync & courier shipping labels", sub: "Automatic order routing with live tracking SMS/WhatsApp", icon: "📦" },
+      { title: "Multi-vendor marketplace capability", sub: "Allow multiple sellers to list products with vendor commissions", icon: "🏪" }
+    ]
+  },
+  software: {
+    tag: "Step 2 — Custom Software Goals",
+    title: "What operational challenges should this software solve?",
+    desc: "Select all features you need in your custom business software.",
+    goals: [
+      { title: "Replace Excel spreadsheets with a central system", sub: "One clean platform where all team data stays organized", icon: "📊" },
+      { title: "Staff task management & role-based permissions", sub: "Control who can view or edit sensitive business data", icon: "👥" },
+      { title: "Automated billing, invoicing & payment tracking", sub: "Generate GST/tax invoices with one click and track dues", icon: "💳" },
+      { title: "Real-time management KPI analytics dashboard", sub: "Live graphs of sales, inventory, projects and profit", icon: "📈" },
+      { title: "Customer portal for client self-service", sub: "Let clients view project status, invoices and support tickets", icon: "🤝" }
+    ]
+  },
+  improve_system: {
+    tag: "Step 2 — System Improvement Goals",
+    title: "What needs fixing or upgrading in your current system?",
+    desc: "Select all areas where your existing software needs improvement.",
+    goals: [
+      { title: "Fix slow loading speeds & laggy database queries", sub: "Boost performance to retain users and speed up staff work", icon: "⚡" },
+      { title: "Modernize outdated user interface (UI/UX overhaul)", sub: "Give the platform a clean, modern, intuitive look", icon: "✨" },
+      { title: "Fix recurring bugs, crashes & security loopholes", sub: "Stabilize codebase and prevent costly outages", icon: "🛡️" },
+      { title: "Connect new 3rd-party APIs, payments & webhooks", sub: "Integrate modern tools, payment gateways and CRMs", icon: "🔌" },
+      { title: "Refactor codebase for mobile responsiveness", sub: "Ensure the platform works smoothly on all smartphones & tablets", icon: "📱" }
+    ]
+  },
+  idea: {
+    tag: "Step 2 — Idea & Product Goals",
+    title: "What are your immediate goals for your new idea?",
+    desc: "Select what you want to achieve in the first phase.",
+    goals: [
+      { title: "Build an interactive prototype to pitch to investors", sub: "Clickable Figma designs that prove the concept", icon: "💡" },
+      { title: "Launch a functional MVP in 60 to 90 days", sub: "Build core features fast to get first 50 paying users", icon: "🚀" },
+      { title: "Get full technical architecture & cost roadmap", sub: "Choose the right tech stack, database and cloud provider", icon: "🗺️" },
+      { title: "Need a dedicated technical team / Fractional CTO", sub: "Expert engineering leadership without hiring expensive in-house staff", icon: "👥" }
+    ]
+  },
+  not_sure: {
+    tag: "Step 2 — Business Objectives",
+    title: "What outcomes are most important for your business right now?",
+    desc: "Select everything you want to improve. Our architects will suggest the best technical approach.",
+    goals: [
+      { title: "Get more customer enquiries & sales leads", sub: "Attract high-intent clients looking for our services", icon: "🎯" },
+      { title: "Save staff time by automating repetitive manual work", sub: "Cut down hours spent on copy-pasting, emails and spreadsheets", icon: "⚡" },
+      { title: "Modernize our company brand presence online", sub: "Build credibility and trust with a premium digital look", icon: "✨" },
+      { title: "Build custom software tailored to our unique process", sub: "Stop struggling with rigid off-the-shelf software tools", icon: "🏢" },
+      { title: "Launch a scalable digital product or mobile app", sub: "Turn our idea into a working revenue-generating platform", icon: "🚀" }
+    ]
+  }
+};
+
+// Dynamic Profile Database per Category (Step 4)
+const categoryProfileDatabase = {
+  digital_assessment: {
+    tag: "Step 4 — Institution Profile",
+    title: "Tell us about your educational institution.",
+    desc: "This helps us configure batch capacities, concurrent exam load, and grading workflows.",
+    field1: {
+      label: '<i class="fa-solid fa-graduation-cap"></i> Institution Type',
+      type: "select",
+      placeholder: "Select Institution Type",
+      options: [
+        { val: "K-12 School", label: "🏫 K-12 School (Primary / Secondary)" },
+        { val: "Degree College / Dept", label: "🏛️ Degree College / University Department" },
+        { val: "University / Multi-Campus", label: "🎓 University / Multi-Campus Institution" },
+        { val: "Coaching & Test Prep", label: "🎯 Coaching Centre / Competitive Test Prep" },
+        { val: "Corporate Training Academy", label: "🏢 Training Academy / Corporate Certification" },
+        { val: "Independent Educator", label: "👨‍🏫 Individual Tutor / Online Course Creator" }
+      ]
+    },
+    field2: {
+      label: '<i class="fa-solid fa-users-line"></i> Total Student Scale',
+      options: [
+        { val: "Under 250", label: "Under 250" },
+        { val: "250–1,000", label: "250–1,000" },
+        { val: "1,000–5,000", label: "1,000–5,000" },
+        { val: "5,000–20,000", label: "5,000–20,000" },
+        { val: "20,000+", label: "20,000+" }
+      ]
+    },
+    field3: {
+      label: '<i class="fa-solid fa-school"></i> Campus / Branch Setup',
+      options: [
+        { val: "Single Campus", label: "🏫 Single Campus / Single Centre" },
+        { val: "2–5 Branches", label: "🏛️ 2 to 5 Branches / Centres" },
+        { val: "Large Multi-Location Network", label: "🏢 Multi-City / State-wide Network" },
+        { val: "100% Online / Remote", label: "🌐 100% Online / Distance Learning" }
+      ]
+    }
+  },
+  app: {
+    tag: "Step 4 — App Project Scope",
+    title: "Tell us about your application project.",
+    desc: "This helps us select the ideal cross-platform framework, database, and cloud backend.",
+    field1: {
+      label: '<i class="fa-solid fa-users"></i> Target Audience',
+      type: "select",
+      placeholder: "Who will use this app?",
+      options: [
+        { val: "General Public / Consumers (B2C)", label: "👥 General Public / Consumers (B2C)" },
+        { val: "Businesses / Corporate Clients (B2B)", label: "🏢 Businesses / Corporate Clients (B2B)" },
+        { val: "Internal Team & Field Staff", label: "👔 Internal Team & Field Employees" },
+        { val: "Multi-Sided Marketplace", label: "🔄 Buyers & Sellers (Two-Sided Market)" }
+      ]
+    },
+    field2: {
+      label: '<i class="fa-solid fa-mobile-screen-button"></i> Platform Needed',
+      options: [
+        { val: "iOS + Android", label: "📱 Mobile App (iOS & Android)" },
+        { val: "Web App (SaaS)", label: "🌐 Web Application" },
+        { val: "Both Web & Mobile", label: "🚀 Both Web & Mobile" },
+        { val: "Not sure yet", label: "❓ Need Advice" }
+      ]
+    },
+    field3: {
+      label: '<i class="fa-solid fa-compass-drafting"></i> Project Readiness',
+      options: [
+        { val: "Idea / Startup", label: "🌱 Just an Idea / Rough Concept" },
+        { val: "Growing business", label: "🎨 Wireframes / Figma Designs Ready" },
+        { val: "Established company", label: "🔄 Rebuilding an Existing App" },
+        { val: "Enterprise", label: "🏢 Enterprise System Integration" }
+      ]
+    }
+  },
+  default: {
+    tag: "Step 4 — Business Context",
+    title: "Tell us a little about your business.",
+    desc: "This helps us gauge enterprise compliance, scale dynamics, and relevant industry best practices.",
+    field1: {
+      label: '<i class="fa-solid fa-industry"></i> Industry',
+      type: "select",
+      placeholder: "Select Industry",
+      options: [
+        { val: "Real Estate", label: "Real Estate & Construction" },
+        { val: "Healthcare", label: "Healthcare & Life Sciences" },
+        { val: "Education", label: "Education & EdTech" },
+        { val: "Retail", label: "Retail & Consumer Goods" },
+        { val: "Ecommerce", label: "Ecommerce & D2C Brands" },
+        { val: "Manufacturing", label: "Manufacturing & Engineering" },
+        { val: "Finance", label: "Finance & FinTech" },
+        { val: "Insurance", label: "Insurance & InsurTech" },
+        { val: "Hospitality", label: "Hospitality & Tourism" },
+        { val: "Professional Services", label: "Professional & Legal Services" },
+        { val: "Logistics", label: "Logistics & Supply Chain" },
+        { val: "Startup", label: "Tech Startup / Emerging Venture" },
+        { val: "Other", label: "Other Specialized Sector" }
+      ]
+    },
+    field2: {
+      label: '<i class="fa-solid fa-users"></i> Company Size (Team)',
+      options: [
+        { val: "1–10", label: "1–10" },
+        { val: "11–50", label: "11–50" },
+        { val: "51–200", label: "51–200" },
+        { val: "201–500", label: "201–500" },
+        { val: "500+", label: "500+" }
+      ]
+    },
+    field3: {
+      label: '<i class="fa-solid fa-chart-line"></i> Business Stage',
+      options: [
+        { val: "Idea / Startup", label: "🌱 Idea / Early Startup" },
+        { val: "Growing business", label: "🚀 Growing Business" },
+        { val: "Established company", label: "🏛️ Established Company" },
+        { val: "Enterprise", label: "🏢 Enterprise Corporation" }
+      ]
+    }
+  }
+};
+
+// Dynamic Success Database per Category (Step 5)
+const categorySuccessDatabase = {
+  digital_assessment: {
+    tag: "Step 5 — Target Assessment Outcomes",
+    title: "What would a 100% successful exam rollout look like for you?",
+    desc: "Describe your ideal assessment outcome in simple words.",
+    chips: [
+      "Conduct 1,000+ student exams with instant scorecards",
+      "Save 80% staff time on test creation & grading",
+      "Launch timed mock test series for all our student batches",
+      "Zero exam leaks with anti-cheat browser lockdown",
+      "Automatic question randomization and marks export"
+    ],
+    placeholder: "Example: “We want to conduct periodic term exams for 1,200 students across 3 branches with instant automatic grading and zero paper printing.”"
+  },
+  app: {
+    tag: "Step 5 — Target App Success",
+    title: "What does success look like for your application?",
+    desc: "Describe what milestone would make this app project a huge win.",
+    chips: [
+      "Launch on App Store & Play Store in 90 days",
+      "Reach our first 1,000 active monthly users",
+      "Smooth in-app payments with instant confirmation",
+      "High app ratings (4.8+ stars) with zero crashes",
+      "Convert 20% of free users into paid subscribers"
+    ],
+    placeholder: "Example: “We want a mobile app for iOS and Android where customers can browse our catalog, place orders, and track live status with push notifications.”"
+  },
+  website: {
+    tag: "Step 5 — Target Website Success",
+    title: "What would success look like for your new website?",
+    desc: "Describe the key outcome you want your website to achieve.",
+    chips: [
+      "Generate 50+ qualified client enquiries every month",
+      "Sub-second load speed on mobile smartphones",
+      "Rank on Page 1 of Google Search for our city",
+      "Modern, credible brand look that wins client trust",
+      "Direct WhatsApp inquiries with one click"
+    ],
+    placeholder: "Example: “We want a modern, high-converting website that ranks on Google search and brings us 50+ genuine customer inquiries every month.”"
+  },
+  ai_automation: {
+    tag: "Step 5 — Target Automation Impact",
+    title: "What would success look like with AI in your business?",
+    desc: "Describe what manual bottleneck you want completely eliminated.",
+    chips: [
+      "Save 30+ staff hours every week on manual data entry",
+      "Answer customer WhatsApp messages within 5 seconds 24/7",
+      "Automatically scan all incoming invoices into database",
+      "Scale operations without needing to hire extra admin staff",
+      "Qualify leads automatically before booking sales calls"
+    ],
+    placeholder: "Example: “We want an AI WhatsApp assistant that answers customer questions 24/7 and automatically extracts invoice data into our spreadsheet.”"
+  },
+  default: {
+    tag: "Step 5 — Target Success Metrics",
+    title: "What would success look like for you?",
+    desc: "Define your North Star metric. What tangible breakthrough must this project deliver for you to consider it a 100% win?",
+    chips: [
+      "Generate 100+ qualified enquiries and inbound leads every month",
+      "Automate billing & save 40+ staff hours/week",
+      "Launch SaaS MVP in 90 days to onboard 50 paying customers",
+      "Redesign website & rank on Page 1 of Google",
+      "Replace Excel with secure custom operations software"
+    ],
+    placeholder: "Example: “We want to generate 100 qualified enquiries every month,” “We want to automate our billing process,” or “We want to launch our SaaS product.”"
+  }
+};
+
 // Investment Tiers Database
 const investmentDatabase = {
   INR: [
@@ -221,7 +561,10 @@ function refreshCaptcha() {
 // Initialization on DOM Load
 document.addEventListener('DOMContentLoaded', () => {
   renderInvestmentTiers('INR');
+  renderDynamicGoals('website');
   renderDynamicSituation('website');
+  renderDynamicProfile('website');
+  renderDynamicSuccess('website');
   setupKeyboardShortcuts();
   generateCaptchaCode();
   
@@ -255,16 +598,148 @@ function preselectAndStart(categoryKey) {
 // Step 1: Category Selection
 function selectCategory(categoryKey, cardElement) {
   document.querySelectorAll('.selection-card').forEach(c => c.classList.remove('selected'));
-  cardElement.classList.add('selected');
+  if (cardElement) cardElement.classList.add('selected');
   
   finderState.selectedCategory = categoryKey;
-  const nameElement = cardElement.querySelector('.card-name');
+  const nameElement = cardElement ? cardElement.querySelector('.card-name') : null;
   finderState.selectedCategoryName = nameElement ? nameElement.textContent : categoryKey;
   
   hideValidation(1);
   
-  // Render Step 3 dynamic situation based on this category
+  // Dynamically adapt Step 2, Step 3, Step 4, and Step 5 to the chosen category
+  renderDynamicGoals(categoryKey);
   renderDynamicSituation(categoryKey);
+  renderDynamicProfile(categoryKey);
+  renderDynamicSuccess(categoryKey);
+}
+
+// Step 2: Render Dynamic Goals based on Category (Layman-friendly)
+function renderDynamicGoals(categoryKey) {
+  const container = document.getElementById('goalsGrid');
+  const tagElem = document.getElementById('step2Tag');
+  const titleElem = document.getElementById('step2Title');
+  const descElem = document.getElementById('step2Desc');
+  if (!container) return;
+
+  const data = categoryGoalsDatabase[categoryKey] || categoryGoalsDatabase['not_sure'];
+  if (tagElem) tagElem.textContent = data.tag;
+  if (titleElem) titleElem.textContent = data.title;
+  if (descElem) descElem.textContent = data.desc;
+
+  // Clear previously selected goals if category changes
+  finderState.selectedGoals = [];
+
+  let html = '';
+  data.goals.forEach((g) => {
+    html += `
+      <label class="multi-select-item" onclick="toggleMultiSelect(this)">
+        <input type="checkbox" name="goals" value="${escapeQuotes(g.title)}" />
+        <div class="item-inner">
+          <div class="checkbox-box"><i class="fa-solid fa-check"></i></div>
+          <div class="item-label-group">
+            <span class="item-title">${g.icon} ${g.title}</span>
+            <span class="item-sub">${g.sub}</span>
+          </div>
+        </div>
+      </label>
+    `;
+  });
+  container.innerHTML = html;
+}
+
+// Step 4: Render Dynamic Profile based on Category
+function renderDynamicProfile(categoryKey) {
+  const tagElem = document.getElementById('step4Tag');
+  const titleElem = document.getElementById('step4Title');
+  const descElem = document.getElementById('step4Desc');
+  const field1Label = document.getElementById('step4Field1Label');
+  const field1Wrapper = document.getElementById('step4Field1Wrapper');
+  const field2Label = document.getElementById('step4Field2Label');
+  const companySizeGroup = document.getElementById('companySizeGroup');
+  const field3Label = document.getElementById('step4Field3Label');
+  const businessStageGroup = document.getElementById('businessStageGroup');
+
+  const profileConfig = categoryProfileDatabase[categoryKey] || categoryProfileDatabase['default'];
+  if (tagElem) tagElem.textContent = profileConfig.tag;
+  if (titleElem) titleElem.textContent = profileConfig.title;
+  if (descElem) descElem.textContent = profileConfig.desc;
+
+  // Reset profile selections on category change
+  finderState.profile = { industry: '', companySize: '', businessStage: '' };
+
+  // Field 1: Dropdown / Select
+  if (field1Label) field1Label.innerHTML = profileConfig.field1.label;
+  if (field1Wrapper) {
+    let opts = `<option value="" disabled selected>${profileConfig.field1.placeholder}</option>`;
+    profileConfig.field1.options.forEach(opt => {
+      opts += `<option value="${escapeQuotes(opt.val)}">${opt.label}</option>`;
+    });
+    field1Wrapper.innerHTML = `
+      <select id="industrySelect" name="industry" class="custom-form-select" onchange="validateField(this)">
+        ${opts}
+      </select>
+    `;
+  }
+
+  // Field 2: Pill options
+  if (field2Label) field2Label.innerHTML = profileConfig.field2.label;
+  if (companySizeGroup) {
+    let pills = '';
+    profileConfig.field2.options.forEach(opt => {
+      pills += `
+        <label class="pill-radio-option" onclick="selectRadioPill(this, 'company_size')">
+          <input type="radio" name="company_size" value="${escapeQuotes(opt.val)}" />
+          <span>${opt.label}</span>
+        </label>
+      `;
+    });
+    companySizeGroup.innerHTML = pills;
+  }
+
+  // Field 3: Vertical pills
+  if (field3Label) field3Label.innerHTML = profileConfig.field3.label;
+  if (businessStageGroup) {
+    let vertPills = '';
+    profileConfig.field3.options.forEach(opt => {
+      vertPills += `
+        <label class="pill-radio-option" onclick="selectRadioPill(this, 'business_stage')">
+          <input type="radio" name="business_stage" value="${escapeQuotes(opt.val)}" />
+          <span>${opt.label}</span>
+        </label>
+      `;
+    });
+    businessStageGroup.innerHTML = vertPills;
+  }
+}
+
+// Step 5: Render Dynamic Success Prompt Chips & Placeholder
+function renderDynamicSuccess(categoryKey) {
+  const tagElem = document.getElementById('step5Tag');
+  const titleElem = document.getElementById('step5Title');
+  const descElem = document.getElementById('step5Desc');
+  const chipsWrap = document.getElementById('step5ChipsWrap');
+  const textarea = document.getElementById('successVisionInput');
+
+  const successConfig = categorySuccessDatabase[categoryKey] || categorySuccessDatabase['default'];
+  if (tagElem) tagElem.textContent = successConfig.tag;
+  if (titleElem) titleElem.textContent = successConfig.title;
+  if (descElem) descElem.textContent = successConfig.desc;
+
+  if (chipsWrap) {
+    let chipsHtml = '';
+    successConfig.chips.forEach(c => {
+      chipsHtml += `
+        <button type="button" class="chip-btn" onclick="insertSuccessPrompt('${escapeQuotes(c)}')">
+          "${c}"
+        </button>
+      `;
+    });
+    chipsWrap.innerHTML = chipsHtml;
+  }
+
+  if (textarea) {
+    textarea.placeholder = successConfig.placeholder;
+  }
 }
 
 // Step 2: Multi-select Goals Toggle
