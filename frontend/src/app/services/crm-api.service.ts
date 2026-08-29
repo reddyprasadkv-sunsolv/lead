@@ -59,6 +59,14 @@ export class CrmApiService {
     );
   }
 
+  // Delete single enquiry
+  deleteEnquiry(id: string): Observable<{ success: boolean; message: string }> {
+    return this.http.delete<{ success: boolean; message: string }>(
+      `${this.apiUrl}/enquiries/${id}`,
+      { headers: this.getHeaders() }
+    );
+  }
+
   // Get aggregate CRM statistics
   getCrmStats(): Observable<{ success: boolean; data: CrmStats }> {
     return this.http.get<{ success: boolean; data: CrmStats }>(

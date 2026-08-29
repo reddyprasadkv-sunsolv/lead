@@ -246,6 +246,11 @@ import { SeoService } from '../../services/seo.service';
                       <i class="fa-solid fa-comment-dots"></i>
                       <span class="notes-count" *ngIf="lead.notes && lead.notes.length > 0">{{ lead.notes.length }}</span>
                     </button>
+
+                    <!-- Delete Lead -->
+                    <button class="action-btn delete" (click)="deleteLead(lead.id, $event)" title="Delete Lead">
+                      <i class="fa-solid fa-trash-can"></i>
+                    </button>
                   </div>
                 </td>
               </tr>
@@ -847,6 +852,8 @@ import { SeoService } from '../../services/seo.service';
     .action-btn.view:hover { background: #0077b6; color: #fff; }
     .action-btn.note { background: rgba(3, 4, 94, 0.8); color: #ade8f4; }
     .action-btn.note:hover { background: rgba(2, 62, 138, 0.6); color: #fff; }
+    .action-btn.delete { background: rgba(239, 68, 68, 0.2); color: #fca5a5; border-color: rgba(239, 68, 68, 0.4); }
+    .action-btn.delete:hover { background: #ef4444; color: #fff; border-color: #ef4444; transform: scale(1.05); }
 
     .notes-count {
       position: absolute;
@@ -1173,6 +1180,24 @@ export class CrmDashboardComponent implements OnInit {
         this.enquiries.update(list => list.map(item => item.id === id ? { ...item, status: newStatus as any } : item));
       },
       error: (err) => console.error('Error updating status:', err)
+    });
+  }
+
+  deleteLead(id?: string, event?: Event) {
+    if (!id) return;
+    if (event) event.stopPropagation();
+    if (!confirm('Are you sure you want to permanently delete this lead?')) {
+      return;
+    }
+    this.crmApi.deleteEnquiry(id).subscribe({
+      next: () => {
+        this.enquiries.update(list => list.filter(item => item.id !== id));
+        this.loadStats();
+        if (this.selectedLeadForView()?.id === id) {
+          this.closeDetailsModal();
+        }
+      },
+      error: (err) => console.error('Error deleting lead:', err)
     });
   }
 

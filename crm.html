@@ -167,6 +167,8 @@
     }
     .btn-action:hover { background: rgba(0, 180, 216, 0.3); border-color: var(--c-cyan-400); }
     .btn-action.primary { background: var(--c-cyan-400); color: var(--c-navy-950); border: none; }
+    .btn-action.danger { color: #f87171; border-color: rgba(239, 68, 68, 0.4); }
+    .btn-action.danger:hover { background: rgba(239, 68, 68, 0.2); }
     .btn-logout { color: #f87171; border-color: rgba(239, 68, 68, 0.4); }
     .btn-logout:hover { background: rgba(239, 68, 68, 0.2); }
 
@@ -314,10 +316,36 @@
       color: var(--c-cyan-300);
       text-decoration: none;
       cursor: pointer;
+      transition: all 0.2s ease;
     }
     .btn-icon:hover { background: var(--c-cyan-400); color: var(--c-navy-950); }
     .btn-icon.wa { color: #25d366; border-color: rgba(37, 211, 102, 0.4); }
     .btn-icon.wa:hover { background: #25d366; color: #ffffff; }
+    .btn-icon.delete { color: #f87171; border-color: rgba(239, 68, 68, 0.4); }
+    .btn-icon.delete:hover { background: #ef4444; color: #ffffff; border-color: #ef4444; }
+
+    .empty-state-box {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--c-cyan-200);
+    }
+    .empty-state-box i {
+      font-size: 3rem;
+      color: var(--c-cyan-400);
+      margin-bottom: 16px;
+      opacity: 0.7;
+    }
+    .empty-state-box h3 {
+      font-size: 1.2rem;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+    .empty-state-box p {
+      font-size: 0.88rem;
+      color: var(--c-cyan-100);
+      max-width: 480px;
+      margin: 0 auto;
+    }
 
     /* Dossier Modal */
     .modal-overlay {
@@ -443,6 +471,10 @@
         <button class="btn-action" onclick="exportCsv()">
           <i class="fa-solid fa-file-csv"></i>
           <span>Export CSV</span>
+        </button>
+        <button class="btn-action danger" onclick="clearAllLeads()" title="Clear all lead data">
+          <i class="fa-solid fa-trash-can"></i>
+          <span>Clear All</span>
         </button>
         <div class="btn-action" style="cursor: default;">
           <i class="fa-solid fa-user-shield"></i>
@@ -583,81 +615,40 @@
         </select>
       </div>
 
-      <div style="display: flex; gap: 12px; justify-content: flex-end;">
-        <a id="modalWaBtn" href="#" target="_blank" class="btn-action primary">
-          <i class="fa-brands fa-whatsapp"></i> Chat on WhatsApp
-        </a>
-        <a id="modalMailBtn" href="#" class="btn-action">
-          <i class="fa-solid fa-envelope"></i> Send Email
-        </a>
+      <div style="display: flex; gap: 12px; justify-content: space-between; align-items: center;">
+        <button type="button" class="btn-action danger" onclick="deleteActiveLead()">
+          <i class="fa-solid fa-trash-can"></i> Delete Lead
+        </button>
+        <div style="display: flex; gap: 12px;">
+          <a id="modalWaBtn" href="#" target="_blank" class="btn-action primary">
+            <i class="fa-brands fa-whatsapp"></i> Chat on WhatsApp
+          </a>
+          <a id="modalMailBtn" href="#" class="btn-action">
+            <i class="fa-solid fa-envelope"></i> Send Email
+          </a>
+        </div>
       </div>
     </div>
   </div>
 
   <script>
-    // Initial Seed / Sample Leads
-    const DEFAULT_LEADS = [
-      {
-        id: "SUN-2026-8801",
-        createdAt: "2026-08-29 18:30",
-        name: "Dr. Arvind Rao",
-        company: "St. Xavier Educational Trust",
-        email: "arvind.rao@stxavieredu.org",
-        phone: "+91 9845012345",
-        country: "India",
-        category: "Digital Assessment Platform",
-        situation: "Universities & Multi-Campus Institutions",
-        goals: ["Replace paper exams", "Automate grading", "Multi-branch hierarchy"],
-        budget: "Enterprise Tier ($5,000 - $15,000)",
-        timeline: "1 - 3 Months",
-        blueprintTitle: "Sunsolv Digital Assessment Platform · Institutional Deployment Blueprint",
-        status: "NEW"
-      },
-      {
-        id: "SUN-2026-8802",
-        createdAt: "2026-08-29 17:15",
-        name: "Rajesh Sharma",
-        company: "Apex Global Logistics",
-        email: "rajesh@apexlogistics.com",
-        phone: "+91 9811099887",
-        country: "India",
-        category: "AI & Automation",
-        situation: "Looking to automate document parsing & customer support",
-        goals: ["Automate manual work", "Reduce operational costs"],
-        budget: "Growth ($2,500 - $5,000)",
-        timeline: "Immediate (< 1 Month)",
-        blueprintTitle: "Enterprise AI Agents & Intelligent Workflow Automation",
-        status: "CONTACTED"
-      },
-      {
-        id: "SUN-2026-8803",
-        createdAt: "2026-08-29 15:45",
-        name: "Priya Sundaram",
-        company: "Veda Health Clinic",
-        email: "priya@vedahealth.in",
-        phone: "+91 9740112233",
-        country: "India",
-        category: "Build a Website",
-        situation: "Need modern clinic booking & local SEO",
-        goals: ["Get more customers", "Improve brand presence"],
-        budget: "Starter ($1,000 - $2,500)",
-        timeline: "1 - 3 Months",
-        blueprintTitle: "Patient Acquisition & Clinic Automation Portal",
-        status: "WON"
-      }
-    ];
-
     let currentFilter = 'ALL';
     let activeLeadId = null;
 
-    // Load Leads from LocalStorage or Default
+    // Load Leads from LocalStorage (clearing any old dummy sample IDs)
     function getLeads() {
       const stored = localStorage.getItem('sunsolv_crm_leads');
       if (stored) {
-        try { return JSON.parse(stored); } catch (e) {}
+        try {
+          let list = JSON.parse(stored);
+          if (Array.isArray(list)) {
+            // Filter out old hardcoded sample IDs if present
+            list = list.filter(l => !['SUN-2026-8801', 'SUN-2026-8802', 'SUN-2026-8803'].includes(l.id));
+            return list;
+          }
+        } catch (e) {}
       }
-      localStorage.setItem('sunsolv_crm_leads', JSON.stringify(DEFAULT_LEADS));
-      return DEFAULT_LEADS;
+      return [];
     }
 
     function saveLeads(leads) {
@@ -734,7 +725,17 @@
       });
 
       if (filtered.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding: 30px; color: var(--c-cyan-300);">No leads found matching query.</td></tr>`;
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="6">
+              <div class="empty-state-box">
+                <i class="fa-solid fa-inbox"></i>
+                <h3>No Lead Submissions Found</h3>
+                <p>Real customer inquiries submitted through the public Solution Finder will appear here in real-time.</p>
+              </div>
+            </td>
+          </tr>
+        `;
         return;
       }
 
@@ -761,12 +762,15 @@
               <button class="btn-icon" title="View Blueprint Dossier" onclick="viewLeadDetails('${l.id}')">
                 <i class="fa-solid fa-eye"></i>
               </button>
-              <a href="https://wa.me/${l.phone.replace(/[^0-9]/g, '')}?text=Hello%20${encodeURIComponent(l.name)}%2C%20following%20up%20on%20your%20Sunsolv%20Technologies%20inquiry." target="_blank" class="btn-icon wa" title="Chat on WhatsApp">
+              <a href="https://wa.me/${l.phone ? l.phone.replace(/[^0-9]/g, '') : ''}?text=Hello%20${encodeURIComponent(l.name)}%2C%20following%20up%20on%20your%20Sunsolv%20Technologies%20inquiry." target="_blank" class="btn-icon wa" title="Chat on WhatsApp">
                 <i class="fa-brands fa-whatsapp"></i>
               </a>
               <a href="mailto:${l.email}?subject=Sunsolv%20Technologies%20Solution%20Blueprint" class="btn-icon" title="Send Email">
                 <i class="fa-solid fa-envelope"></i>
               </a>
+              <button class="btn-icon delete" title="Delete Lead" onclick="deleteLead('${l.id}', event)">
+                <i class="fa-solid fa-trash-can"></i>
+              </button>
             </div>
           </td>
         </tr>
@@ -781,6 +785,36 @@
     }
 
     function refreshLeads() {
+      renderDashboard();
+    }
+
+    // Delete single lead
+    function deleteLead(leadId, e) {
+      if (e) e.stopPropagation();
+      if (!confirm('Are you sure you want to permanently delete this lead?')) {
+        return;
+      }
+      let leads = getLeads();
+      leads = leads.filter(l => l.id !== leadId);
+      saveLeads(leads);
+      renderDashboard();
+      if (activeLeadId === leadId) {
+        closeModal();
+      }
+    }
+
+    function deleteActiveLead() {
+      if (activeLeadId) {
+        deleteLead(activeLeadId);
+      }
+    }
+
+    // Clear all leads
+    function clearAllLeads() {
+      if (!confirm('Are you sure you want to clear ALL lead submissions? This action cannot be undone.')) {
+        return;
+      }
+      saveLeads([]);
       renderDashboard();
     }
 
@@ -802,7 +836,7 @@
       document.getElementById('mBlueprintTitle').textContent = lead.blueprintTitle;
       document.getElementById('modalStatusSelect').value = lead.status;
 
-      document.getElementById('modalWaBtn').href = `https://wa.me/${lead.phone.replace(/[^0-9]/g, '')}?text=Hello%20${encodeURIComponent(lead.name)}%2C%20following%20up%20on%20your%20Sunsolv%20inquiry.`;
+      document.getElementById('modalWaBtn').href = `https://wa.me/${lead.phone ? lead.phone.replace(/[^0-9]/g, '') : ''}?text=Hello%20${encodeURIComponent(lead.name)}%2C%20following%20up%20on%20your%20Sunsolv%20inquiry.`;
       document.getElementById('modalMailBtn').href = `mailto:${lead.email}?subject=Sunsolv%20Solution%20Blueprint`;
 
       document.getElementById('dossierModal').classList.add('open');
@@ -810,6 +844,7 @@
 
     function closeModal() {
       document.getElementById('dossierModal').classList.remove('open');
+      activeLeadId = null;
     }
 
     function updateLeadStatus(newStatus) {
@@ -826,6 +861,10 @@
     // CSV Export
     function exportCsv() {
       const leads = getLeads();
+      if (leads.length === 0) {
+        alert("No leads to export.");
+        return;
+      }
       let csv = "ID,Date,Name,Company,Email,Phone,Country,Category,Budget,Timeline,Blueprint,Status\n";
       leads.forEach(l => {
         csv += `"${l.id}","${l.createdAt}","${l.name}","${l.company}","${l.email}","${l.phone}","${l.country}","${l.category}","${l.budget}","${l.timeline}","${l.blueprintTitle}","${l.status}"\n`;

@@ -18,5 +18,6 @@ router.get('/enquiries/stats', controller.getEnquiryStats);
 router.get('/enquiries/export', controller.exportEnquiriesCsv);
 router.get('/enquiries/:id', controller.getEnquiryById);
 router.patch('/enquiries/:id', controller.updateEnquiry);
+router.delete('/enquiries/:id', controller.deleteEnquiry);
 
 module.exports = router;

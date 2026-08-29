@@ -207,10 +207,22 @@ function calculatePriority(data) {
   return "Normal";
 }
 
+// Delete an enquiry
+function deleteEnquiry(id) {
+  const enquiries = getAllEnquiries();
+  const filtered = enquiries.filter(e => e.id !== id);
+  if (filtered.length === enquiries.length) {
+    return false;
+  }
+  saveAllEnquiries(filtered);
+  return true;
+}
+
 module.exports = {
   getAllEnquiries,
   getEnquiryById,
   addEnquiry,
   updateEnquiry,
+  deleteEnquiry,
   calculatePriority
 };

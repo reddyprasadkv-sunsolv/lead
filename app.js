@@ -631,6 +631,40 @@ function handleFormSubmission(event) {
   
   // Render results in Dossier
   renderSolutionDossier(solution);
+
+  // Save new inquiry to CRM storage
+  try {
+    const now = new Date();
+    const dateStr = now.toLocaleDateString('en-CA') + ' ' + now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+    const leadRecord = {
+      id: "SUN-" + now.getFullYear() + "-" + Math.floor(1000 + Math.random() * 9000),
+      createdAt: dateStr,
+      name: finderState.contact.name,
+      company: finderState.contact.company,
+      email: finderState.contact.email,
+      phone: finderState.contact.phone,
+      country: finderState.contact.country,
+      category: solution.direction,
+      situation: finderState.selectedSituation || '',
+      goals: finderState.selectedGoals || [],
+      budget: finderState.selectedInvestment ? `${finderState.selectedInvestment.title}` : 'Standard',
+      timeline: finderState.selectedTimeline ? `${finderState.selectedTimeline.title}` : '1 - 3 Months',
+      blueprintTitle: solution.packageTitle,
+      status: "NEW"
+    };
+
+    let existingLeads = [];
+    try {
+      const stored = localStorage.getItem('sunsolv_crm_leads');
+      if (stored) existingLeads = JSON.parse(stored);
+      if (!Array.isArray(existingLeads)) existingLeads = [];
+    } catch (e) { existingLeads = []; }
+
+    existingLeads.unshift(leadRecord);
+    localStorage.setItem('sunsolv_crm_leads', JSON.stringify(existingLeads));
+  } catch (err) {
+    console.warn("Could not save lead to local storage", err);
+  }
   
   // Hide wizard, show dossier with smooth transition
   const wizardCard = document.getElementById('wizardCard');

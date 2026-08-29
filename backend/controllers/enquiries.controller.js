@@ -117,6 +117,24 @@ exports.updateEnquiry = (req, res) => {
   }
 };
 
+// DELETE /api/enquiries/:id - Delete an enquiry
+exports.deleteEnquiry = (req, res) => {
+  try {
+    const { id } = req.params;
+    const deleted = db.deleteEnquiry(id);
+    if (!deleted) {
+      return res.status(404).json({ success: false, error: "Enquiry not found." });
+    }
+    return res.json({
+      success: true,
+      message: "Enquiry deleted successfully."
+    });
+  } catch (error) {
+    console.error("Error deleting enquiry:", error);
+    return res.status(500).json({ success: false, error: "Internal server error." });
+  }
+};
+
 // GET /api/enquiries/stats - Aggregate CRM statistics
 exports.getEnquiryStats = (req, res) => {
   try {
