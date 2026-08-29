@@ -2417,6 +2417,21 @@ body {
   margin-bottom: 16px;
 }
 
+.footer-logo-badge {
+  background: #ffffff;
+  padding: 6px 16px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.footer-logo-img {
+  height: 52px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+}
+
 .f-brand-title {
   font-size: 1.15rem;
   font-weight: 900;
