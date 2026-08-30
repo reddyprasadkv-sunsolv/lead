@@ -1271,7 +1271,7 @@ Recommended Solution: High-Velocity Lead Engine"></textarea>
   </div>
 
   <!-- 6. AI ORGANIC GROWTH ENGINE & CAMPAIGN HUB MODAL -->
-  <div class="modal-overlay" id="growthHubModal" onclick="if(event.target === this) closeGrowthHubModal()" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px); align-items: center; justify-content: center; padding: 24px; z-index: 999999;">
+  <div class="modal-overlay" id="growthHubModal" onclick="if(event.target === this) closeGrowthHubModal()">
     <div class="modal-card" style="max-width: 820px;">
       <div class="modal-header">
         <div class="modal-title" style="display: flex; align-items: center; gap: 10px;">
@@ -1757,20 +1757,18 @@ Recommended Solution: High-Velocity Lead Engine"></textarea>
     // AI Growth Hub & Campaign Generator Controls
     function openGrowthHubModal() {
       const modal = document.getElementById('growthHubModal');
-      if (!modal) { console.error('growthHubModal element not found!'); return; }
-      // Force inline style directly — bypasses all CSS specificity issues
-      modal.style.cssText = 'display: flex !important; position: fixed !important; top: 0 !important; left: 0 !important; width: 100vw !important; height: 100vh !important; background: rgba(0,0,0,0.88) !important; backdrop-filter: blur(8px) !important; align-items: center !important; justify-content: center !important; padding: 24px !important; z-index: 2147483647 !important; overflow-y: auto !important;';
+      if (!modal) { console.error('growthHubModal not found'); return; }
       modal.classList.add('open');
       document.body.style.overflow = 'hidden';
-      try { switchGrowthTab('POSTS'); } catch (err) { console.warn('switchGrowthTab:', err); }
-      try { generateAiPostPreview(); } catch (err) { console.warn('generateAiPostPreview:', err); }
+      try { switchGrowthTab('POSTS'); } catch (err) { console.warn('switchGrowthTab notice:', err); }
+      try { generateAiPostPreview(); } catch (err) { console.warn('generateAiPostPreview notice:', err); }
     }
 
     function closeGrowthHubModal() {
       const modal = document.getElementById('growthHubModal');
-      if (!modal) return;
-      modal.style.cssText = 'display: none !important;';
-      modal.classList.remove('open');
+      if (modal) {
+        modal.classList.remove('open');
+      }
       document.body.style.overflow = '';
     }
 
@@ -2570,19 +2568,10 @@ ${intel.actionRecommendation || 'Prepare custom discovery blueprint and schedule
 
     // Initialize on load & start auto-sync polling
     window.addEventListener('DOMContentLoaded', () => {
-
       checkAuth();
       checkUrlImport();
       updateCloudStatusBadge();
       fetchRemoteLeads();
-
-      const ghBtn = document.getElementById('btnGrowthHub');
-      if (ghBtn) {
-        ghBtn.addEventListener('click', (e) => {
-          e.preventDefault();
-          openGrowthHubModal();
-        });
-      }
       
       // Auto-poll every 12 seconds for background inquiries
       setInterval(() => {
