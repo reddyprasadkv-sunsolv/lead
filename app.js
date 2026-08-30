@@ -1290,13 +1290,13 @@ function sendLeadEmailNotification(leadRecord, solution) {
     SUNSOLV_GOOGLE_SHEETS_URL : 
     "https://script.google.com/macros/s/AKfycbxTQwMOJksC78OC74XPThd1qgzZAf8XT_p0NYtBoJisBFuk64ES5fwxp-AkND8hqJ9lWA/exec";
 
-  const cloudEndpoints = [
+  const cloudEndpoints = [...new Set([
     googleSheetUrl,
     localStorage.getItem('sunsolv_cloud_sync_url'),
     '/api/enquiries',
     'http://localhost:5050/api/enquiries',
     'https://api.sunsolv.in/api/enquiries'
-  ].filter(Boolean);
+  ].filter(Boolean))];
 
   const enquiryPayload = {
     id: leadRecord.id,
