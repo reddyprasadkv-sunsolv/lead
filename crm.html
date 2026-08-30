@@ -1439,6 +1439,176 @@ Recommended Solution: High-Velocity Lead Engine"></textarea>
       document.getElementById('importModal').classList.remove('open');
     }
 
+    // AI Growth Hub & Campaign Generator Controls
+    function openGrowthHubModal() {
+      const modal = document.getElementById('growthHubModal');
+      if (modal) {
+        modal.classList.add('open');
+      }
+      switchGrowthTab('POSTS');
+    }
+
+    function closeGrowthHubModal() {
+      const modal = document.getElementById('growthHubModal');
+      if (modal) {
+        modal.classList.remove('open');
+      }
+    }
+
+    function switchGrowthTab(tab) {
+      const pTab = document.getElementById('growthTabPosts');
+      const uTab = document.getElementById('growthTabUtm');
+      const aTab = document.getElementById('growthTabAnalytics');
+
+      const pBtn = document.getElementById('ghTabPostBtn');
+      const uBtn = document.getElementById('ghTabUtmBtn');
+      const aBtn = document.getElementById('ghTabAnalyticsBtn');
+
+      if (pBtn) pBtn.classList.remove('active');
+      if (uBtn) uBtn.classList.remove('active');
+      if (aBtn) aBtn.classList.remove('active');
+
+      if (tab === 'POSTS') {
+        if (pTab) pTab.style.display = 'block';
+        if (uTab) uTab.style.display = 'none';
+        if (aTab) aTab.style.display = 'none';
+        if (pBtn) pBtn.classList.add('active');
+        generateAiPostPreview();
+      } else if (tab === 'UTM') {
+        if (pTab) pTab.style.display = 'none';
+        if (uTab) uTab.style.display = 'block';
+        if (aTab) aTab.style.display = 'none';
+        if (uBtn) uBtn.classList.add('active');
+        updateCustomTrackedUrl();
+      } else if (tab === 'ANALYTICS') {
+        if (pTab) pTab.style.display = 'none';
+        if (uTab) uTab.style.display = 'none';
+        if (aTab) aTab.style.display = 'block';
+        if (aBtn) aBtn.classList.add('active');
+        renderAttributionAnalytics();
+      }
+    }
+
+    function generateAiPostPreview() {
+      if (typeof SunsolvGrowthEngine === 'undefined') return;
+      const catSelect = document.getElementById('ghCategorySelect');
+      const chanSelect = document.getElementById('ghChannelSelect');
+      const catKey = (catSelect && catSelect.value) ? catSelect.value : 'edtech';
+      const channel = (chanSelect && chanSelect.value) ? chanSelect.value : 'linkedin';
+
+      const postObj = SunsolvGrowthEngine.generateSocialPost(catKey, 0, channel);
+      const titleElem = document.getElementById('ghPostTitlePreview');
+      const areaElem = document.getElementById('ghPostContentArea');
+      const labelElem = document.getElementById('ghTrackedUrlLabel');
+
+      if (titleElem) titleElem.textContent = `${postObj.title}`;
+      if (areaElem) areaElem.value = postObj.text;
+      if (labelElem) labelElem.textContent = `Tracked UTM: ${postObj.trackedUrl}`;
+    }
+
+    function copyAiPostText() {
+      const area = document.getElementById('ghPostContentArea');
+      if (!area || !area.value) return;
+      navigator.clipboard.writeText(area.value).then(() => {
+        showToast('🚀 AI Social Post with Tracked UTM copied to clipboard! Ready to publish.');
+      }).catch(() => {
+        area.select();
+        document.execCommand('copy');
+        showToast('🚀 Post text copied!');
+      });
+    }
+
+    function updateCustomTrackedUrl() {
+      if (typeof SunsolvGrowthEngine === 'undefined') return;
+      const campaignInput = document.getElementById('utmCampaignInput');
+      const sourceSelect = document.getElementById('utmSourceSelect');
+      const campaign = (campaignInput && campaignInput.value.trim()) ? campaignInput.value.trim() : 'growth_2026';
+      const source = (sourceSelect && sourceSelect.value) ? sourceSelect.value : 'linkedin';
+
+      const tracked = SunsolvGrowthEngine.buildTrackedUrl({
+        source: source,
+        campaign: campaign,
+        medium: 'organic_social',
+        content: 'custom_link'
+      });
+
+      const displayElem = document.getElementById('customTrackedUrlDisplay');
+      if (displayElem) displayElem.value = tracked;
+    }
+
+    function copyCustomTrackedUrl() {
+      const inp = document.getElementById('customTrackedUrlDisplay');
+      if (!inp || !inp.value) return;
+      navigator.clipboard.writeText(inp.value).then(() => {
+        showToast('🔗 Tracked Campaign Link copied to clipboard!');
+      }).catch(() => {
+        prompt('Copy Tracked URL:', inp.value);
+      });
+    }
+
+    function renderAttributionAnalytics() {
+      const leads = getLeads();
+      const channelCounts = {};
+
+      leads.forEach(l => {
+        const ch = (l.channel || 'Direct / Organic').toUpperCase();
+        channelCounts[ch] = (channelCounts[ch] || 0) + 1;
+      });
+
+      const topChannels = Object.entries(channelCounts).sort((a, b) => b[1] - a[1]);
+      const totalInquiries = leads.length;
+
+      const metricCards = document.getElementById('attributionMetricCards');
+      if (metricCards) {
+        metricCards.innerHTML = `
+          <div style="background: rgba(3, 4, 94, 0.4); border: 1px solid rgba(72, 202, 228, 0.3); border-radius: 10px; padding: 14px; text-align: center;">
+            <div style="font-size: 0.75rem; color: var(--c-cyan-300); font-weight: 700; text-transform: uppercase;">Total Tracked Inbound</div>
+            <div style="font-size: 1.6rem; font-weight: 900; color: #ffffff; margin-top: 4px;">${totalInquiries}</div>
+          </div>
+          <div style="background: rgba(3, 4, 94, 0.4); border: 1px solid rgba(72, 202, 228, 0.3); border-radius: 10px; padding: 14px; text-align: center;">
+            <div style="font-size: 0.75rem; color: #34d399; font-weight: 700; text-transform: uppercase;">Top Channel</div>
+            <div style="font-size: 1.15rem; font-weight: 800; color: #ffffff; margin-top: 6px;">${topChannels[0] ? topChannels[0][0] : 'DIRECT'}</div>
+          </div>
+          <div style="background: rgba(3, 4, 94, 0.4); border: 1px solid rgba(72, 202, 228, 0.3); border-radius: 10px; padding: 14px; text-align: center;">
+            <div style="font-size: 0.75rem; color: #f472b6; font-weight: 700; text-transform: uppercase;">Organic Bot Defense</div>
+            <div style="font-size: 1.15rem; font-weight: 800; color: #ffffff; margin-top: 6px;">100% Shielded</div>
+          </div>
+        `;
+      }
+
+      const tableDiv = document.getElementById('attributionBreakdownTable');
+      if (tableDiv) {
+        if (topChannels.length === 0) {
+          tableDiv.innerHTML = `<p style="color: var(--c-cyan-200); font-size: 0.85rem;">No channel data yet. Inbound inquiries will appear here automatically.</p>`;
+          return;
+        }
+
+        tableDiv.innerHTML = `
+          <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem;">
+            <thead>
+              <tr style="border-bottom: 1px solid rgba(72, 202, 228, 0.2); color: var(--c-cyan-300); text-align: left;">
+                <th style="padding: 8px 10px;">Origin Channel</th>
+                <th style="padding: 8px 10px; text-align: center;">Inquiries</th>
+                <th style="padding: 8px 10px; text-align: right;">Share of Traffic</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${topChannels.map(([ch, cnt]) => {
+                const pct = totalInquiries > 0 ? Math.round((cnt / totalInquiries) * 100) : 0;
+                return `
+                  <tr style="border-bottom: 1px solid rgba(72, 202, 228, 0.1);">
+                    <td style="padding: 10px; color: #ffffff; font-weight: 700;"><i class="fa-solid fa-arrow-trend-up" style="color: #38bdf8; margin-right: 6px;"></i>${ch}</td>
+                    <td style="padding: 10px; text-align: center; color: #38bdf8; font-weight: 800;">${cnt}</td>
+                    <td style="padding: 10px; text-align: right; color: var(--c-cyan-200); font-weight: 700;">${pct}%</td>
+                  </tr>
+                `;
+              }).join('')}
+            </tbody>
+          </table>
+        `;
+      }
+    }
+
     function switchImportTab(tab) {
       const parseBtn = document.getElementById('tabParseBtn');
       const manualBtn = document.getElementById('tabManualBtn');
@@ -1815,185 +1985,7 @@ function doGet(e) {
       }
     }
 
-    // AI Growth Hub & Campaign Generator Controls
-    window.openGrowthHubModal = function() {
-      const modal = document.getElementById('growthHubModal');
-      if (modal) {
-        modal.classList.add('open');
-        modal.style.display = 'flex';
-      }
-      try {
-        switchGrowthTab('POSTS');
-      } catch (err) {
-        console.warn('Growth Hub tab switch notice:', err);
-      }
-      try {
-        generateAiPostPreview();
-      } catch (err) {
-        console.warn('Growth Hub post preview notice:', err);
-      }
-      try {
-        updateCustomTrackedUrl();
-      } catch (err) {
-        console.warn('Growth Hub tracked URL notice:', err);
-      }
-      try {
-        renderAttributionAnalytics();
-      } catch (err) {
-        console.warn('Growth Hub attribution analytics notice:', err);
-      }
-    };
 
-    window.closeGrowthHubModal = function() {
-      const modal = document.getElementById('growthHubModal');
-      if (modal) {
-        modal.classList.remove('open');
-        modal.style.display = 'none';
-      }
-    };
-
-    function switchGrowthTab(tab) {
-      const pTab = document.getElementById('growthTabPosts');
-      const uTab = document.getElementById('growthTabUtm');
-      const aTab = document.getElementById('growthTabAnalytics');
-
-      const pBtn = document.getElementById('ghTabPostBtn');
-      const uBtn = document.getElementById('ghTabUtmBtn');
-      const aBtn = document.getElementById('ghTabAnalyticsBtn');
-
-      [pBtn, uBtn, aBtn].forEach(b => b.classList.remove('active'));
-
-      if (tab === 'POSTS') {
-        pTab.style.display = 'block';
-        uTab.style.display = 'none';
-        aTab.style.display = 'none';
-        pBtn.classList.add('active');
-        generateAiPostPreview();
-      } else if (tab === 'UTM') {
-        pTab.style.display = 'none';
-        uTab.style.display = 'block';
-        aTab.style.display = 'none';
-        uBtn.classList.add('active');
-        updateCustomTrackedUrl();
-      } else if (tab === 'ANALYTICS') {
-        pTab.style.display = 'none';
-        uTab.style.display = 'none';
-        aTab.style.display = 'block';
-        aBtn.classList.add('active');
-        renderAttributionAnalytics();
-      }
-    }
-
-    function generateAiPostPreview() {
-      if (typeof SunsolvGrowthEngine === 'undefined') return;
-      const catKey = document.getElementById('ghCategorySelect').value || 'edtech';
-      const channel = document.getElementById('ghChannelSelect').value || 'linkedin';
-
-      const postObj = SunsolvGrowthEngine.generateSocialPost(catKey, 0, channel);
-      document.getElementById('ghPostTitlePreview').textContent = `${postObj.title}`;
-      document.getElementById('ghPostContentArea').value = postObj.text;
-      document.getElementById('ghTrackedUrlLabel').textContent = `Tracked UTM: ${postObj.trackedUrl}`;
-    }
-
-    function copyAiPostText() {
-      const area = document.getElementById('ghPostContentArea');
-      if (!area || !area.value) return;
-      navigator.clipboard.writeText(area.value).then(() => {
-        showToast('🚀 AI Social Post with Tracked UTM copied to clipboard! Ready to publish.');
-      }).catch(() => {
-        area.select();
-        document.execCommand('copy');
-        showToast('🚀 Post text copied!');
-      });
-    }
-
-    function updateCustomTrackedUrl() {
-      if (typeof SunsolvGrowthEngine === 'undefined') return;
-      const campaign = document.getElementById('utmCampaignInput').value.trim() || 'growth_2026';
-      const source = document.getElementById('utmSourceSelect').value || 'linkedin';
-
-      const tracked = SunsolvGrowthEngine.buildTrackedUrl({
-        source: source,
-        campaign: campaign,
-        medium: 'organic_social',
-        content: 'custom_link'
-      });
-
-      document.getElementById('customTrackedUrlDisplay').value = tracked;
-    }
-
-    function copyCustomTrackedUrl() {
-      const inp = document.getElementById('customTrackedUrlDisplay');
-      if (!inp || !inp.value) return;
-      navigator.clipboard.writeText(inp.value).then(() => {
-        showToast('🔗 Tracked Campaign Link copied to clipboard!');
-      }).catch(() => {
-        prompt('Copy Tracked URL:', inp.value);
-      });
-    }
-
-    function renderAttributionAnalytics() {
-      const leads = getLeads();
-      const channelCounts = {};
-
-      leads.forEach(l => {
-        const ch = (l.channel || 'Direct / Organic').toUpperCase();
-        channelCounts[ch] = (channelCounts[ch] || 0) + 1;
-      });
-
-      const topChannels = Object.entries(channelCounts).sort((a, b) => b[1] - a[1]);
-      const totalInquiries = leads.length;
-
-      const metricCards = document.getElementById('attributionMetricCards');
-      if (metricCards) {
-        metricCards.innerHTML = `
-          <div style="background: rgba(3, 4, 94, 0.4); border: 1px solid rgba(72, 202, 228, 0.3); border-radius: 10px; padding: 14px; text-align: center;">
-            <div style="font-size: 0.75rem; color: var(--c-cyan-300); font-weight: 700; text-transform: uppercase;">Total Tracked Inbound</div>
-            <div style="font-size: 1.6rem; font-weight: 900; color: #ffffff; margin-top: 4px;">${totalInquiries}</div>
-          </div>
-          <div style="background: rgba(3, 4, 94, 0.4); border: 1px solid rgba(72, 202, 228, 0.3); border-radius: 10px; padding: 14px; text-align: center;">
-            <div style="font-size: 0.75rem; color: #34d399; font-weight: 700; text-transform: uppercase;">Top Channel</div>
-            <div style="font-size: 1.15rem; font-weight: 800; color: #ffffff; margin-top: 6px;">${topChannels[0] ? topChannels[0][0] : 'DIRECT'}</div>
-          </div>
-          <div style="background: rgba(3, 4, 94, 0.4); border: 1px solid rgba(72, 202, 228, 0.3); border-radius: 10px; padding: 14px; text-align: center;">
-            <div style="font-size: 0.75rem; color: #f472b6; font-weight: 700; text-transform: uppercase;">Organic Bot Defense</div>
-            <div style="font-size: 1.15rem; font-weight: 800; color: #ffffff; margin-top: 6px;">100% Shielded</div>
-          </div>
-        `;
-      }
-
-      const tableDiv = document.getElementById('attributionBreakdownTable');
-      if (tableDiv) {
-        if (topChannels.length === 0) {
-          tableDiv.innerHTML = `<p style="color: var(--c-cyan-200); font-size: 0.85rem;">No channel data yet. Inbound inquiries will appear here automatically.</p>`;
-          return;
-        }
-
-        tableDiv.innerHTML = `
-          <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem;">
-            <thead>
-              <tr style="border-bottom: 1px solid rgba(72, 202, 228, 0.2); color: var(--c-cyan-300); text-align: left;">
-                <th style="padding: 8px 10px;">Origin Channel</th>
-                <th style="padding: 8px 10px; text-align: center;">Inquiries</th>
-                <th style="padding: 8px 10px; text-align: right;">Share of Traffic</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${topChannels.map(([ch, cnt]) => {
-                const pct = totalInquiries > 0 ? Math.round((cnt / totalInquiries) * 100) : 0;
-                return `
-                  <tr style="border-bottom: 1px solid rgba(72, 202, 228, 0.1);">
-                    <td style="padding: 10px; color: #ffffff; font-weight: 700;"><i class="fa-solid fa-arrow-trend-up" style="color: #38bdf8; margin-right: 6px;"></i>${ch}</td>
-                    <td style="padding: 10px; text-align: center; color: #38bdf8; font-weight: 800;">${cnt}</td>
-                    <td style="padding: 10px; text-align: right; color: var(--c-cyan-200); font-weight: 700;">${pct}%</td>
-                  </tr>
-                `;
-              }).join('')}
-            </tbody>
-          </table>
-        `;
-      }
-    }
 
     function normalizeRemoteLead(r) {
       if (!r) return null;
