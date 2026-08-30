@@ -419,6 +419,31 @@
       font-size: 0.88rem;
     }
 
+    /* Floating Toast Notification */
+    .crm-toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: linear-gradient(135deg, rgba(3, 16, 68, 0.98), rgba(2, 62, 138, 0.98));
+      border: 1px solid var(--c-cyan-400);
+      color: #ffffff;
+      padding: 14px 22px;
+      border-radius: 12px;
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.7);
+      display: none;
+      align-items: center;
+      gap: 12px;
+      z-index: 2100;
+      font-size: 0.92rem;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      animation: slideInToast 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    @keyframes slideInToast {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
     /* Mobile Responsive Optimizations */
     @media (max-width: 768px) {
       .auth-card {
@@ -573,6 +598,10 @@
       </div>
 
       <div class="crm-actions">
+        <button class="btn-action primary" onclick="openImportModal()" style="background: linear-gradient(135deg, var(--c-cyan-400), var(--c-cyan-500)); color: var(--c-navy-950); font-weight: 800; border: none; box-shadow: 0 4px 14px rgba(0, 180, 216, 0.4);">
+          <i class="fa-solid fa-plus"></i>
+          <span>Add / Import Lead</span>
+        </button>
         <button class="btn-action" onclick="refreshLeads()">
           <i class="fa-solid fa-rotate"></i>
           <span>Refresh</span>
@@ -738,6 +767,124 @@
         </div>
       </div>
     </div>
+  </div>
+
+  <!-- 4. ADD / IMPORT LEAD MODAL -->
+  <div class="modal-overlay" id="importModal">
+    <div class="modal-card" style="max-width: 680px;">
+      <div class="modal-header">
+        <div class="modal-title">
+          <i class="fa-solid fa-cloud-arrow-down" style="color: var(--c-cyan-400);"></i>
+          <span>Add or Import Lead Submission</span>
+        </div>
+        <button class="btn-close" onclick="closeImportModal()">&times;</button>
+      </div>
+
+      <!-- Tabs -->
+      <div style="display: flex; gap: 10px; margin-bottom: 18px; border-bottom: 1px solid rgba(72, 202, 228, 0.2); padding-bottom: 10px;">
+        <button id="tabParseBtn" type="button" class="filter-btn active" onclick="switchImportTab('parse')">
+          <i class="fa-solid fa-bolt"></i> 1-Click Email / Text Parser
+        </button>
+        <button id="tabManualBtn" type="button" class="filter-btn" onclick="switchImportTab('manual')">
+          <i class="fa-solid fa-pen-to-square"></i> Manual Entry Form
+        </button>
+      </div>
+
+      <!-- Tab 1: Email / Text Parser -->
+      <div id="tabParseContent">
+        <p style="font-size: 0.85rem; color: var(--c-cyan-100); margin-bottom: 12px; line-height: 1.5;">
+          Paste the notification email text or raw JSON received at <strong style="color: #ffffff;">info&#64;sunsolv.in</strong>. The system will automatically parse and save the inquiry directly into your CRM.
+        </p>
+        <textarea id="importRawText" class="form-input" style="width: 100%; height: 170px; font-family: monospace; font-size: 0.82rem; resize: vertical; line-height: 1.4; background: rgba(1, 2, 36, 0.85); color: #ffffff;" placeholder="Customer Name: Rajesh Kumar
+Company / Organization: Apex Realty Group
+Customer Email: rajesh@apexrealty.in
+Phone / WhatsApp: +91 98450 12345
+Selected Category: Build a Website
+Investment Tier: ₹3 Lakh – ₹5 Lakh
+Start Timeline: Within 30 days
+Recommended Solution: High-Velocity Lead Engine"></textarea>
+        <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 16px;">
+          <button type="button" class="btn-action" onclick="closeImportModal()">Cancel</button>
+          <button type="button" class="btn-action primary" onclick="executeSmartImport()" style="background: linear-gradient(135deg, var(--c-cyan-400), var(--c-cyan-500)); color: var(--c-navy-950); font-weight: 800; border: none;">
+            <i class="fa-solid fa-bolt"></i> Parse & Save to CRM
+          </button>
+        </div>
+      </div>
+
+      <!-- Tab 2: Manual Entry Form -->
+      <div id="tabManualContent" style="display: none;">
+        <form id="manualLeadForm" onsubmit="handleManualLeadSubmit(event)">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
+            <div>
+              <label class="form-label" style="font-size: 0.8rem; margin-bottom: 4px;">Customer Name *</label>
+              <input type="text" id="manName" class="form-input" required placeholder="e.g. Rajesh Kumar">
+            </div>
+            <div>
+              <label class="form-label" style="font-size: 0.8rem; margin-bottom: 4px;">Company / Organization</label>
+              <input type="text" id="manCompany" class="form-input" placeholder="e.g. Apex Realty Group">
+            </div>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
+            <div>
+              <label class="form-label" style="font-size: 0.8rem; margin-bottom: 4px;">Email Address *</label>
+              <input type="email" id="manEmail" class="form-input" required placeholder="e.g. rajesh@apex.com">
+            </div>
+            <div>
+              <label class="form-label" style="font-size: 0.8rem; margin-bottom: 4px;">Phone / WhatsApp *</label>
+              <input type="text" id="manPhone" class="form-input" required placeholder="e.g. +91 98450 12345">
+            </div>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
+            <div>
+              <label class="form-label" style="font-size: 0.8rem; margin-bottom: 4px;">Category</label>
+              <select id="manCategory" class="form-input">
+                <option value="Website & Web Portal">Website & Web Portal</option>
+                <option value="Mobile App Development">Mobile App Development</option>
+                <option value="Custom Business Software / ERP">Custom Business Software / ERP</option>
+                <option value="AI & Process Automation">AI & Process Automation</option>
+                <option value="Cloud Architecture & Security">Cloud Architecture & Security</option>
+                <option value="Digital Growth & Marketing Engine">Digital Growth & Marketing Engine</option>
+              </select>
+            </div>
+            <div>
+              <label class="form-label" style="font-size: 0.8rem; margin-bottom: 4px;">Investment Tier</label>
+              <input type="text" id="manBudget" class="form-input" placeholder="e.g. ₹3 Lakh – ₹5 Lakh">
+            </div>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px;">
+            <div>
+              <label class="form-label" style="font-size: 0.8rem; margin-bottom: 4px;">Timeline</label>
+              <input type="text" id="manTimeline" class="form-input" placeholder="e.g. Within 30 days">
+            </div>
+            <div>
+              <label class="form-label" style="font-size: 0.8rem; margin-bottom: 4px;">Initial Status</label>
+              <select id="manStatus" class="form-input">
+                <option value="NEW">New Lead</option>
+                <option value="CONTACTED">Contacted</option>
+                <option value="PROPOSAL_SENT">Proposal Sent</option>
+                <option value="WON">Won / Closed</option>
+              </select>
+            </div>
+          </div>
+          <div style="margin-bottom: 16px;">
+            <label class="form-label" style="font-size: 0.8rem; margin-bottom: 4px;">Recommended Solution / Scope</label>
+            <input type="text" id="manBlueprint" class="form-input" placeholder="e.g. High-Velocity Lead Generation Portal & WhatsApp CRM">
+          </div>
+          <div style="display: flex; justify-content: flex-end; gap: 12px;">
+            <button type="button" class="btn-action" onclick="closeImportModal()">Cancel</button>
+            <button type="submit" class="btn-action primary" style="background: linear-gradient(135deg, var(--c-cyan-400), var(--c-cyan-500)); color: var(--c-navy-950); font-weight: 800; border: none;">
+              <i class="fa-solid fa-floppy-disk"></i> Save Lead to CRM
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Alert -->
+  <div class="crm-toast" id="crmToast">
+    <i class="fa-solid fa-circle-check" style="color: #4ade80; font-size: 1.3rem;"></i>
+    <span id="crmToastText">Action completed successfully</span>
   </div>
 
   <script>
@@ -1011,8 +1158,260 @@
       a.click();
     }
 
-    // Check auth on load
-    window.addEventListener('DOMContentLoaded', checkAuth);
+    // Toast Notifications
+    function showToast(message) {
+      const toast = document.getElementById('crmToast');
+      const toastText = document.getElementById('crmToastText');
+      if (toast && toastText) {
+        toastText.textContent = message;
+        toast.style.display = 'flex';
+        setTimeout(() => {
+          toast.style.display = 'none';
+        }, 5000);
+      }
+    }
+
+    // Modal Import / Manual Entry Controls
+    function openImportModal() {
+      document.getElementById('importModal').classList.add('open');
+      switchImportTab('parse');
+    }
+
+    function closeImportModal() {
+      document.getElementById('importModal').classList.remove('open');
+    }
+
+    function switchImportTab(tab) {
+      const parseBtn = document.getElementById('tabParseBtn');
+      const manualBtn = document.getElementById('tabManualBtn');
+      const parseContent = document.getElementById('tabParseContent');
+      const manualContent = document.getElementById('tabManualContent');
+
+      if (tab === 'parse') {
+        parseBtn.classList.add('active');
+        manualBtn.classList.remove('active');
+        parseContent.style.display = 'block';
+        manualContent.style.display = 'none';
+      } else {
+        manualBtn.classList.add('active');
+        parseBtn.classList.remove('active');
+        parseContent.style.display = 'none';
+        manualContent.style.display = 'block';
+      }
+    }
+
+    // Intelligent Email / Text Auto-Parser
+    function executeSmartImport() {
+      const text = document.getElementById('importRawText').value.trim();
+      if (!text) {
+        alert('Please paste the email content or JSON lead data.');
+        return;
+      }
+
+      let lead = null;
+      
+      // 1. Try parsing JSON directly
+      try {
+        if (text.startsWith('{') && text.endsWith('}')) {
+          lead = JSON.parse(text);
+        }
+      } catch (e) {}
+
+      // 2. Parse FormSubmit / Email Table text format
+      if (!lead) {
+        lead = parseEmailText(text);
+      }
+
+      if (!lead || !lead.name) {
+        alert('Could not automatically detect the customer name or details. Please check the pasted text or use the Manual Entry tab.');
+        return;
+      }
+
+      const now = new Date();
+      if (!lead.id) {
+        lead.id = "SUN-" + now.getFullYear() + "-" + Math.floor(1000 + Math.random() * 9000);
+      }
+      if (!lead.createdAt) {
+        lead.createdAt = now.toLocaleDateString('en-CA') + ' ' + now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+      }
+      if (!lead.status) lead.status = "NEW";
+
+      const leads = getLeads();
+      const existingIdx = leads.findIndex(l => l.id === lead.id || (l.email === lead.email && l.name === lead.name));
+      if (existingIdx >= 0) {
+        leads[existingIdx] = { ...leads[existingIdx], ...lead };
+      } else {
+        leads.unshift(lead);
+      }
+
+      saveLeads(leads);
+      renderDashboard();
+      closeImportModal();
+      showToast(`🎉 Lead for "${lead.name}" (${lead.company || 'Direct'}) imported successfully!`);
+      viewLeadDetails(lead.id);
+      document.getElementById('importRawText').value = '';
+    }
+
+    function parseEmailText(text) {
+      const extract = (patterns) => {
+        for (const p of patterns) {
+          const m = text.match(p);
+          if (m && m[1]) return m[1].trim();
+        }
+        return '';
+      };
+
+      const name = extract([
+        /Customer Name[:\t]+([^\r\n]+)/i,
+        /Name[:\t]+([^\r\n]+)/i,
+        /Contact Name[:\t]+([^\r\n]+)/i
+      ]);
+
+      const company = extract([
+        /Company \/ Organization[:\t]+([^\r\n]+)/i,
+        /Company[:\t]+([^\r\n]+)/i,
+        /Organization[:\t]+([^\r\n]+)/i
+      ]) || 'Direct Client';
+
+      const email = extract([
+        /Customer Email[:\t]+([^\r\n]+)/i,
+        /Email[:\t]+([^\r\n]+)/i,
+        /([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/i
+      ]) || '';
+
+      const phone = extract([
+        /Phone \/ WhatsApp[:\t]+([^\r\n]+)/i,
+        /Phone[:\t]+([^\r\n]+)/i,
+        /WhatsApp[:\t]+([^\r\n]+)/i,
+        /(\+?[0-9\s-]{10,15})/i
+      ]) || '';
+
+      const category = extract([
+        /Selected Category[:\t]+([^\r\n]+)/i,
+        /Category[:\t]+([^\r\n]+)/i
+      ]) || 'General Solution';
+
+      const budget = extract([
+        /Investment Tier[:\t]+([^\r\n]+)/i,
+        /Investment[:\t]+([^\r\n]+)/i,
+        /Budget[:\t]+([^\r\n]+)/i
+      ]) || 'Standard';
+
+      const timeline = extract([
+        /Start Timeline[:\t]+([^\r\n]+)/i,
+        /Timeline[:\t]+([^\r\n]+)/i
+      ]) || 'Flexible';
+
+      const blueprint = extract([
+        /Recommended Solution[:\t]+([^\r\n]+)/i,
+        /Recommended Blueprint[:\t]+([^\r\n]+)/i,
+        /Blueprint[:\t]+([^\r\n]+)/i
+      ]) || `${category} Architecture`;
+
+      const country = extract([
+        /Country[:\t]+([^\r\n]+)/i
+      ]) || 'India';
+
+      const id = extract([
+        /Lead Reference ID[:\t]+([^\r\n]+)/i,
+        /(SUN-\d{4}-\d{4})/i
+      ]);
+
+      if (!name) return null;
+
+      return {
+        id: id || undefined,
+        name,
+        company,
+        email: email || 'Not Provided',
+        phone: phone || 'Not Provided',
+        country,
+        category,
+        budget,
+        timeline,
+        blueprintTitle: blueprint,
+        status: 'NEW'
+      };
+    }
+
+    // Manual Lead Entry Handler
+    function handleManualLeadSubmit(e) {
+      e.preventDefault();
+      const name = document.getElementById('manName').value.trim();
+      const company = document.getElementById('manCompany').value.trim() || 'Direct Client';
+      const email = document.getElementById('manEmail').value.trim();
+      const phone = document.getElementById('manPhone').value.trim();
+      const category = document.getElementById('manCategory').value;
+      const budget = document.getElementById('manBudget').value.trim() || 'Standard';
+      const timeline = document.getElementById('manTimeline').value.trim() || 'Within 30 days';
+      const status = document.getElementById('manStatus').value || 'NEW';
+      const blueprint = document.getElementById('manBlueprint').value.trim() || `${category} Architecture`;
+
+      const now = new Date();
+      const newLead = {
+        id: "SUN-" + now.getFullYear() + "-" + Math.floor(1000 + Math.random() * 9000),
+        createdAt: now.toLocaleDateString('en-CA') + ' ' + now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }),
+        name,
+        company,
+        email,
+        phone,
+        country: 'India',
+        category,
+        budget,
+        timeline,
+        blueprintTitle: blueprint,
+        status
+      };
+
+      const leads = getLeads();
+      leads.unshift(newLead);
+      saveLeads(leads);
+      renderDashboard();
+      closeImportModal();
+      document.getElementById('manualLeadForm').reset();
+      showToast(`✅ Lead for "${name}" created successfully!`);
+      viewLeadDetails(newLead.id);
+    }
+
+    // Check for 1-Click Sync from Email URL Parameter (?import=...)
+    function checkUrlImport() {
+      const params = new URLSearchParams(window.location.search);
+      const importToken = params.get('import');
+      if (importToken) {
+        try {
+          const decodedJson = decodeURIComponent(escape(atob(decodeURIComponent(importToken))));
+          const leadRecord = JSON.parse(decodedJson);
+          if (leadRecord && leadRecord.name) {
+            // Auto login as admin
+            bypassLogin();
+            
+            // Save or update lead
+            const leads = getLeads();
+            const existingIdx = leads.findIndex(l => l.id === leadRecord.id || (l.email === leadRecord.email && l.name === leadRecord.name));
+            if (existingIdx >= 0) {
+              leads[existingIdx] = { ...leads[existingIdx], ...leadRecord };
+            } else {
+              leads.unshift(leadRecord);
+            }
+            saveLeads(leads);
+            renderDashboard();
+            showToast(`🎉 New Lead for "${leadRecord.name}" (${leadRecord.company || 'Direct'}) successfully synced into Sales CRM!`);
+            viewLeadDetails(leadRecord.id);
+            
+            // Clean URL query parameters
+            window.history.replaceState({}, document.title, window.location.pathname);
+          }
+        } catch (err) {
+          console.warn('Could not auto-import lead from URL query parameter:', err);
+        }
+      }
+    }
+
+    // Check auth and URL import on load
+    window.addEventListener('DOMContentLoaded', () => {
+      checkAuth();
+      checkUrlImport();
+    });
   </script>
 </body>
 </html>

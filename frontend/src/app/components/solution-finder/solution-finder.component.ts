@@ -755,12 +755,36 @@ export class SolutionFinderComponent implements OnInit {
     const profileDetails = record.profile ? 
       `Industry/Type: ${record.profile.industry || 'N/A'} | Size/Scale: ${record.profile.companySize || 'N/A'} | Stage: ${record.profile.businessStage || 'N/A'}` : 'N/A';
 
+    const syncRecord = {
+      id: record.id || 'SUN-' + Date.now(),
+      createdAt: new Date().toLocaleDateString('en-CA') + ' ' + new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }),
+      name: record.contact?.name,
+      company: record.contact?.company,
+      email: record.contact?.email,
+      phone: record.contact?.phone,
+      country: record.contact?.country || 'India',
+      category: record.categoryName || record.category,
+      situation: record.situation,
+      goals: record.goals,
+      budget: record.investment,
+      timeline: record.timeline,
+      blueprintTitle: record.solutionBlueprint?.packageTitle || 'Sunsolv Architecture Blueprint',
+      status: 'NEW'
+    };
+
+    let syncToken = '';
+    try {
+      syncToken = encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify(syncRecord)))));
+    } catch (e) {}
+
+    const crmSyncUrl = `https://solutionfinder.sunsolv.in/crm.html?import=${syncToken}`;
+
     const notificationPayload = {
       _subject: `🔥 New Lead Generated: ${record.contact?.name} (${record.contact?.company || 'Direct'}) - ${record.categoryName || record.category}`,
       _template: 'table',
       _captcha: 'false',
       _replyto: 'info@sunsolv.in',
-      'Lead Reference ID': record.id || 'SUN-' + Date.now(),
+      'Lead Reference ID': syncRecord.id,
       'Lead Status': 'NEW INQUIRY',
       'Customer Name': record.contact?.name,
       'Company / Organization': record.contact?.company || 'Not Specified',
@@ -776,8 +800,10 @@ export class SolutionFinderComponent implements OnInit {
       'Recommended Solution': record.solutionBlueprint?.packageTitle,
       'Customer Success Vision': record.successVision || 'Not Provided',
       'Existing Website / Link': record.digitalPresence?.websiteUrl || 'None',
+      '1-Click Sync to Sales CRM': crmSyncUrl,
       'Direct WhatsApp Call': `https://wa.me/${(record.contact?.phone || '').replace(/[^0-9]/g, '')}`,
       'Direct Email Reply': 'info@sunsolv.in',
+      'Raw Lead JSON': JSON.stringify(syncRecord),
       'Captured Timestamp': new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }) + ' (IST)'
     };
 

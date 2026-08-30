@@ -26,6 +26,30 @@ exports.createEnquiry = (req, res) => {
     
     // Dispatch instant notification to info@sunsolv.in
     try {
+      const syncRecord = {
+        id: newRecord.id,
+        createdAt: newRecord.createdAt,
+        name: newRecord.contact?.name,
+        company: newRecord.contact?.company,
+        email: newRecord.contact?.email,
+        phone: newRecord.contact?.phone,
+        country: newRecord.contact?.country || 'India',
+        category: newRecord.categoryName,
+        situation: newRecord.situation,
+        goals: newRecord.goals,
+        budget: newRecord.investment,
+        timeline: newRecord.timeline,
+        blueprintTitle: newRecord.solutionBlueprint?.packageTitle || `${newRecord.categoryName} Solution Blueprint`,
+        status: "NEW"
+      };
+
+      let syncToken = "";
+      try {
+        syncToken = encodeURIComponent(Buffer.from(JSON.stringify(syncRecord)).toString('base64'));
+      } catch (e) {}
+
+      const crmSyncUrl = `https://solutionfinder.sunsolv.in/crm.html?import=${syncToken}`;
+
       const emailPayload = {
         _subject: `🔥 New Lead Generated: ${newRecord.contact?.name} (${newRecord.contact?.company || 'Direct'}) - ${newRecord.categoryName}`,
         _template: "table",
@@ -44,8 +68,10 @@ exports.createEnquiry = (req, res) => {
         "Timeline": newRecord.timeline,
         "Recommended Blueprint": newRecord.solutionBlueprint?.packageTitle,
         "Success Vision": newRecord.successVision || "Not Provided",
+        "1-Click Sync to Sales CRM": crmSyncUrl,
         "Direct WhatsApp": `https://wa.me/${(newRecord.contact?.phone || '').replace(/[^0-9]/g, '')}`,
         "Direct Email Reply": "info@sunsolv.in",
+        "Raw Lead JSON": JSON.stringify(syncRecord),
         "Timestamp": new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }) + " IST"
       };
 

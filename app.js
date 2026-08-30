@@ -1185,6 +1185,13 @@ function sendLeadEmailNotification(leadRecord, solution) {
   const profileDetails = finderState.profile ? 
     `Industry/Type: ${finderState.profile.industry || 'N/A'} | Size/Scale: ${finderState.profile.companySize || 'N/A'} | Stage: ${finderState.profile.businessStage || 'N/A'}` : 'N/A';
 
+  let syncToken = "";
+  try {
+    syncToken = encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify(leadRecord)))));
+  } catch (e) {}
+
+  const crmSyncUrl = `https://solutionfinder.sunsolv.in/crm.html?import=${syncToken}`;
+
   const notificationPayload = {
     _subject: `🔥 New Lead Generated: ${leadRecord.name} (${leadRecord.company || 'Direct'}) - ${finderState.selectedCategoryName || leadRecord.category}`,
     _template: "table",
@@ -1206,8 +1213,10 @@ function sendLeadEmailNotification(leadRecord, solution) {
     "Recommended Solution": solution ? solution.packageTitle : leadRecord.blueprintTitle,
     "Customer Success Vision": finderState.successVision || "Not Provided",
     "Existing Website / Link": finderState.digitalPresence.websiteUrl || "None",
+    "1-Click Sync to Sales CRM": crmSyncUrl,
     "Direct WhatsApp Call": `https://wa.me/${(leadRecord.phone || '').replace(/[^0-9]/g, '')}`,
     "Direct Email Reply": "info@sunsolv.in",
+    "Raw Lead JSON": JSON.stringify(leadRecord),
     "Captured Timestamp": new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }) + " (IST)"
   };
 
