@@ -2363,6 +2363,117 @@ function doGet(e) {
 
     // Initialize on load & start auto-sync polling
     window.addEventListener('DOMContentLoaded', () => {
+      // --- DEMO SEED MODE: ?seed=demo auto-populates test leads & auto-logs in ---
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('seed') === 'demo') {
+        // Auto-login as demo admin
+        sessionStorage.setItem('sunsolv_auth_user', JSON.stringify({ name: 'Prasad (Demo)', email: 'info@sunsolv.in' }));
+
+        const now = new Date();
+        const ts = (daysAgo, hoursAgo = 0) => {
+          const d = new Date(now);
+          d.setDate(d.getDate() - daysAgo);
+          d.setHours(d.getHours() - hoursAgo);
+          return d.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+        };
+
+        const demoLeads = [
+          {
+            id: 'SUN-2026-0001', name: 'Rajesh Sharma', company: 'Apex Coaching Academy',
+            email: 'rajesh@apexcoaching.in', phone: '+91 98765 43210',
+            country: 'India', category: 'EdTech & Digital Assessment',
+            budget: '₹5 Lakh – ₹10 Lakh', timeline: 'Within 1 - 3 months',
+            blueprintTitle: 'Multi-Department Digital Assessment & Analytics Platform',
+            goals: ['Online exam management', 'Automated result processing', 'Student performance dashboards'],
+            situation: 'Currently using Google Forms and manual Excel sheets for 3,000+ students.',
+            channel: 'LINKEDIN', campaign: 'edtech_assessment_growth',
+            status: 'NEW', createdAt: ts(0, 2)
+          },
+          {
+            id: 'SUN-2026-0002', name: 'Priya Nair', company: 'GreenTech Manufacturing Pvt Ltd',
+            email: 'priya.nair@greentechmanuf.com', phone: '+91 91234 56789',
+            country: 'India', category: 'Custom ERP & Operations Software',
+            budget: '₹10 Lakh – ₹25 Lakh', timeline: 'Immediately / Urgent',
+            blueprintTitle: 'Unified Manufacturing ERP with Inventory, Billing & HR Modules',
+            goals: ['Replace 12 spreadsheets', 'Real-time inventory tracking', 'Automated payroll'],
+            situation: 'Operations across 4 plants with no centralized visibility. Reporting takes 3 days manually.',
+            channel: 'GOOGLE SEARCH', campaign: 'erp_process_automation',
+            status: 'CONTACTED', createdAt: ts(1, 5)
+          },
+          {
+            id: 'SUN-2026-0003', name: 'Arun Mehta', company: 'Mehta Real Estate Group',
+            email: 'arun.mehta@mregroup.co.in', phone: '+91 99001 23456',
+            country: 'India', category: 'High-Performance Web Portal',
+            budget: '₹3 Lakh – ₹5 Lakh', timeline: 'Within 30 days',
+            blueprintTitle: 'Lead-First Property Portal with WhatsApp CRM Integration',
+            goals: ['Automated lead capture', 'WhatsApp inquiry bot', 'Property listing management'],
+            situation: 'Current website generates almost zero leads. Using a basic Wix site.',
+            channel: 'WHATSAPP', campaign: 'web_conversion_engine',
+            status: 'IN_REVIEW', createdAt: ts(2)
+          },
+          {
+            id: 'SUN-2026-0004', name: 'Dr. Sunitha Reddy', company: 'Reddy Multi-Speciality Hospital',
+            email: 'sunitha@reddyhospital.com', phone: '+91 94455 67890',
+            country: 'India', category: 'AI & Workflow Automation',
+            budget: '₹10 Lakh – ₹25 Lakh', timeline: 'Within 1 - 3 months',
+            blueprintTitle: 'AI-Powered Patient Intake & Appointment Automation System',
+            goals: ['Eliminate manual appointment booking', 'Automated patient reminders', 'OPD queue management'],
+            situation: '350+ daily patients, 4 receptionists overwhelmed. Appointment no-show rate is 28%.',
+            channel: 'DIRECT / ORGANIC', campaign: 'solution_finder_core',
+            status: 'PROPOSAL_SENT', createdAt: ts(3)
+          },
+          {
+            id: 'SUN-2026-0005', name: 'Vikram Singh', company: 'Singh Logistics Services',
+            email: 'vikram.singh@singhlogistics.in', phone: '+91 87654 32109',
+            country: 'India', category: 'Custom ERP & Operations Software',
+            budget: '₹1 Lakh – ₹3 Lakh', timeline: 'Flexible',
+            blueprintTitle: 'Fleet Management & Delivery Tracking Dashboard',
+            goals: ['Live vehicle tracking', 'Driver management', 'Client delivery reports'],
+            situation: 'Managing 45 trucks with WhatsApp groups and phone calls.',
+            channel: 'TWITTER/X', campaign: 'erp_process_automation',
+            status: 'NEW', createdAt: ts(4)
+          },
+          {
+            id: 'SUN-2026-0006', name: 'Kavya Krishnamurthy', company: 'KK Digital Marketing Agency',
+            email: 'kavya@kkdigital.agency', phone: '+91 80234 56789',
+            country: 'India', category: 'High-Performance Web Portal',
+            budget: '₹5 Lakh – ₹10 Lakh', timeline: 'Within 1 - 3 months',
+            blueprintTitle: 'White-Label Client Reporting Portal with Analytics',
+            goals: ['Automated campaign reports', 'Client portal access', 'Multi-client billing'],
+            situation: 'Sending manual PDF reports to 35+ clients every month. Looking to productize this.',
+            channel: 'LINKEDIN', campaign: 'web_conversion_engine',
+            status: 'WON', createdAt: ts(7)
+          },
+          {
+            id: 'SUN-2026-0007', name: 'Rahul Gupta', company: 'Gupta Pharma Distributors',
+            email: 'rahul.gupta@gmail.com', phone: '+91 76543 21098',
+            country: 'India', category: 'Custom ERP & Operations Software',
+            budget: '₹3 Lakh – ₹5 Lakh', timeline: 'Within 30 days',
+            blueprintTitle: 'Pharma Distribution & Expiry Tracking Software',
+            goals: ['Stock expiry alerts', 'Distributor order management', 'GST billing'],
+            situation: 'Using Tally for billing but no inventory intelligence. Lost ₹4L to expired stock this year.',
+            channel: 'REFERRAL (whatsapp.com)', campaign: 'blueprint_share',
+            status: 'CONTACTED', createdAt: ts(10)
+          },
+          {
+            id: 'SUN-2026-0008', name: 'Ananya Patel', company: 'Sunrise EdTech Solutions',
+            email: 'ananya@sunriseedtech.com', phone: '+91 95678 90123',
+            country: 'India', category: 'EdTech & Digital Assessment',
+            budget: '₹10 Lakh – ₹25 Lakh', timeline: 'Immediately / Urgent',
+            blueprintTitle: 'UPSC/JEE Competitive Exam Platform with Live Mock Tests & AIR Rankings',
+            goals: ['Live mock test engine', 'All India Rank leaderboard', 'Video explanations integration'],
+            situation: 'Running offline batches of 800 students, plan to go online and compete with Unacademy.',
+            channel: 'LINKEDIN', campaign: 'edtech_assessment_growth',
+            status: 'IN_REVIEW', createdAt: ts(14)
+          }
+        ];
+
+        saveLeads(demoLeads);
+        showToast('🧪 Demo Mode: 8 test leads loaded! Test all CRM features freely.');
+        window.history.replaceState({}, document.title, window.location.pathname + '?demo=1');
+      }
+      // --- END DEMO SEED ---
+
       checkAuth();
       checkUrlImport();
       updateCloudStatusBadge();
