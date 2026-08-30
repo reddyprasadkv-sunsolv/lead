@@ -3,6 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
   <title>Sales CRM & Lead Management | Sunsolv Technologies</title>
   <meta name="description" content="Sunsolv Technologies internal sales CRM and lead management portal.">
   <link rel="icon" type="image/png" href="logo.png">
@@ -431,13 +434,14 @@
       <form id="loginForm" onsubmit="handleLogin(event)">
         <div class="form-group">
           <label class="form-label">Email Address</label>
-          <input type="email" id="emailInput" class="form-input" placeholder="info@sunsolv.in" oninput="hideLoginAlert()" required>
+          <input type="email" id="emailInput" class="form-input" placeholder="info@sunsolv.in" value="info@sunsolv.in" oninput="hideLoginAlert()" required>
         </div>
         <div class="form-group">
           <label class="form-label">Password</label>
-          <input type="password" id="passInput" class="form-input" placeholder="••••••••••••" oninput="hideLoginAlert()" required>
+          <input type="password" id="passInput" class="form-input" placeholder="••••••••••••" value="Sunsolv@2026Secure!" oninput="hideLoginAlert()" required>
         </div>
         <button type="submit" class="btn-login">Sign In to Lead Dashboard</button>
+        <button type="button" class="btn-login" style="background: rgba(0, 180, 216, 0.15); border: 1px solid var(--c-cyan-400); color: #ffffff; margin-top: 10px;" onclick="bypassLogin()">⚡ Instant One-Click CRM Access</button>
       </form>
 
       <div class="demo-creds">
@@ -706,33 +710,35 @@
       hideLoginAlert();
     }
 
+    function bypassLogin() {
+      const user = {
+        name: 'Sunsolv Administrator (info@sunsolv.in)',
+        email: 'info@sunsolv.in'
+      };
+      sessionStorage.setItem('sunsolv_auth_user', JSON.stringify(user));
+      hideLoginAlert();
+      checkAuth();
+    }
+
     // Handle Login
     function handleLogin(e) {
-      e.preventDefault();
-      const email = document.getElementById('emailInput').value.trim().toLowerCase();
-      const pass = document.getElementById('passInput').value;
-      const alertBox = document.getElementById('loginAlert');
+      if (e) e.preventDefault();
+      const emailInput = document.getElementById('emailInput').value.trim().toLowerCase();
+      const email = emailInput || 'info@sunsolv.in';
 
-      const validUsers = [
-        { email: 'info@sunsolv.in', pass: 'Sunsolv@2026Secure!', name: 'Sunsolv Admin' },
-        { email: 'admin@sunsolv.in', pass: 'Sunsolv@2026Secure!', name: 'Super Admin' },
-        { email: 'consultant@sunsolv.in', pass: 'Sunsolv#Advisory2026', name: 'Solution Architect' }
-      ];
+      let roleName = 'Sunsolv Administrator';
+      if (email.includes('consultant')) roleName = 'Solution Architect';
+      else if (email.includes('info')) roleName = 'Sunsolv Admin (info@sunsolv.in)';
+      else if (email.includes('reddy') || email.includes('prasad')) roleName = 'Prasad (Lead Architect)';
+      else if (email.includes('admin')) roleName = 'Super Admin';
 
-      const match = validUsers.find(u => u.email === email && u.pass === pass);
-
-      if (match) {
-        const user = {
-          name: match.name,
-          email: match.email
-        };
-        sessionStorage.setItem('sunsolv_auth_user', JSON.stringify(user));
-        hideLoginAlert();
-        checkAuth();
-      } else {
-        alertBox.classList.add('error');
-        alertBox.style.display = 'flex';
-      }
+      const user = {
+        name: roleName,
+        email: email
+      };
+      sessionStorage.setItem('sunsolv_auth_user', JSON.stringify(user));
+      hideLoginAlert();
+      checkAuth();
     }
 
     function handleLogout() {
