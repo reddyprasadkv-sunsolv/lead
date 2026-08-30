@@ -3,6 +3,9 @@
  * State Management, Dynamic Branching, Recommendation System, Multi-Currency, and Actions
  */
 
+// Tracking & Security Initialization
+const formLoadTimestamp = Date.now();
+
 // Global Application State
 const finderState = {
   currentStep: 1,
@@ -1122,33 +1125,67 @@ function handleFormSubmission(event) {
   if (!validateStep(8)) {
     return;
   }
+
+  // 1. Anti-Spam Honeypot Bot Check
+  const hpInput = document.getElementById('sunsolvHpCheck');
+  if (hpInput && hpInput.value.trim().length > 0) {
+    console.warn("Bot submission prevented via honeypot.");
+    return;
+  }
+
+  // 2. Interaction Duration
+  const durationSeconds = Math.round((Date.now() - (typeof formLoadTimestamp !== 'undefined' ? formLoadTimestamp : Date.now())) / 1000);
   
-  // Generate customized solution recommendation
+  // 3. Extract Incoming Growth & Campaign Attribution
+  const attribution = (typeof SunsolvGrowthEngine !== 'undefined') ? 
+    SunsolvGrowthEngine.extractCurrentAttribution() : 
+    { channel: "Direct / Organic", source: "direct", campaign: "solution_finder_core", content: "default", refCode: "" };
+
+  // 4. Generate customized solution recommendation
   const solution = computeIntelligentRecommendation(finderState);
   
-  // Render results in Dossier
-  renderSolutionDossier(solution);
-
-  // Save new inquiry to CRM storage
+  // 5. Save new inquiry to CRM storage & Cloud
   try {
     const now = new Date();
     const dateStr = now.toLocaleDateString('en-CA') + ' ' + now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
-    const leadRecord = {
+    
+    let leadRecord = {
       id: "SUN-" + now.getFullYear() + "-" + Math.floor(1000 + Math.random() * 9000),
       createdAt: dateStr,
       name: finderState.contact.name,
-      company: finderState.contact.company,
+      company: finderState.contact.company || "Direct Client",
       email: finderState.contact.email,
       phone: finderState.contact.phone,
-      country: finderState.contact.country,
+      country: finderState.contact.country || "India",
       category: solution.direction,
       situation: finderState.selectedSituation || '',
       goals: finderState.selectedGoals || [],
       budget: finderState.selectedInvestment || 'Standard',
       timeline: finderState.selectedTimeline || '1 - 3 Months',
       blueprintTitle: solution.packageTitle,
+      channel: attribution.channel,
+      attributionSource: attribution.source,
+      campaign: attribution.campaign,
+      content: attribution.content,
+      refCode: attribution.refCode,
       status: "NEW"
     };
+
+    // Calculate Intelligence & Quality Score
+    if (typeof SunsolvGrowthEngine !== 'undefined') {
+      const intel = SunsolvGrowthEngine.calculateLeadIntelligenceScore(leadRecord, durationSeconds);
+      leadRecord.score = intel.score;
+      leadRecord.tier = intel.tier;
+      leadRecord.tierBadge = intel.tierBadge;
+      leadRecord.isCorporateDomain = intel.isCorporateDomain;
+    } else {
+      leadRecord.score = 75;
+      leadRecord.tier = "HIGH";
+      leadRecord.tierBadge = "⚡ HIGH VALUE";
+    }
+
+    // Render results in Dossier
+    renderSolutionDossier(solution, leadRecord);
 
     let existingLeads = [];
     try {
@@ -1193,12 +1230,13 @@ function sendLeadEmailNotification(leadRecord, solution) {
   const crmSyncUrl = `https://solutionfinder.sunsolv.in/crm.html?import=${syncToken}`;
 
   const notificationPayload = {
-    _subject: `🔥 New Lead Generated: ${leadRecord.name} (${leadRecord.company || 'Direct'}) - ${finderState.selectedCategoryName || leadRecord.category}`,
+    _subject: `🔥 New Lead Generated: ${leadRecord.name} (${leadRecord.company || 'Direct'}) - ${finderState.selectedCategoryName || leadRecord.category} [Score: ${leadRecord.score || 80}/100]`,
     _template: "table",
     _captcha: "false",
     _replyto: "info@sunsolv.in",
     "Lead Reference ID": leadRecord.id,
-    "Lead Status": "NEW INQUIRY",
+    "Lead Quality Score": `${leadRecord.score || 75}/100 (${leadRecord.tierBadge || 'HIGH'})`,
+    "Origin Channel": `${leadRecord.channel || 'Direct / Organic'} (Campaign: ${leadRecord.campaign || 'core'})`,
     "Customer Name": leadRecord.name,
     "Company / Organization": leadRecord.company || "Not Specified",
     "Customer Email": leadRecord.email,
@@ -1276,6 +1314,10 @@ function sendLeadEmailNotification(leadRecord, solution) {
     digitalPresence: finderState.digitalPresence,
     solutionBlueprint: solution,
     blueprintTitle: leadRecord.blueprintTitle,
+    score: leadRecord.score,
+    tier: leadRecord.tier,
+    channel: leadRecord.channel,
+    campaign: leadRecord.campaign,
     status: 'NEW'
   };
 
@@ -1544,6 +1586,35 @@ function renderSolutionDossier(sol) {
     );
     waLink.href = `https://wa.me/919676868607?text=${message}`;
   }
+
+  // Hook up Viral Share Links
+  if (typeof SunsolvGrowthEngine !== 'undefined') {
+    const shareLinks = SunsolvGrowthEngine.generateBlueprintShareLinks({
+      name: sol.clientName,
+      blueprintTitle: sol.packageTitle,
+      category: sol.direction
+    });
+
+    const shareWa = document.getElementById('shareWaBtn');
+    const shareLi = document.getElementById('shareLiBtn');
+    if (shareWa) shareWa.href = shareLinks.whatsapp;
+    if (shareLi) shareLi.href = shareLinks.linkedin;
+    window._currentShareUrl = shareLinks.copyUrl;
+  }
+}
+
+// Copy Blueprint Share Link
+function copyBlueprintShareLink() {
+  const url = window._currentShareUrl || "https://solutionfinder.sunsolv.in/";
+  navigator.clipboard.writeText(url).then(() => {
+    const btnText = document.getElementById('copyShareBtnText');
+    if (btnText) {
+      btnText.textContent = "Copied!";
+      setTimeout(() => { btnText.textContent = "Copy Share Link"; }, 2500);
+    }
+  }).catch(() => {
+    prompt("Copy this blueprint link:", url);
+  });
 }
 
 // Booking Modal Controls

@@ -16,6 +16,7 @@
   <!-- Security Shield Protection -->
   <script src="security.js"></script>
   <script src="config.js"></script>
+  <script src="growth-engine.js"></script>
 
   <!-- Google Fonts & Font Awesome Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -313,6 +314,44 @@
     .badge-status.won { background: rgba(16, 185, 129, 0.2); color: #6ee7b7; border: 1px solid rgba(16, 185, 129, 0.4); }
     .badge-status.lost { background: rgba(239, 68, 68, 0.2); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.4); }
 
+    .badge-score {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 0.74rem;
+      font-weight: 800;
+      letter-spacing: 0.3px;
+    }
+    .badge-score.hot { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.4); }
+    .badge-score.high { background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.4); }
+    .badge-score.warm { background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4); }
+    .badge-score.low { background: rgba(148, 163, 184, 0.2); color: #cbd5e1; border: 1px solid rgba(148, 163, 184, 0.4); }
+
+    .badge-channel {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-size: 0.72rem;
+      background: rgba(72, 202, 228, 0.12);
+      color: var(--c-cyan-300);
+      border: 1px solid rgba(72, 202, 228, 0.25);
+      font-weight: 600;
+    }
+    .badge-email-type {
+      display: inline-block;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.68rem;
+      font-weight: 600;
+      margin-top: 3px;
+    }
+    .badge-email-type.corp { background: rgba(99, 102, 241, 0.2); color: #a5b4fc; border: 1px solid rgba(99, 102, 241, 0.35); }
+    .badge-email-type.direct { background: rgba(148, 163, 184, 0.15); color: #94a3b8; border: 1px solid rgba(148, 163, 184, 0.25); }
+
     .action-icons { display: flex; align-items: center; gap: 8px; }
     .btn-icon {
       width: 32px;
@@ -569,6 +608,10 @@
       </div>
 
       <div class="crm-actions">
+        <button class="btn-action" onclick="openGrowthHubModal()" style="background: linear-gradient(135deg, #7928ca, #ff0080); color: #ffffff; font-weight: 800; border: none; box-shadow: 0 4px 14px rgba(255, 0, 128, 0.35);">
+          <i class="fa-solid fa-rocket"></i>
+          <span>Growth Hub & Campaigns</span>
+        </button>
         <button class="btn-action primary" onclick="openImportModal()" style="background: linear-gradient(135deg, var(--c-cyan-400), var(--c-cyan-500)); color: var(--c-navy-950); font-weight: 800; border: none; box-shadow: 0 4px 14px rgba(0, 180, 216, 0.4);">
           <i class="fa-solid fa-plus"></i>
           <span>Add / Import Lead</span>
@@ -636,7 +679,7 @@
     <div class="toolbar">
       <div class="search-box">
         <i class="fa-solid fa-magnifying-glass"></i>
-        <input type="text" id="searchInput" class="search-input" placeholder="Search by name, company, email, or blueprint..." oninput="renderTable()">
+        <input type="text" id="searchInput" class="search-input" placeholder="Search by name, company, email, channel, or blueprint..." oninput="renderTable()">
       </div>
       <div class="status-filters">
         <button class="filter-btn active" onclick="setStatusFilter('ALL', this)">All Leads</button>
@@ -652,10 +695,10 @@
       <table>
         <thead>
           <tr>
-            <th>Date</th>
-            <th>Client & Company</th>
-            <th>Solution Direction</th>
-            <th>Budget / Stage</th>
+            <th>Received / Origin</th>
+            <th>Customer & Organization</th>
+            <th>Intelligence & Blueprint</th>
+            <th>Budget & Timeline</th>
             <th>Status</th>
             <th>Actions</th>
           </tr>
@@ -676,6 +719,18 @@
         <button class="modal-close" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
       </div>
 
+      <!-- Lead Intelligence Banner -->
+      <div class="detail-item" style="margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; background: rgba(3, 16, 68, 0.9); border: 1px solid var(--c-cyan-400);">
+        <div>
+          <span style="color: var(--c-cyan-300);"><i class="fa-solid fa-brain"></i> Lead Intelligence Quality Score</span>
+          <strong id="mIntelScore" style="font-size: 1.1rem; color: #ffffff;">85/100 · 🔥 HOT OPPORTUNITY</strong>
+        </div>
+        <div style="text-align: right;">
+          <span style="color: var(--c-cyan-300);"><i class="fa-solid fa-bullhorn"></i> Origin Channel & Campaign</span>
+          <strong id="mOriginChannel" style="font-size: 0.88rem; color: var(--c-cyan-200);">Direct / Organic</strong>
+        </div>
+      </div>
+
       <div class="detail-grid">
         <div class="detail-item">
           <span>Client Name</span>
@@ -688,6 +743,7 @@
         <div class="detail-item">
           <span>Email Address</span>
           <strong id="mEmail">-</strong>
+          <span id="mEmailTypeBadge" class="badge-email-type direct">Personal / Direct Email</span>
         </div>
         <div class="detail-item">
           <span>Phone / WhatsApp</span>
@@ -728,16 +784,19 @@
         </select>
       </div>
 
-      <div style="display: flex; gap: 12px; justify-content: space-between; align-items: center;">
+      <div style="display: flex; gap: 12px; justify-content: space-between; align-items: center; flex-wrap: wrap;">
         <button type="button" class="btn-action danger" onclick="deleteActiveLead()">
           <i class="fa-solid fa-trash-can"></i> Delete Lead
         </button>
-        <div style="display: flex; gap: 12px;">
+        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+          <button type="button" class="btn-action" onclick="copyActiveExecutiveBrief()" style="background: rgba(121, 40, 202, 0.25); border-color: #a855f7; color: #f3e8ff;">
+            <i class="fa-solid fa-file-lines"></i> Copy Executive Brief
+          </button>
           <a id="modalWaBtn" href="#" target="_blank" class="btn-action primary">
-            <i class="fa-brands fa-whatsapp"></i> Chat on WhatsApp
+            <i class="fa-brands fa-whatsapp"></i> WhatsApp
           </a>
           <a id="modalMailBtn" href="#" class="btn-action">
-            <i class="fa-solid fa-envelope"></i> Send Email
+            <i class="fa-solid fa-envelope"></i> Email
           </a>
         </div>
       </div>
@@ -906,6 +965,115 @@ Recommended Solution: High-Velocity Lead Engine"></textarea>
     </div>
   </div>
 
+  <!-- 6. AI ORGANIC GROWTH ENGINE & CAMPAIGN HUB MODAL -->
+  <div class="modal-overlay" id="growthHubModal">
+    <div class="modal-card" style="max-width: 820px;">
+      <div class="modal-header">
+        <div class="modal-title" style="display: flex; align-items: center; gap: 10px;">
+          <i class="fa-solid fa-rocket" style="color: #ec4899; font-size: 1.3rem;"></i>
+          <span style="font-size: 1.15rem; font-weight: 800; color: #ffffff;">AI Organic Growth & Campaign Intelligence Hub</span>
+        </div>
+        <button class="modal-close" onclick="closeGrowthHubModal()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <!-- Growth Tabs -->
+      <div style="display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 1px solid rgba(72, 202, 228, 0.2); padding-bottom: 12px; flex-wrap: wrap;">
+        <button type="button" class="filter-btn active" id="ghTabPostBtn" onclick="switchGrowthTab('POSTS')">
+          <i class="fa-solid fa-pen-nib"></i> AI Social Content Publisher
+        </button>
+        <button type="button" class="filter-btn" id="ghTabUtmBtn" onclick="switchGrowthTab('UTM')">
+          <i class="fa-solid fa-link"></i> Tracked Campaign Builder
+        </button>
+        <button type="button" class="filter-btn" id="ghTabAnalyticsBtn" onclick="switchGrowthTab('ANALYTICS')">
+          <i class="fa-solid fa-chart-pie"></i> Channel Attribution ROI
+        </button>
+      </div>
+
+      <!-- TAB 1: AI SOCIAL CONTENT PUBLISHER -->
+      <div id="growthTabPosts" style="display: block;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px;">
+          <div>
+            <label class="form-label" style="font-size: 0.78rem; color: var(--c-cyan-300); font-weight: 700; text-transform: uppercase;">1. Solution Vertical</label>
+            <select id="ghCategorySelect" class="form-input" style="background: rgba(1, 2, 36, 0.8); border: 1px solid rgba(72, 202, 228, 0.3); color: #fff;" onchange="generateAiPostPreview()">
+              <option value="edtech">EdTech & Digital Assessment Platform</option>
+              <option value="software_erp">Custom Software & Operations ERP</option>
+              <option value="web_portal">High-Performance Web & Lead Engine</option>
+              <option value="ai_automation">AI & Workflow Process Automation</option>
+            </select>
+          </div>
+          <div>
+            <label class="form-label" style="font-size: 0.78rem; color: var(--c-cyan-300); font-weight: 700; text-transform: uppercase;">2. Target Channel</label>
+            <select id="ghChannelSelect" class="form-input" style="background: rgba(1, 2, 36, 0.8); border: 1px solid rgba(72, 202, 228, 0.3); color: #fff;" onchange="generateAiPostPreview()">
+              <option value="linkedin">LinkedIn (Thought Leadership / B2B)</option>
+              <option value="whatsapp">WhatsApp Broadcast / Direct Share</option>
+              <option value="twitter">Twitter / X (Quick Insights & CTA)</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="background: rgba(1, 2, 36, 0.9); border: 1px solid rgba(72, 202, 228, 0.3); border-radius: 12px; padding: 16px; margin-bottom: 16px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <strong style="color: #ffffff; font-size: 0.85rem;" id="ghPostTitlePreview">Educational Post Blueprint</strong>
+            <span style="font-size: 0.75rem; color: var(--c-cyan-300);" id="ghTrackedUrlLabel">Includes Tracked UTM Attribution</span>
+          </div>
+          <textarea id="ghPostContentArea" style="width: 100%; height: 160px; background: rgba(3, 4, 94, 0.3); border: 1px solid rgba(72, 202, 228, 0.2); border-radius: 8px; color: #e0f2fe; padding: 12px; font-family: inherit; font-size: 0.85rem; line-height: 1.5; resize: vertical;"></textarea>
+        </div>
+
+        <div style="display: flex; gap: 12px; justify-content: flex-end;">
+          <button type="button" class="btn-action primary" onclick="copyAiPostText()">
+            <i class="fa-solid fa-copy"></i> Copy Post with Tracked URL
+          </button>
+        </div>
+      </div>
+
+      <!-- TAB 2: TRACKED CAMPAIGN BUILDER -->
+      <div id="growthTabUtm" style="display: none;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px;">
+          <div>
+            <label class="form-label" style="font-size: 0.78rem; color: var(--c-cyan-300); font-weight: 700; text-transform: uppercase;">Campaign Name</label>
+            <input type="text" id="utmCampaignInput" class="form-input" placeholder="e.g. q1_higher_ed_growth" value="q1_growth_2026" oninput="updateCustomTrackedUrl()">
+          </div>
+          <div>
+            <label class="form-label" style="font-size: 0.78rem; color: var(--c-cyan-300); font-weight: 700; text-transform: uppercase;">Channel / Source</label>
+            <select id="utmSourceSelect" class="form-input" onchange="updateCustomTrackedUrl()">
+              <option value="linkedin">LinkedIn</option>
+              <option value="whatsapp">WhatsApp</option>
+              <option value="twitter">Twitter / X</option>
+              <option value="newsletter">Email Newsletter</option>
+              <option value="direct_partner">Partner Referral</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="background: rgba(1, 2, 36, 0.9); border: 1px solid rgba(72, 202, 228, 0.3); border-radius: 12px; padding: 16px; margin-bottom: 16px;">
+          <label class="form-label" style="font-size: 0.78rem; color: var(--c-cyan-300); font-weight: 700; text-transform: uppercase; margin-bottom: 8px;">Generated Tracked Link</label>
+          <input type="text" id="customTrackedUrlDisplay" readonly class="form-input" style="background: rgba(3, 4, 94, 0.4); border-color: rgba(72, 202, 228, 0.4); color: #38bdf8; font-family: monospace; font-size: 0.85rem;" value="https://solutionfinder.sunsolv.in/?utm_source=linkedin&utm_campaign=q1_growth_2026">
+        </div>
+
+        <div style="display: flex; justify-content: flex-end;">
+          <button type="button" class="btn-action primary" onclick="copyCustomTrackedUrl()">
+            <i class="fa-solid fa-copy"></i> Copy Campaign Link
+          </button>
+        </div>
+      </div>
+
+      <!-- TAB 3: CHANNEL ATTRIBUTION ROI -->
+      <div id="growthTabAnalytics" style="display: none;">
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 20px;" id="attributionMetricCards">
+          <!-- Populated by JS -->
+        </div>
+
+        <div style="background: rgba(1, 2, 36, 0.9); border: 1px solid rgba(72, 202, 228, 0.3); border-radius: 12px; padding: 18px;">
+          <h4 style="color: #ffffff; font-size: 0.95rem; margin-bottom: 12px;"><i class="fa-solid fa-ranking-star"></i> Inbound Lead Attribution by Channel</h4>
+          <div id="attributionBreakdownTable">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
   <!-- Toast Notification Alert -->
   <div class="crm-toast" id="crmToast">
     <i class="fa-solid fa-circle-check" style="color: #4ade80; font-size: 1.3rem;"></i>
@@ -1043,8 +1211,9 @@ Recommended Solution: High-Velocity Lead Engine"></textarea>
         const matchesFilter = (currentFilter === 'ALL' || l.status === currentFilter);
         const matchesSearch = !search || 
           l.name.toLowerCase().includes(search) || 
-          l.company.toLowerCase().includes(search) || 
-          l.email.toLowerCase().includes(search) ||
+          (l.company && l.company.toLowerCase().includes(search)) || 
+          (l.email && l.email.toLowerCase().includes(search)) ||
+          (l.channel && l.channel.toLowerCase().includes(search)) ||
           (l.blueprintTitle && l.blueprintTitle.toLowerCase().includes(search));
         return matchesFilter && matchesSearch;
       });
@@ -1064,19 +1233,40 @@ Recommended Solution: High-Velocity Lead Engine"></textarea>
         return;
       }
 
-      tbody.innerHTML = filtered.map(l => `
+      tbody.innerHTML = filtered.map(l => {
+        const intel = (typeof SunsolvGrowthEngine !== 'undefined') ? 
+          SunsolvGrowthEngine.calculateLeadIntelligenceScore(l) : 
+          { score: l.score || 75, tier: l.tier || 'HIGH', tierBadge: l.tierBadge || '⚡ HIGH', isCorporateDomain: false };
+        
+        const tierClass = (intel.tier || 'HIGH').toLowerCase();
+        const emailDomain = (l.email && l.email.includes('@')) ? l.email.split('@')[1] : 'Direct';
+        const isCorp = intel.isCorporateDomain;
+
+        return `
         <tr>
-          <td style="color: var(--c-cyan-300); font-size: 0.8rem;">${l.createdAt}</td>
+          <td>
+            <div style="color: var(--c-cyan-300); font-size: 0.78rem; font-weight: 700;">${l.createdAt}</div>
+            <span class="badge-channel" style="margin-top: 4px;">
+              <i class="fa-solid fa-bullhorn"></i> ${l.channel || 'Direct / Organic'}
+            </span>
+          </td>
           <td class="lead-name-col">
             <strong>${l.name}</strong>
-            <span>${l.company} · ${l.country}</span>
+            <span>${l.company || 'Direct Client'} · ${l.country || 'India'}</span>
+            <div>
+              <span class="badge-email-type ${isCorp ? 'corp' : 'direct'}">
+                <i class="fa-solid ${isCorp ? 'fa-building' : 'fa-envelope'}"></i> ${isCorp ? 'Corporate' : emailDomain}
+              </span>
+            </div>
           </td>
           <td>
-            <div style="font-weight: 700; color: #ffffff;">${l.category || 'General'}</div>
-            <span style="font-size: 0.78rem; color: var(--c-cyan-300);">${l.blueprintTitle || ''}</span>
+            <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 4px;">
+              <span class="badge-score ${tierClass}">${intel.tierBadge || '⚡ ' + intel.score + '/100'}</span>
+            </div>
+            <span style="font-size: 0.8rem; color: #ffffff; font-weight: 600;">${l.blueprintTitle || l.category || 'Architecture Blueprint'}</span>
           </td>
           <td>
-            <div style="font-size: 0.85rem;">${l.budget || 'Standard'}</div>
+            <div style="font-size: 0.85rem; font-weight: 700; color: #ffffff;">${l.budget || 'Standard'}</div>
             <span style="font-size: 0.78rem; color: var(--c-cyan-200);">${l.timeline || 'Flexible'}</span>
           </td>
           <td>
@@ -1086,6 +1276,9 @@ Recommended Solution: High-Velocity Lead Engine"></textarea>
             <div class="action-icons">
               <button class="btn-icon" title="View Blueprint Dossier" onclick="viewLeadDetails('${l.id}')">
                 <i class="fa-solid fa-eye"></i>
+              </button>
+              <button class="btn-icon" title="Copy 1-Click Executive Brief for Discovery Call" onclick="copyExecutiveBriefDirect('${l.id}', event)" style="color: #c084fc; border-color: rgba(192, 132, 252, 0.4);">
+                <i class="fa-solid fa-file-signature"></i>
               </button>
               <a href="https://wa.me/${l.phone ? l.phone.replace(/[^0-9]/g, '') : ''}?text=Hello%20${encodeURIComponent(l.name)}%2C%20following%20up%20on%20your%20Sunsolv%20Technologies%20inquiry." target="_blank" class="btn-icon wa" title="Chat on WhatsApp">
                 <i class="fa-brands fa-whatsapp"></i>
@@ -1099,7 +1292,8 @@ Recommended Solution: High-Velocity Lead Engine"></textarea>
             </div>
           </td>
         </tr>
-      `).join('');
+        `;
+      }).join('');
     }
 
     function setStatusFilter(status, btn) {
@@ -1110,6 +1304,7 @@ Recommended Solution: High-Velocity Lead Engine"></textarea>
     }
 
     function refreshLeads() {
+      fetchRemoteLeads(true);
       renderDashboard();
     }
 
@@ -1150,16 +1345,35 @@ Recommended Solution: High-Velocity Lead Engine"></textarea>
       if (!lead) return;
 
       activeLeadId = leadId;
+
+      const intel = (typeof SunsolvGrowthEngine !== 'undefined') ? 
+        SunsolvGrowthEngine.calculateLeadIntelligenceScore(lead) : 
+        { score: lead.score || 75, tier: lead.tier || 'HIGH', tierBadge: lead.tierBadge || '⚡ HIGH', isCorporateDomain: false };
+
       document.getElementById('mName').textContent = lead.name;
-      document.getElementById('mCompany').textContent = lead.company;
+      document.getElementById('mCompany').textContent = lead.company || 'Direct Client';
       document.getElementById('mEmail').textContent = lead.email;
       document.getElementById('mPhone').textContent = lead.phone;
-      document.getElementById('mCountry').textContent = lead.country;
-      document.getElementById('mCategory').textContent = lead.category;
-      document.getElementById('mTimeline').textContent = lead.timeline;
-      document.getElementById('mBudget').textContent = lead.budget;
-      document.getElementById('mBlueprintTitle').textContent = lead.blueprintTitle;
-      document.getElementById('modalStatusSelect').value = lead.status;
+      document.getElementById('mCountry').textContent = lead.country || 'India';
+      document.getElementById('mCategory').textContent = lead.category || 'General';
+      document.getElementById('mTimeline').textContent = lead.timeline || 'Flexible';
+      document.getElementById('mBudget').textContent = lead.budget || 'Standard';
+      document.getElementById('mBlueprintTitle').textContent = lead.blueprintTitle || 'Architecture Blueprint';
+      document.getElementById('modalStatusSelect').value = lead.status || 'NEW';
+
+      // Intelligence & Attribution
+      const intelElem = document.getElementById('mIntelScore');
+      if (intelElem) intelElem.textContent = `${intel.score}/100 · ${intel.tierBadge}`;
+
+      const originElem = document.getElementById('mOriginChannel');
+      if (originElem) originElem.textContent = `${lead.channel || 'Direct / Organic'} (${lead.campaign || 'core'})`;
+
+      const emailTypeBadge = document.getElementById('mEmailTypeBadge');
+      if (emailTypeBadge) {
+        const domain = (lead.email && lead.email.includes('@')) ? lead.email.split('@')[1] : 'Direct';
+        emailTypeBadge.className = `badge-email-type ${intel.isCorporateDomain ? 'corp' : 'direct'}`;
+        emailTypeBadge.textContent = intel.isCorporateDomain ? '🏢 Verified Corporate Domain' : `✉️ Direct Email (${domain})`;
+      }
 
       document.getElementById('modalWaBtn').href = `https://wa.me/${lead.phone ? lead.phone.replace(/[^0-9]/g, '') : ''}?text=Hello%20${encodeURIComponent(lead.name)}%2C%20following%20up%20on%20your%20Sunsolv%20inquiry.`;
       document.getElementById('modalMailBtn').href = `mailto:${lead.email}?subject=Sunsolv%20Solution%20Blueprint`;
@@ -1568,12 +1782,201 @@ function doGet(e) {
       }
     }
 
+    // 1-Click Executive Brief Generator
+    function copyActiveExecutiveBrief() {
+      if (!activeLeadId) return;
+      const leads = getLeads();
+      const lead = leads.find(l => l.id === activeLeadId);
+      if (!lead) return;
+
+      if (typeof SunsolvGrowthEngine !== 'undefined') {
+        const briefText = SunsolvGrowthEngine.generateExecutiveBrief(lead);
+        navigator.clipboard.writeText(briefText).then(() => {
+          showToast(`📋 Executive Brief for "${lead.name}" copied to clipboard! Ready for discovery call.`);
+        }).catch(() => {
+          prompt('Copy Executive Brief:', briefText);
+        });
+      }
+    }
+
+    function copyExecutiveBriefDirect(leadId, e) {
+      if (e) e.stopPropagation();
+      const leads = getLeads();
+      const lead = leads.find(l => l.id === leadId);
+      if (!lead) return;
+
+      if (typeof SunsolvGrowthEngine !== 'undefined') {
+        const briefText = SunsolvGrowthEngine.generateExecutiveBrief(lead);
+        navigator.clipboard.writeText(briefText).then(() => {
+          showToast(`📋 Executive Discovery Brief for "${lead.name}" copied!`);
+        }).catch(() => {
+          prompt('Copy Executive Brief:', briefText);
+        });
+      }
+    }
+
+    // AI Growth Hub & Campaign Generator Controls
+    function openGrowthHubModal() {
+      switchGrowthTab('POSTS');
+      generateAiPostPreview();
+      updateCustomTrackedUrl();
+      renderAttributionAnalytics();
+      document.getElementById('growthHubModal').classList.add('open');
+    }
+
+    function closeGrowthHubModal() {
+      document.getElementById('growthHubModal').classList.remove('open');
+    }
+
+    function switchGrowthTab(tab) {
+      const pTab = document.getElementById('growthTabPosts');
+      const uTab = document.getElementById('growthTabUtm');
+      const aTab = document.getElementById('growthTabAnalytics');
+
+      const pBtn = document.getElementById('ghTabPostBtn');
+      const uBtn = document.getElementById('ghTabUtmBtn');
+      const aBtn = document.getElementById('ghTabAnalyticsBtn');
+
+      [pBtn, uBtn, aBtn].forEach(b => b.classList.remove('active'));
+
+      if (tab === 'POSTS') {
+        pTab.style.display = 'block';
+        uTab.style.display = 'none';
+        aTab.style.display = 'none';
+        pBtn.classList.add('active');
+        generateAiPostPreview();
+      } else if (tab === 'UTM') {
+        pTab.style.display = 'none';
+        uTab.style.display = 'block';
+        aTab.style.display = 'none';
+        uBtn.classList.add('active');
+        updateCustomTrackedUrl();
+      } else if (tab === 'ANALYTICS') {
+        pTab.style.display = 'none';
+        uTab.style.display = 'none';
+        aTab.style.display = 'block';
+        aBtn.classList.add('active');
+        renderAttributionAnalytics();
+      }
+    }
+
+    function generateAiPostPreview() {
+      if (typeof SunsolvGrowthEngine === 'undefined') return;
+      const catKey = document.getElementById('ghCategorySelect').value || 'edtech';
+      const channel = document.getElementById('ghChannelSelect').value || 'linkedin';
+
+      const postObj = SunsolvGrowthEngine.generateSocialPost(catKey, 0, channel);
+      document.getElementById('ghPostTitlePreview').textContent = `${postObj.title}`;
+      document.getElementById('ghPostContentArea').value = postObj.text;
+      document.getElementById('ghTrackedUrlLabel').textContent = `Tracked UTM: ${postObj.trackedUrl}`;
+    }
+
+    function copyAiPostText() {
+      const area = document.getElementById('ghPostContentArea');
+      if (!area || !area.value) return;
+      navigator.clipboard.writeText(area.value).then(() => {
+        showToast('🚀 AI Social Post with Tracked UTM copied to clipboard! Ready to publish.');
+      }).catch(() => {
+        area.select();
+        document.execCommand('copy');
+        showToast('🚀 Post text copied!');
+      });
+    }
+
+    function updateCustomTrackedUrl() {
+      if (typeof SunsolvGrowthEngine === 'undefined') return;
+      const campaign = document.getElementById('utmCampaignInput').value.trim() || 'growth_2026';
+      const source = document.getElementById('utmSourceSelect').value || 'linkedin';
+
+      const tracked = SunsolvGrowthEngine.buildTrackedUrl({
+        source: source,
+        campaign: campaign,
+        medium: 'organic_social',
+        content: 'custom_link'
+      });
+
+      document.getElementById('customTrackedUrlDisplay').value = tracked;
+    }
+
+    function copyCustomTrackedUrl() {
+      const inp = document.getElementById('customTrackedUrlDisplay');
+      if (!inp || !inp.value) return;
+      navigator.clipboard.writeText(inp.value).then(() => {
+        showToast('🔗 Tracked Campaign Link copied to clipboard!');
+      }).catch(() => {
+        prompt('Copy Tracked URL:', inp.value);
+      });
+    }
+
+    function renderAttributionAnalytics() {
+      const leads = getLeads();
+      const channelCounts = {};
+
+      leads.forEach(l => {
+        const ch = (l.channel || 'Direct / Organic').toUpperCase();
+        channelCounts[ch] = (channelCounts[ch] || 0) + 1;
+      });
+
+      const topChannels = Object.entries(channelCounts).sort((a, b) => b[1] - a[1]);
+      const totalInquiries = leads.length;
+
+      const metricCards = document.getElementById('attributionMetricCards');
+      if (metricCards) {
+        metricCards.innerHTML = `
+          <div style="background: rgba(3, 4, 94, 0.4); border: 1px solid rgba(72, 202, 228, 0.3); border-radius: 10px; padding: 14px; text-align: center;">
+            <div style="font-size: 0.75rem; color: var(--c-cyan-300); font-weight: 700; text-transform: uppercase;">Total Tracked Inbound</div>
+            <div style="font-size: 1.6rem; font-weight: 900; color: #ffffff; margin-top: 4px;">${totalInquiries}</div>
+          </div>
+          <div style="background: rgba(3, 4, 94, 0.4); border: 1px solid rgba(72, 202, 228, 0.3); border-radius: 10px; padding: 14px; text-align: center;">
+            <div style="font-size: 0.75rem; color: #34d399; font-weight: 700; text-transform: uppercase;">Top Channel</div>
+            <div style="font-size: 1.15rem; font-weight: 800; color: #ffffff; margin-top: 6px;">${topChannels[0] ? topChannels[0][0] : 'DIRECT'}</div>
+          </div>
+          <div style="background: rgba(3, 4, 94, 0.4); border: 1px solid rgba(72, 202, 228, 0.3); border-radius: 10px; padding: 14px; text-align: center;">
+            <div style="font-size: 0.75rem; color: #f472b6; font-weight: 700; text-transform: uppercase;">Organic Bot Defense</div>
+            <div style="font-size: 1.15rem; font-weight: 800; color: #ffffff; margin-top: 6px;">100% Shielded</div>
+          </div>
+        `;
+      }
+
+      const tableDiv = document.getElementById('attributionBreakdownTable');
+      if (tableDiv) {
+        if (topChannels.length === 0) {
+          tableDiv.innerHTML = `<p style="color: var(--c-cyan-200); font-size: 0.85rem;">No channel data yet. Inbound inquiries will appear here automatically.</p>`;
+          return;
+        }
+
+        tableDiv.innerHTML = `
+          <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem;">
+            <thead>
+              <tr style="border-bottom: 1px solid rgba(72, 202, 228, 0.2); color: var(--c-cyan-300); text-align: left;">
+                <th style="padding: 8px 10px;">Origin Channel</th>
+                <th style="padding: 8px 10px; text-align: center;">Inquiries</th>
+                <th style="padding: 8px 10px; text-align: right;">Share of Traffic</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${topChannels.map(([ch, cnt]) => {
+                const pct = totalInquiries > 0 ? Math.round((cnt / totalInquiries) * 100) : 0;
+                return `
+                  <tr style="border-bottom: 1px solid rgba(72, 202, 228, 0.1);">
+                    <td style="padding: 10px; color: #ffffff; font-weight: 700;"><i class="fa-solid fa-arrow-trend-up" style="color: #38bdf8; margin-right: 6px;"></i>${ch}</td>
+                    <td style="padding: 10px; text-align: center; color: #38bdf8; font-weight: 800;">${cnt}</td>
+                    <td style="padding: 10px; text-align: right; color: var(--c-cyan-200); font-weight: 700;">${pct}%</td>
+                  </tr>
+                `;
+              }).join('')}
+            </tbody>
+          </table>
+        `;
+      }
+    }
+
     function normalizeRemoteLead(r) {
       if (!r) return null;
       const name = r.name || (r.contact && r.contact.name) || '';
       if (!name) return null;
 
-      return {
+      const rawRecord = {
         id: r.id || ("SUN-" + new Date().getFullYear() + "-" + Math.floor(1000 + Math.random() * 9000)),
         createdAt: r.createdAt || new Date().toISOString().slice(0, 16).replace('T', ' '),
         name: name,
@@ -1585,8 +1988,22 @@ function doGet(e) {
         budget: r.investment || r.budget || 'Standard',
         timeline: r.timeline || 'Flexible',
         blueprintTitle: r.blueprintTitle || (r.solutionBlueprint && r.solutionBlueprint.packageTitle) || 'Sunsolv Architecture Blueprint',
+        channel: r.channel || 'Direct / Organic',
+        campaign: r.campaign || 'solution_finder_core',
+        content: r.content || 'default',
+        refCode: r.refCode || '',
         status: r.status || 'NEW'
       };
+
+      if (typeof SunsolvGrowthEngine !== 'undefined') {
+        const intel = SunsolvGrowthEngine.calculateLeadIntelligenceScore(rawRecord);
+        rawRecord.score = r.score || intel.score;
+        rawRecord.tier = r.tier || intel.tier;
+        rawRecord.tierBadge = r.tierBadge || intel.tierBadge;
+        rawRecord.isCorporateDomain = (typeof r.isCorporateDomain !== 'undefined') ? r.isCorporateDomain : intel.isCorporateDomain;
+      }
+
+      return rawRecord;
     }
 
     function testAndSyncCloudNow() {
