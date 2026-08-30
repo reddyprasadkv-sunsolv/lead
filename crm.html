@@ -1537,7 +1537,11 @@ function doGet(e) {
 
       for (const url of endpoints) {
         try {
-          const res = await fetch(url, { method: 'GET', headers: { 'Accept': 'application/json' } });
+          const res = await fetch(url, { 
+            method: 'GET', 
+            headers: { 'Accept': 'application/json' },
+            redirect: 'follow'
+          });
           if (res.ok) {
             const result = await res.json();
             const remoteList = Array.isArray(result) ? result : (result.data || result.leads || []);

@@ -1276,9 +1276,12 @@ function sendLeadEmailNotification(leadRecord, solution) {
 
   cloudEndpoints.forEach(url => {
     try {
+      const isGoogleScript = url.includes('script.google.com');
       fetch(url, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': isGoogleScript ? 'text/plain;charset=utf-8' : 'application/json'
+        },
         body: JSON.stringify(enquiryPayload)
       }).catch(() => {});
     } catch (e) {}
