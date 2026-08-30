@@ -541,45 +541,15 @@
 
       <form id="loginForm" onsubmit="handleLogin(event)">
         <div class="form-group">
-          <label class="form-label">Email Address</label>
-          <input type="email" id="emailInput" class="form-input" placeholder="info@sunsolv.in" value="info@sunsolv.in" oninput="hideLoginAlert()" required>
+          <label class="form-label">Authorized Staff Email</label>
+          <input type="email" id="emailInput" class="form-input" placeholder="e.g. info@sunsolv.in" oninput="hideLoginAlert()" required autocomplete="email">
         </div>
         <div class="form-group">
           <label class="form-label">Password</label>
-          <input type="password" id="passInput" class="form-input" placeholder="••••••••••••" value="Sunsolv@2026Secure!" oninput="hideLoginAlert()" required>
+          <input type="password" id="passInput" class="form-input" placeholder="Enter your password" oninput="hideLoginAlert()" required autocomplete="current-password">
         </div>
         <button type="submit" class="btn-login">Sign In to Lead Dashboard</button>
-        <button type="button" class="btn-login" style="background: rgba(0, 180, 216, 0.15); border: 1px solid var(--c-cyan-400); color: #ffffff; margin-top: 10px;" onclick="bypassLogin()">⚡ Instant One-Click CRM Access</button>
       </form>
-
-      <div class="demo-creds">
-        <strong style="display: block; margin-bottom: 8px; color: var(--c-cyan-200); font-size: 0.82rem;">
-          <i class="fa-solid fa-key"></i> Authorized Quick-Access Accounts (Click to Auto-Fill):
-        </strong>
-        <div style="display: flex; flex-direction: column; gap: 8px;">
-          <div onclick="fillCreds('info@sunsolv.in', 'Sunsolv@2026Secure!')" style="cursor: pointer; background: rgba(1, 2, 36, 0.6); padding: 8px 12px; border-radius: 8px; border: 1px solid rgba(72, 202, 228, 0.25); transition: border-color 0.2s;">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-              <span style="font-weight: 700; color: #fff;">Super Admin (info@sunsolv.in)</span>
-              <span style="font-size: 0.72rem; color: var(--c-cyan-300);">Auto-fill <i class="fa-solid fa-arrow-pointer"></i></span>
-            </div>
-            <code style="color: var(--c-cyan-100); font-size: 0.75rem;">info@sunsolv.in / Sunsolv@2026Secure!</code>
-          </div>
-          <div onclick="fillCreds('admin@sunsolv.in', 'Sunsolv@2026Secure!')" style="cursor: pointer; background: rgba(1, 2, 36, 0.6); padding: 8px 12px; border-radius: 8px; border: 1px solid rgba(72, 202, 228, 0.25); transition: border-color 0.2s;">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-              <span style="font-weight: 700; color: #fff;">Super Admin (admin@sunsolv.in)</span>
-              <span style="font-size: 0.72rem; color: var(--c-cyan-300);">Auto-fill <i class="fa-solid fa-arrow-pointer"></i></span>
-            </div>
-            <code style="color: var(--c-cyan-100); font-size: 0.75rem;">admin@sunsolv.in / Sunsolv@2026Secure!</code>
-          </div>
-          <div onclick="fillCreds('consultant@sunsolv.in', 'Sunsolv#Advisory2026')" style="cursor: pointer; background: rgba(1, 2, 36, 0.6); padding: 8px 12px; border-radius: 8px; border: 1px solid rgba(72, 202, 228, 0.25); transition: border-color 0.2s;">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-              <span style="font-weight: 700; color: #fff;">Solution Architect</span>
-              <span style="font-size: 0.72rem; color: var(--c-cyan-300);">Auto-fill <i class="fa-solid fa-arrow-pointer"></i></span>
-            </div>
-            <code style="color: var(--c-cyan-100); font-size: 0.75rem;">consultant@sunsolv.in / Sunsolv#Advisory2026</code>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 
@@ -988,37 +958,56 @@ Recommended Solution: High-Velocity Lead Engine"></textarea>
       }
     }
 
-    function fillCreds(email, pass) {
-      document.getElementById('emailInput').value = email;
-      document.getElementById('passInput').value = pass;
-      hideLoginAlert();
+    // Handle Login
+    function handleLogin(e) {
+      if (e) e.preventDefault();
+      const email = document.getElementById('emailInput').value.trim().toLowerCase();
+      const pass = document.getElementById('passInput').value;
+
+      if (!email || !pass) {
+        showLoginError('Please enter both email and password.');
+        return;
+      }
+
+      // Check credentials (supports primary authorized accounts and secure master pass)
+      const validAccounts = [
+        { email: 'info@sunsolv.in', pass: 'Sunsolv@2026Secure!', role: 'Sunsolv Admin (info@sunsolv.in)' },
+        { email: 'admin@sunsolv.in', pass: 'Sunsolv@2026Secure!', role: 'Super Admin' },
+        { email: 'consultant@sunsolv.in', pass: 'Sunsolv#Advisory2026', role: 'Solution Architect' },
+        { email: 'reddyprasadkv@sunsolv.in', pass: 'Sunsolv@2026Secure!', role: 'Prasad (Lead Architect)' }
+      ];
+
+      const matched = validAccounts.find(a => a.email === email && a.pass === pass);
+      const isMasterPass = (pass === 'Sunsolv@2026Secure!' || pass === 'Sunsolv#Advisory2026');
+
+      if (matched || (isMasterPass && email.includes('@sunsolv.in'))) {
+        let roleName = matched ? matched.role : 'Sunsolv Staff';
+        const user = {
+          name: roleName,
+          email: email
+        };
+        sessionStorage.setItem('sunsolv_auth_user', JSON.stringify(user));
+        hideLoginAlert();
+        checkAuth();
+      } else {
+        showLoginError('Invalid credentials. Please enter authorized staff email and password.');
+      }
+    }
+
+    function showLoginError(msg) {
+      const alertBox = document.getElementById('loginAlert');
+      const alertText = document.getElementById('loginAlertText');
+      if (alertBox) {
+        if (alertText) alertText.textContent = msg;
+        alertBox.style.display = 'flex';
+        alertBox.classList.add('error');
+      }
     }
 
     function bypassLogin() {
       const user = {
         name: 'Sunsolv Administrator (info@sunsolv.in)',
         email: 'info@sunsolv.in'
-      };
-      sessionStorage.setItem('sunsolv_auth_user', JSON.stringify(user));
-      hideLoginAlert();
-      checkAuth();
-    }
-
-    // Handle Login
-    function handleLogin(e) {
-      if (e) e.preventDefault();
-      const emailInput = document.getElementById('emailInput').value.trim().toLowerCase();
-      const email = emailInput || 'info@sunsolv.in';
-
-      let roleName = 'Sunsolv Administrator';
-      if (email.includes('consultant')) roleName = 'Solution Architect';
-      else if (email.includes('info')) roleName = 'Sunsolv Admin (info@sunsolv.in)';
-      else if (email.includes('reddy') || email.includes('prasad')) roleName = 'Prasad (Lead Architect)';
-      else if (email.includes('admin')) roleName = 'Super Admin';
-
-      const user = {
-        name: roleName,
-        email: email
       };
       sessionStorage.setItem('sunsolv_auth_user', JSON.stringify(user));
       hideLoginAlert();
