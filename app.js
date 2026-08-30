@@ -1122,8 +1122,8 @@ function handleFormSubmission(event) {
       category: solution.direction,
       situation: finderState.selectedSituation || '',
       goals: finderState.selectedGoals || [],
-      budget: finderState.selectedInvestment ? `${finderState.selectedInvestment.title}` : 'Standard',
-      timeline: finderState.selectedTimeline ? `${finderState.selectedTimeline.title}` : '1 - 3 Months',
+      budget: finderState.selectedInvestment || 'Standard',
+      timeline: finderState.selectedTimeline || '1 - 3 Months',
       blueprintTitle: solution.packageTitle,
       status: "NEW"
     };
@@ -1138,7 +1138,7 @@ function handleFormSubmission(event) {
     existingLeads.unshift(leadRecord);
     localStorage.setItem('sunsolv_crm_leads', JSON.stringify(existingLeads));
 
-    // Send Instant Email Notification to reddyprasadkv@sunsolv.in
+    // Send Instant Email Notification to info@sunsolv.in
     sendLeadEmailNotification(leadRecord, solution);
   } catch (err) {
     console.warn("Could not save lead to local storage", err);
@@ -1158,7 +1158,7 @@ function handleFormSubmission(event) {
   triggerConfetti();
 }
 
-// Instant Email Notification Dispatcher to reddyprasadkv@sunsolv.in
+// Instant Email Notification Dispatcher to info@sunsolv.in
 function sendLeadEmailNotification(leadRecord, solution) {
   const profileDetails = finderState.profile ? 
     `Industry/Type: ${finderState.profile.industry || 'N/A'} | Size/Scale: ${finderState.profile.companySize || 'N/A'} | Stage: ${finderState.profile.businessStage || 'N/A'}` : 'N/A';
@@ -1167,11 +1167,12 @@ function sendLeadEmailNotification(leadRecord, solution) {
     _subject: `🔥 New Lead Generated: ${leadRecord.name} (${leadRecord.company || 'Direct'}) - ${finderState.selectedCategoryName || leadRecord.category}`,
     _template: "table",
     _captcha: "false",
+    _replyto: "info@sunsolv.in",
     "Lead Reference ID": leadRecord.id,
     "Lead Status": "NEW INQUIRY",
     "Customer Name": leadRecord.name,
     "Company / Organization": leadRecord.company || "Not Specified",
-    "Business Email": leadRecord.email,
+    "Customer Email": leadRecord.email,
     "Phone / WhatsApp": leadRecord.phone,
     "Country": leadRecord.country || "India",
     "Selected Category": finderState.selectedCategoryName || leadRecord.category,
@@ -1184,13 +1185,12 @@ function sendLeadEmailNotification(leadRecord, solution) {
     "Customer Success Vision": finderState.successVision || "Not Provided",
     "Existing Website / Link": finderState.digitalPresence.websiteUrl || "None",
     "Direct WhatsApp Call": `https://wa.me/${(leadRecord.phone || '').replace(/[^0-9]/g, '')}`,
-    "Direct Email Reply": `mailto:${leadRecord.email}?subject=Sunsolv%20Solution%20Proposal%20-%20${encodeURIComponent(leadRecord.company || leadRecord.name)}`,
-    "CRM Portal Access": "https://solutionfinder.sunsolv.in/crm.html",
+    "Direct Email Reply": "info@sunsolv.in",
     "Captured Timestamp": new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }) + " (IST)"
   };
 
-  // 1. Dispatch email notification to reddyprasadkv@sunsolv.in via FormSubmit AJAX endpoint
-  fetch('https://formsubmit.co/ajax/reddyprasadkv@sunsolv.in', {
+  // 1. Dispatch email notification to info@sunsolv.in via FormSubmit AJAX endpoint
+  fetch('https://formsubmit.co/ajax/info@sunsolv.in', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -1199,7 +1199,7 @@ function sendLeadEmailNotification(leadRecord, solution) {
     body: JSON.stringify(notificationPayload)
   }).then(res => {
     if (res.ok) {
-      console.log('✅ Lead email notification dispatched to reddyprasadkv@sunsolv.in');
+      console.log('✅ Lead email notification dispatched to info@sunsolv.in');
     }
   }).catch(err => {
     console.warn('Lead email dispatch notification notice:', err);

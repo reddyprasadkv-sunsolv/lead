@@ -17,23 +17,24 @@ exports.createEnquiry = (req, res) => {
       situation: situation || "",
       profile: profile || {},
       successVision: successVision || "",
-      investment: investment || "Not Specified",
+      investment: (investment && investment !== 'undefined') ? investment : "Not Specified",
       currency: currency || "INR",
-      timeline: timeline || "Flexible",
+      timeline: (timeline && timeline !== 'undefined') ? timeline : "Flexible",
       digitalPresence: digitalPresence || {},
       solutionBlueprint: solutionBlueprint || null
     });
     
-    // Dispatch instant notification to reddyprasadkv@sunsolv.in
+    // Dispatch instant notification to info@sunsolv.in
     try {
       const emailPayload = {
         _subject: `🔥 New Lead Generated: ${newRecord.contact?.name} (${newRecord.contact?.company || 'Direct'}) - ${newRecord.categoryName}`,
         _template: "table",
         _captcha: "false",
+        _replyto: "info@sunsolv.in",
         "Lead Reference ID": newRecord.id,
         "Customer Name": newRecord.contact?.name,
         "Company / Organization": newRecord.contact?.company || "Not Specified",
-        "Business Email": newRecord.contact?.email,
+        "Customer Email": newRecord.contact?.email,
         "Phone / WhatsApp": newRecord.contact?.phone,
         "Country": newRecord.contact?.country || "India",
         "Selected Category": newRecord.categoryName,
@@ -44,12 +45,11 @@ exports.createEnquiry = (req, res) => {
         "Recommended Blueprint": newRecord.solutionBlueprint?.packageTitle,
         "Success Vision": newRecord.successVision || "Not Provided",
         "Direct WhatsApp": `https://wa.me/${(newRecord.contact?.phone || '').replace(/[^0-9]/g, '')}`,
-        "Direct Email": `mailto:${newRecord.contact?.email}`,
-        "CRM Portal": "https://solutionfinder.sunsolv.in/crm.html",
+        "Direct Email Reply": "info@sunsolv.in",
         "Timestamp": new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }) + " IST"
       };
 
-      fetch('https://formsubmit.co/ajax/reddyprasadkv@sunsolv.in', {
+      fetch('https://formsubmit.co/ajax/info@sunsolv.in', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
         body: JSON.stringify(emailPayload)
@@ -60,7 +60,7 @@ exports.createEnquiry = (req, res) => {
 
     return res.status(201).json({
       success: true,
-      message: "Enquiry successfully logged in CRM and notification sent to reddyprasadkv@sunsolv.in.",
+      message: "Enquiry successfully logged in CRM and notification sent to info@sunsolv.in.",
       data: newRecord
     });
   } catch (error) {

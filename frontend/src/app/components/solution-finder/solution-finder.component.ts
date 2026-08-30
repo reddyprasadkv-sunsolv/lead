@@ -759,11 +759,12 @@ export class SolutionFinderComponent implements OnInit {
       _subject: `🔥 New Lead Generated: ${record.contact?.name} (${record.contact?.company || 'Direct'}) - ${record.categoryName || record.category}`,
       _template: 'table',
       _captcha: 'false',
+      _replyto: 'info@sunsolv.in',
       'Lead Reference ID': record.id || 'SUN-' + Date.now(),
       'Lead Status': 'NEW INQUIRY',
       'Customer Name': record.contact?.name,
       'Company / Organization': record.contact?.company || 'Not Specified',
-      'Business Email': record.contact?.email,
+      'Customer Email': record.contact?.email,
       'Phone / WhatsApp': record.contact?.phone,
       'Country': record.contact?.country || 'India',
       'Selected Category': record.categoryName || record.category,
@@ -776,12 +777,11 @@ export class SolutionFinderComponent implements OnInit {
       'Customer Success Vision': record.successVision || 'Not Provided',
       'Existing Website / Link': record.digitalPresence?.websiteUrl || 'None',
       'Direct WhatsApp Call': `https://wa.me/${(record.contact?.phone || '').replace(/[^0-9]/g, '')}`,
-      'Direct Email Reply': `mailto:${record.contact?.email}?subject=Sunsolv%20Solution%20Proposal%20-%20${encodeURIComponent(record.contact?.company || record.contact?.name || '')}`,
-      'CRM Portal Access': 'https://solutionfinder.sunsolv.in/crm.html',
+      'Direct Email Reply': 'info@sunsolv.in',
       'Captured Timestamp': new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }) + ' (IST)'
     };
 
-    fetch('https://formsubmit.co/ajax/reddyprasadkv@sunsolv.in', {
+    fetch('https://formsubmit.co/ajax/info@sunsolv.in', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

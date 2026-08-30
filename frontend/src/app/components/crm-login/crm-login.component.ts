@@ -106,6 +106,15 @@ import { SeoService } from '../../services/seo.service';
           </div>
 
           <div class="accounts-grid">
+            <div class="account-item" (click)="fillCredentials('info@sunsolv.in', 'Sunsolv@2026Secure!')">
+              <div class="account-top">
+                <span class="role-badge admin">Super Admin</span>
+                <span class="click-hint"><i class="fa-solid fa-arrow-pointer"></i> Auto-fill</span>
+              </div>
+              <div class="acc-row"><strong>Email:</strong> <code>info&#64;sunsolv.in</code></div>
+              <div class="acc-row"><strong>Password:</strong> <code>Sunsolv&#64;2026Secure!</code></div>
+            </div>
+
             <div class="account-item" (click)="fillCredentials('admin@sunsolv.in', 'Sunsolv@2026Secure!')">
               <div class="account-top">
                 <span class="role-badge admin">Super Admin</span>

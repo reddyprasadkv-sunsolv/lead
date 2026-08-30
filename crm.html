@@ -110,11 +110,11 @@
       align-items: center;
       gap: 8px;
     }
-    .auth-alert.error { background: rgba(239, 68, 68, 0.2); border: 1px solid rgba(239, 68, 68, 0.5); color: #fca5a5; display: flex; }
+    .auth-alert.error { background: rgba(239, 68, 68, 0.2); border: 1px solid rgba(239, 68, 68, 0.5); color: #fca5a5; }
     
     .demo-creds {
-      margin-top: 24px;
-      padding-top: 18px;
+      margin-top: 20px;
+      padding-top: 16px;
       border-top: 1px solid rgba(72, 202, 228, 0.2);
       font-size: 0.78rem;
       color: var(--c-cyan-300);
@@ -423,27 +423,50 @@
       <h1 class="auth-title">Sales CRM Login</h1>
       <p class="auth-desc">Enter your authorized Sunsolv credentials to access lead submissions and client solution blueprints.</p>
 
-      <div class="auth-alert error" id="loginAlert">
+      <div class="auth-alert" id="loginAlert" style="display: none;">
         <i class="fa-solid fa-triangle-exclamation"></i>
-        <span id="loginAlertText">Invalid credentials.</span>
+        <span id="loginAlertText">Invalid credentials. Please check email and password.</span>
       </div>
 
       <form id="loginForm" onsubmit="handleLogin(event)">
         <div class="form-group">
           <label class="form-label">Email Address</label>
-          <input type="email" id="emailInput" class="form-input" placeholder="admin@sunsolv.in" required>
+          <input type="email" id="emailInput" class="form-input" placeholder="info@sunsolv.in" oninput="hideLoginAlert()" required>
         </div>
         <div class="form-group">
           <label class="form-label">Password</label>
-          <input type="password" id="passInput" class="form-input" placeholder="••••••••••••" required>
+          <input type="password" id="passInput" class="form-input" placeholder="••••••••••••" oninput="hideLoginAlert()" required>
         </div>
         <button type="submit" class="btn-login">Sign In to Lead Dashboard</button>
       </form>
 
       <div class="demo-creds">
-        <strong>Authorized Demo Accounts:</strong><br>
-        • Super Admin: <code>admin@sunsolv.in</code> / <code>Sunsolv@2026Secure!</code><br>
-        • Solution Architect: <code>consultant@sunsolv.in</code> / <code>Sunsolv#Advisory2026</code>
+        <strong style="display: block; margin-bottom: 8px; color: var(--c-cyan-200); font-size: 0.82rem;">
+          <i class="fa-solid fa-key"></i> Authorized Quick-Access Accounts (Click to Auto-Fill):
+        </strong>
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          <div onclick="fillCreds('info@sunsolv.in', 'Sunsolv@2026Secure!')" style="cursor: pointer; background: rgba(1, 2, 36, 0.6); padding: 8px 12px; border-radius: 8px; border: 1px solid rgba(72, 202, 228, 0.25); transition: border-color 0.2s;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-weight: 700; color: #fff;">Super Admin (info@sunsolv.in)</span>
+              <span style="font-size: 0.72rem; color: var(--c-cyan-300);">Auto-fill <i class="fa-solid fa-arrow-pointer"></i></span>
+            </div>
+            <code style="color: var(--c-cyan-100); font-size: 0.75rem;">info@sunsolv.in / Sunsolv@2026Secure!</code>
+          </div>
+          <div onclick="fillCreds('admin@sunsolv.in', 'Sunsolv@2026Secure!')" style="cursor: pointer; background: rgba(1, 2, 36, 0.6); padding: 8px 12px; border-radius: 8px; border: 1px solid rgba(72, 202, 228, 0.25); transition: border-color 0.2s;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-weight: 700; color: #fff;">Super Admin (admin@sunsolv.in)</span>
+              <span style="font-size: 0.72rem; color: var(--c-cyan-300);">Auto-fill <i class="fa-solid fa-arrow-pointer"></i></span>
+            </div>
+            <code style="color: var(--c-cyan-100); font-size: 0.75rem;">admin@sunsolv.in / Sunsolv@2026Secure!</code>
+          </div>
+          <div onclick="fillCreds('consultant@sunsolv.in', 'Sunsolv#Advisory2026')" style="cursor: pointer; background: rgba(1, 2, 36, 0.6); padding: 8px 12px; border-radius: 8px; border: 1px solid rgba(72, 202, 228, 0.25); transition: border-color 0.2s;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-weight: 700; color: #fff;">Solution Architect</span>
+              <span style="font-size: 0.72rem; color: var(--c-cyan-300);">Auto-fill <i class="fa-solid fa-arrow-pointer"></i></span>
+            </div>
+            <code style="color: var(--c-cyan-100); font-size: 0.75rem;">consultant@sunsolv.in / Sunsolv#Advisory2026</code>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -669,29 +692,52 @@
       }
     }
 
+    function hideLoginAlert() {
+      const alertBox = document.getElementById('loginAlert');
+      if (alertBox) {
+        alertBox.style.display = 'none';
+        alertBox.classList.remove('error');
+      }
+    }
+
+    function fillCreds(email, pass) {
+      document.getElementById('emailInput').value = email;
+      document.getElementById('passInput').value = pass;
+      hideLoginAlert();
+    }
+
     // Handle Login
     function handleLogin(e) {
       e.preventDefault();
-      const email = document.getElementById('emailInput').value.trim();
+      const email = document.getElementById('emailInput').value.trim().toLowerCase();
       const pass = document.getElementById('passInput').value;
       const alertBox = document.getElementById('loginAlert');
 
-      if ((email === 'admin@sunsolv.in' && pass === 'Sunsolv@2026Secure!') ||
-          (email === 'consultant@sunsolv.in' && pass === 'Sunsolv#Advisory2026')) {
+      const validUsers = [
+        { email: 'info@sunsolv.in', pass: 'Sunsolv@2026Secure!', name: 'Sunsolv Admin' },
+        { email: 'admin@sunsolv.in', pass: 'Sunsolv@2026Secure!', name: 'Super Admin' },
+        { email: 'consultant@sunsolv.in', pass: 'Sunsolv#Advisory2026', name: 'Solution Architect' }
+      ];
+
+      const match = validUsers.find(u => u.email === email && u.pass === pass);
+
+      if (match) {
         const user = {
-          name: email === 'admin@sunsolv.in' ? 'Super Admin' : 'Solution Architect',
-          email: email
+          name: match.name,
+          email: match.email
         };
         sessionStorage.setItem('sunsolv_auth_user', JSON.stringify(user));
-        alertBox.style.display = 'none';
+        hideLoginAlert();
         checkAuth();
       } else {
+        alertBox.classList.add('error');
         alertBox.style.display = 'flex';
       }
     }
 
     function handleLogout() {
       sessionStorage.removeItem('sunsolv_auth_user');
+      hideLoginAlert();
       checkAuth();
     }
 

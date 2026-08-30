@@ -18,6 +18,16 @@ const consultantCreds = hashPassword('Sunsolv#Advisory2026', 'sunsolv_consultant
 
 const USERS = [
   {
+    id: 'usr_admin_info',
+    name: 'Sunsolv Admin',
+    email: 'info@sunsolv.in',
+    role: 'Super Admin',
+    salt: adminCreds.salt,
+    hash: adminCreds.hash,
+    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80',
+    createdAt: '2026-08-01T00:00:00.000Z'
+  },
+  {
     id: 'usr_admin_01',
     name: 'Sunsolv Administrator',
     email: 'admin@sunsolv.in',
