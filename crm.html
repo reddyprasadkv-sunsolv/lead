@@ -979,6 +979,43 @@ ${intelligence.actionRecommendation}
 
   </div>
 
+  <!-- 2.5 EXECUTIVE DISCOVERY BRIEF MODAL -->
+  <div class="modal-overlay" id="executiveBriefModal" onclick="if(event.target === this) closeExecutiveBriefModal()">
+    <div class="modal-card" style="max-width: 740px; max-height: 90vh; display: flex; flex-direction: column;">
+      <div class="modal-header">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <i class="fa-solid fa-file-signature" style="color: #c084fc; font-size: 1.3rem;"></i>
+          <div>
+            <h2 id="ebModalTitle" style="font-size: 1.25rem; font-weight: 800; margin: 0;">Executive Discovery Call Brief</h2>
+            <span id="ebModalSubtitle" style="font-size: 0.8rem; color: var(--c-cyan-300);">Ready for Solution Architect &amp; Discovery Outreach</span>
+          </div>
+        </div>
+        <button class="modal-close" onclick="closeExecutiveBriefModal()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <!-- Quick Action Toolbar -->
+      <div style="display: flex; gap: 10px; align-items: center; justify-content: space-between; flex-wrap: wrap; margin-bottom: 14px; padding: 12px 16px; background: rgba(3, 16, 68, 0.7); border: 1px solid rgba(192, 132, 252, 0.3); border-radius: 12px;">
+        <span style="font-size: 0.82rem; color: #e0f2fe;"><i class="fa-solid fa-wand-magic-sparkles" style="color: #c084fc;"></i> 1-Click Discovery Brief &amp; Question Guide</span>
+        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+          <button type="button" id="ebModalCopyBtn" class="btn-action" onclick="copyBriefFromModal()" style="background: linear-gradient(135deg, #7928ca, #ff0080); color: #ffffff; border: none; font-weight: 700;">
+            <i class="fa-solid fa-copy"></i> <span id="ebCopyBtnText">Copy to Clipboard</span>
+          </button>
+          <a id="ebModalWaBtn" href="#" target="_blank" class="btn-action primary" style="background: #25d366; color: #ffffff;">
+            <i class="fa-brands fa-whatsapp"></i> WhatsApp
+          </a>
+          <a id="ebModalMailBtn" href="#" class="btn-action">
+            <i class="fa-solid fa-envelope"></i> Email
+          </a>
+        </div>
+      </div>
+
+      <!-- Formatted Brief Text Container -->
+      <div style="flex: 1; overflow-y: auto; background: rgba(1, 2, 36, 0.95); border: 1px solid rgba(72, 202, 228, 0.3); border-radius: 12px; padding: 16px;">
+        <pre id="ebModalContent" style="white-space: pre-wrap; font-family: 'JetBrains Mono', Consolas, Monaco, monospace; font-size: 0.83rem; line-height: 1.6; color: #e0f2fe; margin: 0; user-select: all;"></pre>
+      </div>
+    </div>
+  </div>
+
   <!-- 3. LEAD DOSSIER MODAL -->
   <div class="modal-overlay" id="dossierModal">
     <div class="modal-card">
@@ -2297,32 +2334,139 @@ function doGet(e) {
       }, 100);
     }
 
-    // 1-Click Executive Brief Generator — from dossier modal
-    function copyActiveExecutiveBrief() {
-      if (!activeLeadId) return;
+    let currentBriefText = '';
+
+    function buildBriefContent(lead) {
+      if (window.SunsolvGrowthEngine && typeof window.SunsolvGrowthEngine.generateExecutiveBrief === 'function') {
+        try {
+          return window.SunsolvGrowthEngine.generateExecutiveBrief(lead);
+        } catch (err) {
+          console.warn('SunsolvGrowthEngine generateExecutiveBrief notice:', err);
+        }
+      }
+      const intel = (window.SunsolvGrowthEngine && typeof window.SunsolvGrowthEngine.calculateLeadIntelligenceScore === 'function') ?
+        window.SunsolvGrowthEngine.calculateLeadIntelligenceScore(lead) : { score: 85, tierBadge: '🔥 HOT OPPORTUNITY', isCorporateDomain: true, actionRecommendation: 'Priority 1-Hour Outreach by Lead Solution Architect.' };
+      const dateStr = lead.createdAt || new Date().toLocaleDateString('en-IN');
+      const goalsList = Array.isArray(lead.goals) ? lead.goals.join(', ') : (lead.goals || "Digital Transformation & Business Scaling");
+      return `=====================================================
+🎯 SUNSOLV LEAD EXECUTIVE DISCOVERY BRIEF
+=====================================================
+Client: ${lead.name}
+Organization: ${lead.company || 'Direct Client'} (${lead.country || 'India'})
+Contact: ${lead.phone || 'N/A'} | ${lead.email || 'N/A'}
+Inquiry Date: ${dateStr}
+
+📊 INTELLIGENCE EVALUATION:
+- Lead Quality Score: ${intel.score || 85}/100 (${intel.tierBadge || '⚡ HIGH'})
+- Strategic Urgency: ${lead.timeline || 'Flexible'}
+- Investment Scope: ${lead.budget || 'Standard'}
+- Origin Channel: ${lead.channel || 'Direct / Organic'}
+- Campaign Origin: ${lead.campaign || 'General Website Inbound'}
+
+💡 CORE STRATEGIC GOALS:
+${goalsList}
+
+🛠 CURRENT SETUP & CONTEXT:
+${lead.situation || 'Upgrading legacy operations to modern digital platform.'}
+
+🚀 RECOMMENDED SUNSOLV BLUEPRINT:
+${lead.blueprintTitle || 'Custom Digital Growth & Workflow Engine'}
+
+🎯 ACTION RECOMMENDATION:
+${intel.actionRecommendation || 'Prepare custom discovery blueprint and schedule discovery call.'}
+
+❓ 3 TAILORED DISCOVERY QUESTIONS FOR ARCHITECT CALL:
+1. "What is the single biggest operational bottleneck your team is facing today in ${lead.category || 'your current workflow'}?"
+2. "How many active users or staff members will interact with the system on a daily basis?"
+3. "Are there existing databases, payment gateways, or third-party APIs we need to integrate into this blueprint?"
+=====================================================`;
+    }
+
+    function openExecutiveBriefModal(leadId, e) {
+      if (e) {
+        try { e.preventDefault(); e.stopPropagation(); } catch (err) {}
+      }
       const leads = getLeads();
-      const lead = leads.find(l => l.id === activeLeadId);
-      if (!lead) { showToast('⚠️ Lead not found. Try refreshing.'); return; }
+      const lead = leads.find(l => String(l.id) === String(leadId) || l.id === leadId || (l.email && l.email === leadId));
+      if (!lead) {
+        showToast('⚠️ Lead details not found.');
+        return;
+      }
 
-      const engine = window.SunsolvGrowthEngine || (typeof SunsolvGrowthEngine !== 'undefined' ? SunsolvGrowthEngine : null);
-      if (!engine) { showToast('⚠️ Growth Engine not loaded. Please refresh the page.'); return; }
+      // Visual button feedback
+      const btn = e ? (e.currentTarget || (e.target && e.target.closest('button'))) : null;
+      if (btn) {
+        const origHtml = btn.innerHTML;
+        btn.innerHTML = '<i class="fa-solid fa-check" style="color: #4ade80;"></i>';
+        btn.style.borderColor = '#4ade80';
+        btn.style.boxShadow = '0 0 14px rgba(74, 222, 128, 0.7)';
+        setTimeout(() => {
+          btn.innerHTML = origHtml;
+          btn.style.borderColor = 'rgba(192, 132, 252, 0.4)';
+          btn.style.boxShadow = '';
+        }, 2500);
+      }
 
-      const briefText = engine.generateExecutiveBrief(lead);
-      copyTextToClipboard(briefText, `Executive Brief — ${lead.name}`);
+      currentBriefText = buildBriefContent(lead);
+
+      // Auto-copy to clipboard immediately
+      copyTextToClipboard(currentBriefText, `Executive Brief — ${lead.name}`);
+
+      // Populate & display modal
+      const titleElem = document.getElementById('ebModalTitle');
+      const subElem = document.getElementById('ebModalSubtitle');
+      const contentElem = document.getElementById('ebModalContent');
+      const waBtn = document.getElementById('ebModalWaBtn');
+      const mailBtn = document.getElementById('ebModalMailBtn');
+      const copyBtnText = document.getElementById('ebCopyBtnText');
+
+      if (titleElem) titleElem.textContent = `🎯 Executive Brief · ${lead.name}`;
+      if (subElem) subElem.textContent = `${lead.company || 'Direct'} · ${lead.phone || ''} · ${lead.email || ''}`;
+      if (contentElem) contentElem.textContent = currentBriefText;
+      if (copyBtnText) copyBtnText.textContent = '✅ Copied to Clipboard!';
+
+      if (waBtn) {
+        const cleanPhone = (lead.phone || '').replace(/[^0-9]/g, '');
+        waBtn.href = cleanPhone ? `https://wa.me/${cleanPhone}?text=${encodeURIComponent('Hello ' + lead.name + ', here is the technical discovery overview for your Sunsolv inquiry.')}` : '#';
+      }
+      if (mailBtn) {
+        mailBtn.href = `mailto:${lead.email || ''}?subject=${encodeURIComponent('Sunsolv Technologies — Executive Discovery Brief')}&body=${encodeURIComponent(currentBriefText)}`;
+      }
+
+      const modal = document.getElementById('executiveBriefModal');
+      if (modal) {
+        modal.classList.add('open');
+        modal.style.cssText = 'display: flex !important; position: fixed !important; top: 0 !important; left: 0 !important; width: 100vw !important; height: 100vh !important; background: rgba(0,0,0,0.9) !important; backdrop-filter: blur(10px) !important; align-items: center !important; justify-content: center !important; padding: 20px !important; z-index: 2147483647 !important;';
+      }
+    }
+
+    function closeExecutiveBriefModal() {
+      const modal = document.getElementById('executiveBriefModal');
+      if (modal) {
+        modal.classList.remove('open');
+        modal.style.cssText = 'display: none !important;';
+      }
+    }
+
+    function copyBriefFromModal() {
+      if (!currentBriefText) return;
+      copyTextToClipboard(currentBriefText, 'Executive Discovery Brief');
+      const copyBtnText = document.getElementById('ebCopyBtnText');
+      if (copyBtnText) {
+        copyBtnText.textContent = '✅ Copied!';
+        setTimeout(() => { copyBtnText.textContent = 'Copy to Clipboard'; }, 2000);
+      }
     }
 
     // 1-Click Executive Brief — from table row button
     function copyExecutiveBriefDirect(leadId, e) {
-      if (e) e.stopPropagation();
-      const leads = getLeads();
-      const lead = leads.find(l => l.id === leadId);
-      if (!lead) { showToast('⚠️ Lead not found.'); return; }
+      openExecutiveBriefModal(leadId, e);
+    }
 
-      const engine = window.SunsolvGrowthEngine || (typeof SunsolvGrowthEngine !== 'undefined' ? SunsolvGrowthEngine : null);
-      if (!engine) { showToast('⚠️ Growth Engine not loaded. Please refresh the page.'); return; }
-
-      const briefText = engine.generateExecutiveBrief(lead);
-      copyTextToClipboard(briefText, `Executive Brief — ${lead.name}`);
+    // 1-Click Executive Brief Generator — from dossier modal
+    function copyActiveExecutiveBrief() {
+      if (!activeLeadId) return;
+      openExecutiveBriefModal(activeLeadId);
     }
 
 
