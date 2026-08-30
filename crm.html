@@ -602,6 +602,10 @@
           <i class="fa-solid fa-plus"></i>
           <span>Add / Import Lead</span>
         </button>
+        <button class="btn-action" onclick="openCloudModal()" style="background: rgba(0, 180, 216, 0.15); border-color: rgba(72, 202, 228, 0.4); color: var(--c-cyan-300);">
+          <i class="fa-solid fa-cloud-bolt"></i>
+          <span id="cloudStatusLabel">Cloud Sync</span>
+        </button>
         <button class="btn-action" onclick="refreshLeads()">
           <i class="fa-solid fa-rotate"></i>
           <span>Refresh</span>
@@ -877,6 +881,56 @@ Recommended Solution: High-Velocity Lead Engine"></textarea>
             </button>
           </div>
         </form>
+      </div>
+    </div>
+  <!-- 5. CLOUD SYNC & DATABASE SETTINGS MODAL -->
+  <div class="modal-overlay" id="cloudModal">
+    <div class="modal-card" style="max-width: 680px;">
+      <div class="modal-header">
+        <div class="modal-title">
+          <i class="fa-solid fa-cloud-bolt" style="color: var(--c-cyan-400);"></i>
+          <span>Automated Real-Time Cloud Sync Settings</span>
+        </div>
+        <button class="btn-close" onclick="closeCloudModal()">&times;</button>
+      </div>
+
+      <p style="font-size: 0.88rem; color: var(--c-cyan-100); margin-bottom: 16px; line-height: 1.5;">
+        Connect your Sales CRM to an automated cloud database (Google Sheets, Firebase, Supabase, or Custom API). Inquiries submitted by visitors worldwide will automatically sync into your CRM dashboard in real-time.
+      </p>
+
+      <div style="background: rgba(3, 16, 68, 0.6); border: 1px solid rgba(72, 202, 228, 0.25); border-radius: 12px; padding: 16px; margin-bottom: 16px;">
+        <label class="form-label" style="font-size: 0.82rem; margin-bottom: 6px;">Active Cloud Database / Webhook Endpoint URL</label>
+        <div style="display: flex; gap: 8px;">
+          <input type="url" id="cloudSyncUrlInput" class="form-input" placeholder="https://script.google.com/macros/s/.../exec or https://api.sunsolv.in/api/enquiries" style="flex: 1;">
+          <button type="button" class="btn-action primary" onclick="saveCloudSyncUrl()" style="background: linear-gradient(135deg, var(--c-cyan-400), var(--c-cyan-500)); color: var(--c-navy-950); font-weight: 800; border: none; white-space: nowrap;">
+            <i class="fa-solid fa-check"></i> Save & Connect
+          </button>
+        </div>
+        <div id="cloudConnStatus" style="margin-top: 10px; font-size: 0.8rem; color: var(--c-cyan-300); display: flex; align-items: center; gap: 8px;">
+          <i class="fa-solid fa-circle-dot" style="color: #4ade80;"></i>
+          <span>Status: Auto-polling enabled (Local + Cloud channels active)</span>
+        </div>
+      </div>
+
+      <div style="background: rgba(1, 2, 36, 0.8); border: 1px solid rgba(72, 202, 228, 0.2); border-radius: 12px; padding: 16px; margin-bottom: 16px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <strong style="color: #ffffff; font-size: 0.85rem;"><i class="fa-solid fa-table"></i> Free Google Sheets Automated Real-Time Sync (60 Seconds Setup)</strong>
+          <button type="button" class="btn-action" onclick="copyGoogleScriptCode()" style="padding: 4px 10px; font-size: 0.72rem;">
+            <i class="fa-solid fa-copy"></i> Copy Script
+          </button>
+        </div>
+        <p style="font-size: 0.78rem; color: var(--c-cyan-200); line-height: 1.4; margin-bottom: 10px;">
+          1. Open a new Google Sheet &gt; Click <strong>Extensions &gt; Apps Script</strong>.<br>
+          2. Paste the script &gt; Click <strong>Deploy &gt; New Deployment &gt; Web App</strong> (Set 'Who has access' to <strong>Anyone</strong>).<br>
+          3. Paste the generated Web App URL above. Every inquiry will be saved in Google Sheets and sync into this CRM automatically!
+        </p>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <button type="button" class="btn-action" onclick="testAndSyncCloudNow()">
+          <i class="fa-solid fa-rotate"></i> Test Sync Now
+        </button>
+        <button type="button" class="btn-action primary" onclick="closeCloudModal()">Done</button>
       </div>
     </div>
   </div>
@@ -1373,6 +1427,192 @@ Recommended Solution: High-Velocity Lead Engine"></textarea>
       viewLeadDetails(newLead.id);
     }
 
+    // Cloud Sync Modal Controls & Config
+    function openCloudModal() {
+      const storedUrl = localStorage.getItem('sunsolv_cloud_sync_url') || '';
+      document.getElementById('cloudSyncUrlInput').value = storedUrl;
+      updateCloudStatusBadge();
+      document.getElementById('cloudModal').classList.add('open');
+    }
+
+    function closeCloudModal() {
+      document.getElementById('cloudModal').classList.remove('open');
+    }
+
+    function saveCloudSyncUrl() {
+      const url = document.getElementById('cloudSyncUrlInput').value.trim();
+      if (url) {
+        localStorage.setItem('sunsolv_cloud_sync_url', url);
+        showToast('✅ Cloud Database Webhook connected successfully!');
+      } else {
+        localStorage.removeItem('sunsolv_cloud_sync_url');
+        showToast('ℹ️ Reset to Local + Backend auto-sync mode.');
+      }
+      updateCloudStatusBadge();
+      fetchRemoteLeads(true);
+    }
+
+    function updateCloudStatusBadge() {
+      const storedUrl = localStorage.getItem('sunsolv_cloud_sync_url');
+      const badge = document.getElementById('cloudStatusLabel');
+      const statusText = document.getElementById('cloudConnStatus');
+      if (storedUrl) {
+        if (badge) badge.textContent = 'Cloud: Connected';
+        if (statusText) statusText.innerHTML = `<i class="fa-solid fa-circle-dot" style="color: #4ade80;"></i> <span>Status: Connected to Custom Cloud Webhook</span>`;
+      } else {
+        if (badge) badge.textContent = 'Cloud Sync';
+        if (statusText) statusText.innerHTML = `<i class="fa-solid fa-circle-dot" style="color: #38bdf8;"></i> <span>Status: Active (Auto-polling backend & local sync channels)</span>`;
+      }
+    }
+
+    function copyGoogleScriptCode() {
+      const scriptCode = `function doPost(e) {
+  try {
+    var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+    var data = JSON.parse(e.postData.contents);
+    sheet.appendRow([
+      data.id || ("SUN-" + new Date().getFullYear() + "-" + Math.floor(1000 + Math.random() * 9000)),
+      data.createdAt || new Date().toISOString(),
+      data.name || (data.contact && data.contact.name) || "",
+      data.company || (data.contact && data.contact.company) || "",
+      data.email || (data.contact && data.contact.email) || "",
+      data.phone || (data.contact && data.contact.phone) || "",
+      data.country || (data.contact && data.contact.country) || "India",
+      data.category || data.categoryName || "",
+      data.budget || data.investment || "",
+      data.timeline || "",
+      data.blueprintTitle || (data.solutionBlueprint && data.solutionBlueprint.packageTitle) || "",
+      data.status || "NEW"
+    ]);
+    return ContentService.createTextOutput(JSON.stringify({ success: true })).setMimeType(ContentService.MimeType.JSON);
+  } catch (err) {
+    return ContentService.createTextOutput(JSON.stringify({ success: false, error: err.toString() })).setMimeType(ContentService.MimeType.JSON);
+  }
+}
+
+function doGet(e) {
+  try {
+    var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+    var rows = sheet.getDataRange().getValues();
+    var leads = [];
+    for (var i = 1; i < rows.length; i++) {
+      if (!rows[i][0]) continue;
+      leads.push({
+        id: rows[i][0],
+        createdAt: rows[i][1],
+        name: rows[i][2],
+        company: rows[i][3],
+        email: rows[i][4],
+        phone: rows[i][5],
+        country: rows[i][6],
+        category: rows[i][7],
+        budget: rows[i][8],
+        timeline: rows[i][9],
+        blueprintTitle: rows[i][10],
+        status: rows[i][11] || "NEW"
+      });
+    }
+    return ContentService.createTextOutput(JSON.stringify({ success: true, data: leads })).setMimeType(ContentService.MimeType.JSON);
+  } catch (err) {
+    return ContentService.createTextOutput(JSON.stringify({ success: false, error: err.toString() })).setMimeType(ContentService.MimeType.JSON);
+  }
+}`;
+      navigator.clipboard.writeText(scriptCode).then(() => {
+        showToast('📋 Google Apps Script copied to clipboard!');
+      }).catch(() => {
+        alert('Could not copy automatically. Please copy the script from the settings modal.');
+      });
+    }
+
+    // Remote Cloud & Backend Polling Engine
+    async function fetchRemoteLeads(showFeedback = false) {
+      const endpoints = [
+        localStorage.getItem('sunsolv_cloud_sync_url'),
+        '/api/enquiries',
+        'http://localhost:5050/api/enquiries',
+        'https://api.sunsolv.in/api/enquiries'
+      ].filter(Boolean);
+
+      let anyNew = false;
+
+      for (const url of endpoints) {
+        try {
+          const res = await fetch(url, { method: 'GET', headers: { 'Accept': 'application/json' } });
+          if (res.ok) {
+            const result = await res.json();
+            const remoteList = Array.isArray(result) ? result : (result.data || result.leads || []);
+            if (Array.isArray(remoteList) && remoteList.length > 0) {
+              const currentLeads = getLeads();
+              remoteList.forEach(raw => {
+                const norm = normalizeRemoteLead(raw);
+                if (norm && norm.name) {
+                  const idx = currentLeads.findIndex(l => l.id === norm.id || (l.email === norm.email && l.name === norm.name));
+                  if (idx >= 0) {
+                    currentLeads[idx] = { ...currentLeads[idx], ...norm };
+                  } else {
+                    currentLeads.unshift(norm);
+                    anyNew = true;
+                  }
+                }
+              });
+              saveLeads(currentLeads);
+            }
+          }
+        } catch (e) {}
+      }
+
+      if (anyNew) {
+        renderDashboard();
+        showToast('⚡ Inquiries synchronized in real-time!');
+      } else if (showFeedback) {
+        showToast('✅ Cloud sync complete. CRM database is up to date.');
+      }
+    }
+
+    function normalizeRemoteLead(r) {
+      if (!r) return null;
+      const name = r.name || (r.contact && r.contact.name) || '';
+      if (!name) return null;
+
+      return {
+        id: r.id || ("SUN-" + new Date().getFullYear() + "-" + Math.floor(1000 + Math.random() * 9000)),
+        createdAt: r.createdAt || new Date().toISOString().slice(0, 16).replace('T', ' '),
+        name: name,
+        company: r.company || (r.contact && r.contact.company) || 'Direct Client',
+        email: r.email || (r.contact && r.contact.email) || 'Not Provided',
+        phone: r.phone || (r.contact && r.contact.phone) || 'Not Provided',
+        country: r.country || (r.contact && r.contact.country) || 'India',
+        category: r.categoryName || r.category || 'General Solution',
+        budget: r.investment || r.budget || 'Standard',
+        timeline: r.timeline || 'Flexible',
+        blueprintTitle: r.blueprintTitle || (r.solutionBlueprint && r.solutionBlueprint.packageTitle) || 'Sunsolv Architecture Blueprint',
+        status: r.status || 'NEW'
+      };
+    }
+
+    function testAndSyncCloudNow() {
+      fetchRemoteLeads(true);
+    }
+
+    // Real-Time Cross-Tab Listener via BroadcastChannel
+    try {
+      const bc = new BroadcastChannel('sunsolv_crm_channel');
+      bc.onmessage = (event) => {
+        if (event.data && event.data.type === 'NEW_LEAD' && event.data.lead) {
+          const leads = getLeads();
+          const newLead = event.data.lead;
+          const exists = leads.some(l => l.id === newLead.id || (l.email === newLead.email && l.name === newLead.name));
+          if (!exists) {
+            leads.unshift(newLead);
+            saveLeads(leads);
+            renderDashboard();
+            showToast(`🔥 Real-Time: New inquiry from "${newLead.name}" (${newLead.company || 'Direct'}) received!`);
+            viewLeadDetails(newLead.id);
+          }
+        }
+      };
+    } catch (e) {}
+
     // Check for 1-Click Sync from Email URL Parameter (?import=...)
     function checkUrlImport() {
       const params = new URLSearchParams(window.location.search);
@@ -1407,10 +1647,17 @@ Recommended Solution: High-Velocity Lead Engine"></textarea>
       }
     }
 
-    // Check auth and URL import on load
+    // Initialize on load & start auto-sync polling
     window.addEventListener('DOMContentLoaded', () => {
       checkAuth();
       checkUrlImport();
+      updateCloudStatusBadge();
+      fetchRemoteLeads();
+      
+      // Auto-poll every 12 seconds for background inquiries
+      setInterval(() => {
+        fetchRemoteLeads();
+      }, 12000);
     });
   </script>
 </body>

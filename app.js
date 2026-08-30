@@ -1236,27 +1236,53 @@ function sendLeadEmailNotification(leadRecord, solution) {
     console.warn('Lead email dispatch notification notice:', err);
   });
 
-  // 2. Also forward to local backend API if available
+  // 2. Broadcast to any open CRM tabs in real-time
   try {
-    fetch('http://localhost:5050/api/enquiries', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        contact: finderState.contact,
-        category: finderState.selectedCategory,
-        categoryName: finderState.selectedCategoryName,
-        goals: finderState.selectedGoals,
-        situation: finderState.selectedSituation,
-        profile: finderState.profile,
-        successVision: finderState.successVision,
-        investment: leadRecord.budget,
-        currency: finderState.currency,
-        timeline: leadRecord.timeline,
-        digitalPresence: finderState.digitalPresence,
-        solutionBlueprint: solution
-      })
-    }).catch(() => {});
+    const bc = new BroadcastChannel('sunsolv_crm_channel');
+    bc.postMessage({ type: 'NEW_LEAD', lead: leadRecord });
   } catch (e) {}
+
+  // 3. Multi-destination Cloud & Backend Dispatch
+  const cloudEndpoints = [
+    localStorage.getItem('sunsolv_cloud_sync_url'),
+    '/api/enquiries',
+    'http://localhost:5050/api/enquiries',
+    'https://api.sunsolv.in/api/enquiries'
+  ].filter(Boolean);
+
+  const enquiryPayload = {
+    id: leadRecord.id,
+    createdAt: leadRecord.createdAt,
+    name: leadRecord.name,
+    company: leadRecord.company,
+    email: leadRecord.email,
+    phone: leadRecord.phone,
+    country: leadRecord.country,
+    category: leadRecord.category,
+    categoryName: finderState.selectedCategoryName || leadRecord.category,
+    goals: leadRecord.goals,
+    situation: leadRecord.situation,
+    profile: finderState.profile,
+    successVision: finderState.successVision,
+    investment: leadRecord.budget,
+    budget: leadRecord.budget,
+    currency: finderState.currency,
+    timeline: leadRecord.timeline,
+    digitalPresence: finderState.digitalPresence,
+    solutionBlueprint: solution,
+    blueprintTitle: leadRecord.blueprintTitle,
+    status: 'NEW'
+  };
+
+  cloudEndpoints.forEach(url => {
+    try {
+      fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(enquiryPayload)
+      }).catch(() => {});
+    } catch (e) {}
+  });
 }
 
 // Intelligent Recommendation Rule Engine
