@@ -1720,23 +1720,21 @@ Recommended Solution: High-Velocity Lead Engine"></textarea>
     // AI Growth Hub & Campaign Generator Controls
     function openGrowthHubModal() {
       const modal = document.getElementById('growthHubModal');
-      if (modal) {
-        modal.classList.add('open');
-        modal.style.setProperty('display', 'flex', 'important');
-      }
-      try {
-        switchGrowthTab('POSTS');
-      } catch (err) {
-        console.warn('Switch growth tab notice:', err);
-      }
+      if (!modal) { console.error('growthHubModal element not found!'); return; }
+      // Force inline style directly — bypasses all CSS specificity issues
+      modal.style.cssText = 'display: flex !important; position: fixed !important; top: 0 !important; left: 0 !important; width: 100vw !important; height: 100vh !important; background: rgba(0,0,0,0.88) !important; backdrop-filter: blur(8px) !important; align-items: center !important; justify-content: center !important; padding: 24px !important; z-index: 2147483647 !important; overflow-y: auto !important;';
+      modal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      try { switchGrowthTab('POSTS'); } catch (err) { console.warn('switchGrowthTab:', err); }
+      try { generateAiPostPreview(); } catch (err) { console.warn('generateAiPostPreview:', err); }
     }
 
     function closeGrowthHubModal() {
       const modal = document.getElementById('growthHubModal');
-      if (modal) {
-        modal.classList.remove('open');
-        modal.style.setProperty('display', 'none', 'important');
-      }
+      if (!modal) return;
+      modal.style.cssText = 'display: none !important;';
+      modal.classList.remove('open');
+      document.body.style.overflow = '';
     }
 
     function switchGrowthTab(tab) {
