@@ -20,7 +20,7 @@
     /**
      * SUNSOLV TECHNOLOGIES - AI ORGANIC GROWTH & ATTRIBUTION ENGINE (INLINE BUNDLE)
      */
-    const SunsolvGrowthEngine = (function() {
+    var SunsolvGrowthEngine = (function() {
       'use strict';
       const BASE_URL = "https://solutionfinder.sunsolv.in/";
       const contentTemplates = {
@@ -1547,8 +1547,9 @@ Recommended Solution: High-Velocity Lead Engine"></textarea>
       }
 
       tbody.innerHTML = filtered.map(l => {
-        const intel = (typeof SunsolvGrowthEngine !== 'undefined') ? 
-          SunsolvGrowthEngine.calculateLeadIntelligenceScore(l) : 
+        const engine = window.SunsolvGrowthEngine || (typeof SunsolvGrowthEngine !== 'undefined' ? SunsolvGrowthEngine : null);
+        const intel = engine ? 
+          engine.calculateLeadIntelligenceScore(l) : 
           { score: l.score || 75, tier: l.tier || 'HIGH', tierBadge: l.tierBadge || '⚡ HIGH', isCorporateDomain: false };
         
         const tierClass = (intel.tier || 'HIGH').toLowerCase();
@@ -1659,8 +1660,9 @@ Recommended Solution: High-Velocity Lead Engine"></textarea>
 
       activeLeadId = leadId;
 
-      const intel = (typeof SunsolvGrowthEngine !== 'undefined') ? 
-        SunsolvGrowthEngine.calculateLeadIntelligenceScore(lead) : 
+      const engine = window.SunsolvGrowthEngine || (typeof SunsolvGrowthEngine !== 'undefined' ? SunsolvGrowthEngine : null);
+      const intel = engine ? 
+        engine.calculateLeadIntelligenceScore(lead) : 
         { score: lead.score || 75, tier: lead.tier || 'HIGH', tierBadge: lead.tierBadge || '⚡ HIGH', isCorporateDomain: false };
 
       document.getElementById('mName').textContent = lead.name;
@@ -1807,20 +1809,21 @@ Recommended Solution: High-Velocity Lead Engine"></textarea>
     }
 
     function generateAiPostPreview() {
-      if (typeof SunsolvGrowthEngine === 'undefined') return;
+      const engine = window.SunsolvGrowthEngine || (typeof SunsolvGrowthEngine !== 'undefined' ? SunsolvGrowthEngine : null);
+      if (!engine) return;
       const catSelect = document.getElementById('ghCategorySelect');
       const chanSelect = document.getElementById('ghChannelSelect');
       const catKey = (catSelect && catSelect.value) ? catSelect.value : 'edtech';
       const channel = (chanSelect && chanSelect.value) ? chanSelect.value : 'linkedin';
 
-      const postObj = SunsolvGrowthEngine.generateSocialPost(catKey, 0, channel);
+      const postObj = engine.generateSocialPost(catKey, 0, channel);
       const titleElem = document.getElementById('ghPostTitlePreview');
       const areaElem = document.getElementById('ghPostContentArea');
       const labelElem = document.getElementById('ghTrackedUrlLabel');
 
-      if (titleElem) titleElem.textContent = `${postObj.title}`;
-      if (areaElem) areaElem.value = postObj.text;
-      if (labelElem) labelElem.textContent = `Tracked UTM: ${postObj.trackedUrl}`;
+      if (titleElem && postObj) titleElem.textContent = `${postObj.title}`;
+      if (areaElem && postObj) areaElem.value = postObj.text;
+      if (labelElem && postObj) labelElem.textContent = `Tracked UTM: ${postObj.trackedUrl}`;
     }
 
     function copyAiPostText() {
@@ -1836,13 +1839,14 @@ Recommended Solution: High-Velocity Lead Engine"></textarea>
     }
 
     function updateCustomTrackedUrl() {
-      if (typeof SunsolvGrowthEngine === 'undefined') return;
+      const engine = window.SunsolvGrowthEngine || (typeof SunsolvGrowthEngine !== 'undefined' ? SunsolvGrowthEngine : null);
+      if (!engine) return;
       const campaignInput = document.getElementById('utmCampaignInput');
       const sourceSelect = document.getElementById('utmSourceSelect');
       const campaign = (campaignInput && campaignInput.value.trim()) ? campaignInput.value.trim() : 'growth_2026';
       const source = (sourceSelect && sourceSelect.value) ? sourceSelect.value : 'linkedin';
 
-      const tracked = SunsolvGrowthEngine.buildTrackedUrl({
+      const tracked = engine.buildTrackedUrl({
         source: source,
         campaign: campaign,
         medium: 'organic_social',
@@ -2495,8 +2499,9 @@ ${intel.actionRecommendation || 'Prepare custom discovery blueprint and schedule
         status: r.status || 'NEW'
       };
 
-      if (typeof SunsolvGrowthEngine !== 'undefined') {
-        const intel = SunsolvGrowthEngine.calculateLeadIntelligenceScore(rawRecord);
+      const engine = window.SunsolvGrowthEngine || (typeof SunsolvGrowthEngine !== 'undefined' ? SunsolvGrowthEngine : null);
+      if (engine) {
+        const intel = engine.calculateLeadIntelligenceScore(rawRecord);
         rawRecord.score = r.score || intel.score;
         rawRecord.tier = r.tier || intel.tier;
         rawRecord.tierBadge = r.tierBadge || intel.tierBadge;
