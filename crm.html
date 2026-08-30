@@ -2234,37 +2234,97 @@ function doGet(e) {
       }
     }
 
-    // 1-Click Executive Brief Generator
+    // ============================================================
+    // BULLETPROOF COPY UTILITY — works in all browsers, GitHub Pages, iframes
+    // ============================================================
+    function copyTextToClipboard(text, successLabel) {
+      // Method 1: Modern Clipboard API
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => {
+          showToast('📋 ' + successLabel + ' copied to clipboard!');
+        }).catch(() => {
+          // Method 2: Legacy execCommand fallback
+          _legacyCopy(text, successLabel);
+        });
+      } else {
+        // Method 2: Legacy execCommand fallback
+        _legacyCopy(text, successLabel);
+      }
+    }
+
+    function _legacyCopy(text, successLabel) {
+      try {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.cssText = 'position:fixed;top:0;left:0;width:2em;height:2em;padding:0;border:none;outline:none;box-shadow:none;background:transparent;opacity:0;z-index:-1;';
+        document.body.appendChild(ta);
+        ta.focus();
+        ta.select();
+        const ok = document.execCommand('copy');
+        document.body.removeChild(ta);
+        if (ok) {
+          showToast('📋 ' + successLabel + ' copied to clipboard!');
+        } else {
+          _showBriefModal(text, successLabel);
+        }
+      } catch (e) {
+        _showBriefModal(text, successLabel);
+      }
+    }
+
+    function _showBriefModal(text, successLabel) {
+      // Last resort: show brief in a full-screen modal so user can manually copy
+      const existing = document.getElementById('briefCopyModal');
+      if (existing) existing.remove();
+
+      const overlay = document.createElement('div');
+      overlay.id = 'briefCopyModal';
+      overlay.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.9);z-index:2147483647;display:flex;align-items:center;justify-content:center;padding:20px;';
+      overlay.innerHTML = `
+        <div style="background:#03045e;border:1px solid rgba(72,202,228,0.5);border-radius:16px;padding:24px;max-width:680px;width:100%;max-height:80vh;display:flex;flex-direction:column;gap:14px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <strong style="color:#fff;font-size:1rem;">📋 ${successLabel} — Select All & Copy</strong>
+            <button onclick="document.getElementById('briefCopyModal').remove()" style="background:rgba(239,68,68,0.2);border:1px solid rgba(239,68,68,0.4);color:#f87171;border-radius:8px;padding:4px 12px;cursor:pointer;font-size:0.9rem;">✕ Close</button>
+          </div>
+          <p style="color:#90e0ef;font-size:0.82rem;margin:0;">Press <strong>Ctrl+A</strong> then <strong>Ctrl+C</strong> (or Cmd+A / Cmd+C on Mac) to copy:</p>
+          <textarea id="briefCopyTextarea" readonly style="width:100%;height:320px;background:rgba(1,2,36,0.9);border:1px solid rgba(72,202,228,0.3);border-radius:10px;color:#e0f2fe;padding:14px;font-family:monospace;font-size:0.8rem;line-height:1.5;resize:none;">${text.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</textarea>
+          <button onclick="(()=>{ const t=document.getElementById('briefCopyTextarea'); t.select(); t.setSelectionRange(0,99999); try{document.execCommand('copy'); this.textContent='✅ Copied!'; this.style.background='rgba(74,222,128,0.2)'; this.style.borderColor='#4ade80'; this.style.color='#4ade80';}catch(e){} })()" style="background:linear-gradient(135deg,#7928ca,#ff0080);color:#fff;font-weight:800;border:none;border-radius:10px;padding:10px 24px;cursor:pointer;font-size:0.9rem;align-self:flex-end;">📋 Click to Copy Brief</button>
+        </div>`;
+      document.body.appendChild(overlay);
+
+      // Auto-select text in textarea after 100ms
+      setTimeout(() => {
+        const ta = document.getElementById('briefCopyTextarea');
+        if (ta) { ta.focus(); ta.select(); ta.setSelectionRange(0, 99999); }
+      }, 100);
+    }
+
+    // 1-Click Executive Brief Generator — from dossier modal
     function copyActiveExecutiveBrief() {
       if (!activeLeadId) return;
       const leads = getLeads();
       const lead = leads.find(l => l.id === activeLeadId);
-      if (!lead) return;
+      if (!lead) { showToast('⚠️ Lead not found. Try refreshing.'); return; }
 
-      if (typeof SunsolvGrowthEngine !== 'undefined') {
-        const briefText = SunsolvGrowthEngine.generateExecutiveBrief(lead);
-        navigator.clipboard.writeText(briefText).then(() => {
-          showToast(`📋 Executive Brief for "${lead.name}" copied to clipboard! Ready for discovery call.`);
-        }).catch(() => {
-          prompt('Copy Executive Brief:', briefText);
-        });
-      }
+      const engine = window.SunsolvGrowthEngine || (typeof SunsolvGrowthEngine !== 'undefined' ? SunsolvGrowthEngine : null);
+      if (!engine) { showToast('⚠️ Growth Engine not loaded. Please refresh the page.'); return; }
+
+      const briefText = engine.generateExecutiveBrief(lead);
+      copyTextToClipboard(briefText, `Executive Brief — ${lead.name}`);
     }
 
+    // 1-Click Executive Brief — from table row button
     function copyExecutiveBriefDirect(leadId, e) {
       if (e) e.stopPropagation();
       const leads = getLeads();
       const lead = leads.find(l => l.id === leadId);
-      if (!lead) return;
+      if (!lead) { showToast('⚠️ Lead not found.'); return; }
 
-      if (typeof SunsolvGrowthEngine !== 'undefined') {
-        const briefText = SunsolvGrowthEngine.generateExecutiveBrief(lead);
-        navigator.clipboard.writeText(briefText).then(() => {
-          showToast(`📋 Executive Discovery Brief for "${lead.name}" copied!`);
-        }).catch(() => {
-          prompt('Copy Executive Brief:', briefText);
-        });
-      }
+      const engine = window.SunsolvGrowthEngine || (typeof SunsolvGrowthEngine !== 'undefined' ? SunsolvGrowthEngine : null);
+      if (!engine) { showToast('⚠️ Growth Engine not loaded. Please refresh the page.'); return; }
+
+      const briefText = engine.generateExecutiveBrief(lead);
+      copyTextToClipboard(briefText, `Executive Brief — ${lead.name}`);
     }
 
 
