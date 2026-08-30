@@ -5,6 +5,32 @@
   <title>Business Solution Finder | Sunsolv Technologies</title>
   <base href="/" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
+  <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+  <meta http-equiv="X-Frame-Options" content="SAMEORIGIN" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  
+  <!-- Security Shield Protection -->
+  <script>
+    (function () {
+      'use strict';
+      document.addEventListener('contextmenu', function (e) { e.preventDefault(); return false; }, { capture: true });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'F12' || e.keyCode === 123) { e.preventDefault(); return false; }
+        const isCtrlOrCmd = e.ctrlKey || e.metaKey;
+        if (isCtrlOrCmd && e.shiftKey && ['I', 'i', 'J', 'j', 'C', 'c', 'K', 'k', 'E', 'e'].includes(e.key)) { e.preventDefault(); return false; }
+        if (isCtrlOrCmd && ['u', 'U', 's', 'S', 'p', 'P'].includes(e.key)) { e.preventDefault(); return false; }
+        if (e.metaKey && e.altKey && ['I', 'i', 'J', 'j', 'C', 'c', 'U', 'u'].includes(e.key)) { e.preventDefault(); return false; }
+      }, { capture: true });
+      document.addEventListener('dragstart', function (e) {
+        if (e.target && (e.target.nodeName === 'IMG' || e.target.classList.contains('brand-logo'))) { e.preventDefault(); }
+      });
+      setInterval(function () {
+        const t = performance.now();
+        try { (function () { return false; })['constructor']('debugger')(); } catch (e) {}
+        if (performance.now() - t > 100) { try { console.clear(); } catch (e) {} }
+      }, 3000);
+    })();
+  </script>
   
   <!-- SEO Primary Meta Tags -->
   <meta name="title" content="Business Solution Finder | Sunsolv Technologies" />
