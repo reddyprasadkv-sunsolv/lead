@@ -2966,6 +2966,23 @@ body {
 /* ==========================================================================
    RESPONSIVE DESIGN (MEDIA QUERIES)
    ========================================================================== */
+html, body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+@media (max-width: 1200px) {
+  .workflow-steps-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .environments-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .pillars-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 @media (max-width: 1024px) {
   .hero-headline {
     font-size: 2.8rem;
@@ -2981,23 +2998,59 @@ body {
   }
   .footer-top-grid {
     grid-template-columns: 1fr 1fr;
+    gap: 32px;
   }
 }
 
 @media (max-width: 768px) {
+  .site-header {
+    padding: 12px 16px;
+  }
+  .brand-logo img, .sunsolv-official-logo {
+    max-height: 36px;
+    width: auto;
+  }
+  .btn-header-cta {
+    padding: 8px 14px;
+    font-size: 0.84rem;
+  }
   .hero-section {
-    padding: 60px 16px 40px;
+    padding: 40px 16px 30px;
+  }
+  .hero-badge {
+    padding: 6px 14px;
+    font-size: 0.8rem;
+    margin-bottom: 16px;
   }
   .hero-headline {
-    font-size: 2.2rem;
+    font-size: 2.1rem;
+    line-height: 1.22;
+    margin-bottom: 16px;
+    word-break: break-word;
   }
   .hero-subheadline {
-    font-size: 1.05rem;
+    font-size: 1rem;
+    line-height: 1.55;
+    margin-bottom: 26px;
+  }
+  .hero-cta-group {
+    flex-direction: column;
+    width: 100%;
+    gap: 12px;
+    margin-bottom: 30px;
+  }
+  .hero-cta-group .btn {
+    width: 100%;
+    justify-content: center;
+    padding: 14px 20px;
   }
   .hero-trust-bar {
     flex-direction: column;
-    gap: 16px;
+    gap: 14px;
     align-items: flex-start;
+    padding: 16px 20px;
+    width: 100%;
+    margin-bottom: 28px;
   }
   .trust-divider {
     display: none;
@@ -3005,36 +3058,248 @@ body {
   .nav-links {
     display: none;
   }
+  .hero-preview-cards {
+    gap: 10px;
+    width: 100%;
+  }
+  .preview-card {
+    flex: 1 1 calc(50% - 10px);
+    min-width: 130px;
+    padding: 10px 14px;
+  }
+  .finder-section {
+    padding: 10px 12px 60px;
+  }
+  .wizard-card-wrapper {
+    border-radius: 16px;
+  }
+  .wizard-header {
+    padding: 20px 16px 14px;
+  }
+  .wizard-header-top {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  .wizard-title-badge {
+    font-size: 0.82rem;
+  }
+  .step-indicator {
+    font-size: 0.82rem;
+    padding: 3px 10px;
+  }
+  .wizard-steps-track {
+    gap: 4px;
+    padding-bottom: 6px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .step-node {
+    font-size: 0.72rem;
+    padding: 3px 8px;
+    white-space: nowrap;
+  }
   .wizard-body {
-    padding: 24px 18px;
+    padding: 22px 16px;
+  }
+  .step-heading-group {
+    margin-bottom: 20px;
+  }
+  .step-title {
+    font-size: 1.45rem;
+    line-height: 1.3;
+  }
+  .step-desc {
+    font-size: 0.88rem;
   }
   .cards-grid-step1, .multi-select-grid, .dynamic-situation-grid {
     grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .selection-card {
+    padding: 14px 16px;
+    gap: 12px;
+  }
+  .card-icon-bubble {
+    width: 40px;
+    height: 40px;
+    font-size: 1.4rem;
+  }
+  .card-name {
+    font-size: 1rem;
+  }
+  .card-subtext {
+    font-size: 0.8rem;
   }
   .links-form-grid, .contact-form-grid {
     grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .form-group-card {
+    padding: 16px 14px;
+  }
+  .chips-wrap {
+    gap: 6px;
+  }
+  .chip-btn {
+    font-size: 0.78rem;
+    padding: 6px 10px;
+  }
+  .step-header-with-toggle {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .currency-toggle-wrapper {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .timeline-card-inner {
+    flex-wrap: wrap;
+    gap: 6px 10px;
+    padding: 12px 14px;
+  }
+  .t-sub {
+    width: 100%;
+    margin-left: 0;
+    font-size: 0.74rem;
+  }
+  .wizard-footer {
+    flex-direction: column-reverse;
+    gap: 10px;
+    align-items: stretch;
+    margin-top: 24px;
+    padding-top: 18px;
+  }
+  .wizard-footer-right {
+    width: 100%;
+    flex-direction: column;
+    gap: 10px;
+    margin-left: 0;
+  }
+  .btn-wizard-back, .btn-wizard-next, .btn-wizard-submit {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+    padding: 13px 20px;
+    font-size: 0.95rem;
   }
   .comparison-grid {
     grid-template-columns: 1fr;
   }
   .section-title {
-    font-size: 2rem;
+    font-size: 1.8rem;
+  }
+  .solution-dossier-card {
+    padding: 22px 16px;
+    border-radius: 18px;
+  }
+  .dossier-header-banner h2 {
+    font-size: 1.5rem;
   }
   .dossier-action-bar {
     flex-direction: column;
     align-items: stretch;
+    gap: 10px;
   }
   .dossier-action-bar button, .dossier-action-bar a {
     width: 100%;
     justify-content: center;
   }
+  .workflow-steps-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  .pillars-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .environments-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  .product-preview-card {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 22px 18px;
+    gap: 16px;
+  }
+  .btn-visit-portal {
+    width: 100%;
+    justify-content: center;
+  }
   .footer-top-grid {
     grid-template-columns: 1fr;
+    gap: 28px;
   }
   .modal-card {
-    padding: 24px;
+    padding: 20px 16px;
+    width: 95vw;
+    max-height: 88vh;
   }
   .booking-form-grid {
     grid-template-columns: 1fr;
+  }
+  .legal-hero {
+    padding: 40px 16px 30px;
+  }
+  .legal-container {
+    padding: 0 12px;
+  }
+  .legal-title {
+    font-size: 1.8rem;
+  }
+  .legal-main-body {
+    padding: 22px 16px;
+    border-radius: 14px;
+  }
+  .legal-intro-box {
+    font-size: 0.95rem;
+    padding-bottom: 16px;
+    margin-bottom: 20px;
+  }
+  .legal-section h2 {
+    font-size: 1.25rem;
+  }
+  .legal-section p, .legal-section ul li {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-headline {
+    font-size: 1.8rem;
+  }
+  .hero-subheadline {
+    font-size: 0.92rem;
+  }
+  .preview-card {
+    flex: 1 1 100%;
+  }
+  .trust-item {
+    gap: 10px;
+  }
+  .trust-text strong {
+    font-size: 0.84rem;
+  }
+  .trust-text span {
+    font-size: 0.72rem;
+  }
+  .step-title {
+    font-size: 1.3rem;
+  }
+  .workflow-steps-grid {
+    grid-template-columns: 1fr;
+  }
+  .environments-grid {
+    grid-template-columns: 1fr;
+  }
+  .custom-form-select, .form-input, .custom-textarea {
+    font-size: 0.88rem;
+    padding: 11px 12px;
+  }
+  .f-brand-title {
+    font-size: 1.15rem;
   }
 }

@@ -412,6 +412,82 @@
       font-family: inherit;
       font-size: 0.88rem;
     }
+
+    /* Mobile Responsive Optimizations */
+    @media (max-width: 768px) {
+      .auth-card {
+        padding: 28px 18px;
+        border-radius: 16px;
+      }
+      .auth-title {
+        font-size: 1.35rem;
+      }
+      .auth-desc {
+        font-size: 0.82rem;
+        margin-bottom: 20px;
+      }
+      .dashboard-view {
+        padding: 14px 12px;
+      }
+      .crm-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 14px;
+        margin-bottom: 18px;
+        padding-bottom: 16px;
+      }
+      .crm-title-text h1 {
+        font-size: 1.25rem;
+      }
+      .crm-actions {
+        width: 100%;
+        justify-content: space-between;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .btn-action {
+        padding: 8px 12px;
+        font-size: 0.78rem;
+        flex: 1 1 calc(50% - 8px);
+        justify-content: center;
+      }
+      .kpi-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        margin-bottom: 18px;
+      }
+      .kpi-card {
+        padding: 14px;
+        gap: 10px;
+      }
+      .kpi-val {
+        font-size: 1.3rem;
+      }
+      .toolbar {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+        padding: 12px 14px;
+      }
+      .status-filters {
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        padding-bottom: 4px;
+        -webkit-overflow-scrolling: touch;
+      }
+      .filter-btn {
+        white-space: nowrap;
+        padding: 6px 12px;
+      }
+      .modal-card {
+        padding: 20px 16px;
+        max-width: 95vw;
+      }
+      .detail-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+    }
   </style>
 </head>
 <body>
