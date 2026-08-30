@@ -13,10 +13,10 @@
   <meta name="description" content="Sunsolv Technologies internal sales CRM and lead management portal.">
   <link rel="icon" type="image/png" href="logo.png">
 
-  <!-- Security Shield Protection -->
-  <script src="security.js"></script>
-  <script src="config.js"></script>
-  <script src="growth-engine.js"></script>
+  <!-- Security Shield & Growth Engine Integration -->
+  <script src="security.js?v=20260830_5"></script>
+  <script src="config.js?v=20260830_5"></script>
+  <script src="growth-engine.js?v=20260830_5"></script>
 
   <!-- Google Fonts & Font Awesome Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -396,19 +396,19 @@
       margin: 0 auto;
     }
 
-    /* Dossier Modal */
+    /* Dossier & Growth Hub Modals */
     .modal-overlay {
       position: fixed;
       top: 0; left: 0; width: 100vw; height: 100vh;
-      background: rgba(0, 0, 0, 0.8);
+      background: rgba(0, 0, 0, 0.85);
       backdrop-filter: blur(8px);
       display: none;
       align-items: center;
       justify-content: center;
       padding: 24px;
-      z-index: 1000;
+      z-index: 99999 !important;
     }
-    .modal-overlay.open { display: flex; }
+    .modal-overlay.open { display: flex !important; }
     .modal-card {
       width: 100%;
       max-width: 720px;
@@ -608,7 +608,7 @@
       </div>
 
       <div class="crm-actions">
-        <button class="btn-action" onclick="openGrowthHubModal()" style="background: linear-gradient(135deg, #7928ca, #ff0080); color: #ffffff; font-weight: 800; border: none; box-shadow: 0 4px 14px rgba(255, 0, 128, 0.35);">
+        <button type="button" id="btnGrowthHub" class="btn-action" onclick="openGrowthHubModal()" style="background: linear-gradient(135deg, #7928ca, #ff0080); color: #ffffff; font-weight: 800; border: none; box-shadow: 0 4px 14px rgba(255, 0, 128, 0.35); cursor: pointer;">
           <i class="fa-solid fa-rocket"></i>
           <span>Growth Hub & Campaigns</span>
         </button>
@@ -1816,7 +1816,7 @@ function doGet(e) {
     }
 
     // AI Growth Hub & Campaign Generator Controls
-    function openGrowthHubModal() {
+    window.openGrowthHubModal = function() {
       const modal = document.getElementById('growthHubModal');
       if (modal) {
         modal.classList.add('open');
@@ -1824,21 +1824,33 @@ function doGet(e) {
       }
       try {
         switchGrowthTab('POSTS');
+      } catch (err) {
+        console.warn('Growth Hub tab switch notice:', err);
+      }
+      try {
         generateAiPostPreview();
+      } catch (err) {
+        console.warn('Growth Hub post preview notice:', err);
+      }
+      try {
         updateCustomTrackedUrl();
+      } catch (err) {
+        console.warn('Growth Hub tracked URL notice:', err);
+      }
+      try {
         renderAttributionAnalytics();
       } catch (err) {
-        console.warn('Growth Hub init notice:', err);
+        console.warn('Growth Hub attribution analytics notice:', err);
       }
-    }
+    };
 
-    function closeGrowthHubModal() {
+    window.closeGrowthHubModal = function() {
       const modal = document.getElementById('growthHubModal');
       if (modal) {
         modal.classList.remove('open');
         modal.style.display = 'none';
       }
-    }
+    };
 
     function switchGrowthTab(tab) {
       const pTab = document.getElementById('growthTabPosts');
@@ -2081,6 +2093,14 @@ function doGet(e) {
       checkUrlImport();
       updateCloudStatusBadge();
       fetchRemoteLeads();
+
+      const ghBtn = document.getElementById('btnGrowthHub');
+      if (ghBtn) {
+        ghBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          openGrowthHubModal();
+        });
+      }
       
       // Auto-poll every 12 seconds for background inquiries
       setInterval(() => {

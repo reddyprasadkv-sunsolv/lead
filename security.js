@@ -70,15 +70,4 @@
       subStyle
     );
   } catch (err) {}
-
-  // 5. Anti-Debugging Deterrent Loop
-  setInterval(function () {
-    const startTime = performance.now();
-    try {
-      (function () { return false; })['constructor']('debugger')();
-    } catch (e) {}
-    if (performance.now() - startTime > 100) {
-      try { console.clear(); } catch (e) {}
-    }
-  }, 3000);
 })();
