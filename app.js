@@ -578,6 +578,28 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
+// Mobile Navigation Menu Toggle & Close
+function toggleMobileMenu() {
+  const drawer = document.getElementById('mobileNavDrawer');
+  const icon = document.getElementById('mobileMenuIcon');
+  if (!drawer) return;
+  const isOpen = drawer.classList.toggle('open');
+  if (icon) {
+    icon.className = isOpen ? 'fa-solid fa-xmark' : 'fa-solid fa-bars';
+  }
+}
+
+function closeMobileMenu() {
+  const drawer = document.getElementById('mobileNavDrawer');
+  const icon = document.getElementById('mobileMenuIcon');
+  if (drawer) {
+    drawer.classList.remove('open');
+  }
+  if (icon) {
+    icon.className = 'fa-solid fa-bars';
+  }
+}
+
 // Scroll to Solution Finder
 function scrollToSolutionFinder() {
   const target = document.getElementById('solutionFinderApp');

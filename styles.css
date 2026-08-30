@@ -119,75 +119,108 @@ body {
   z-index: 1;
 }
 
-/* Header Styling - Plain Solid Background for Optimal Logo Visibility */
+/* Header Styling - Dark Glassmorphism & High-Visibility Brand Badge */
 .site-header {
   position: sticky;
   top: 0;
-  z-index: 100;
-  background: #ffffff;
-  border-bottom: 1px solid rgba(0, 119, 182, 0.16);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  z-index: 1000;
+  background: rgba(3, 8, 46, 0.94);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(72, 202, 228, 0.22);
+  box-shadow: 0 8px 30px rgba(1, 2, 36, 0.6);
   transition: var(--transition-smooth);
 }
 
 .header-container {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 8px 24px;
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  padding: 10px 24px;
+  display: flex;
   align-items: center;
+  justify-content: space-between;
+  gap: 20px;
 }
 
 .brand-logo {
-  justify-self: start;
   display: flex;
   align-items: center;
+  gap: 10px;
   text-decoration: none;
+  flex-shrink: 0;
+}
+
+.brand-logo-badge {
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 3px 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+  transition: transform 0.2s ease;
+}
+
+.brand-logo:hover .brand-logo-badge {
+  transform: scale(1.04);
 }
 
 .sunsolv-official-logo {
-  height: 76px;
-  max-height: 80px;
+  height: 38px;
+  max-height: 42px;
   width: auto;
   object-fit: contain;
   display: block;
 }
 
-.nav-links {
-  justify-self: center;
+.brand-text-block {
   display: flex;
-  align-items: center;
-  gap: 36px;
+  flex-direction: column;
+  line-height: 1.1;
 }
 
-.header-actions {
-  justify-self: end;
+.brand-main-name {
+  font-size: 1.15rem;
+  font-weight: 900;
+  letter-spacing: 1px;
+  color: #ffffff;
+}
+
+.brand-sub-name {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--c-cyan-400);
+}
+
+.nav-links {
   display: flex;
   align-items: center;
+  gap: 28px;
 }
 
 .nav-link {
-  color: var(--c-navy-900);
+  color: var(--c-cyan-100);
   text-decoration: none;
-  font-size: 0.95rem;
+  font-size: 0.92rem;
   font-weight: 600;
   transition: var(--transition-fast);
   position: relative;
+  padding: 4px 0;
 }
 
 .nav-link:hover {
-  color: var(--c-blue-600);
+  color: #ffffff;
 }
 
 .nav-link::after {
   content: '';
   position: absolute;
-  bottom: -4px;
+  bottom: -2px;
   left: 0;
   width: 0;
   height: 2px;
-  background: var(--c-cyan-500);
+  background: var(--c-cyan-400);
   transition: width 0.25s ease;
 }
 
@@ -198,21 +231,157 @@ body {
 .header-actions {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
+  flex-shrink: 0;
 }
 
-.header-phone-link {
-  display: flex;
+.btn-header-cta {
+  display: inline-flex;
   align-items: center;
   gap: 8px;
-  color: var(--c-navy-800);
-  text-decoration: none;
+  background: linear-gradient(135deg, var(--c-cyan-400), var(--c-cyan-500));
+  color: var(--c-navy-900);
+  font-weight: 800;
   font-size: 0.9rem;
-  font-weight: 600;
-  padding: 9px 16px;
+  padding: 9px 18px;
   border-radius: 10px;
-  background: #f0f9ff;
-  border: 1px solid #bae6fd;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 180, 216, 0.4);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-header-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 180, 216, 0.6);
+}
+
+.mobile-menu-toggle {
+  display: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: rgba(3, 16, 68, 0.85);
+  border: 1px solid rgba(72, 202, 228, 0.4);
+  color: var(--c-cyan-300);
+  font-size: 1.15rem;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.mobile-menu-toggle:hover {
+  background: rgba(0, 180, 216, 0.25);
+  color: #ffffff;
+  border-color: var(--c-cyan-300);
+}
+
+/* Mobile Slide-Down Drawer */
+.mobile-nav-drawer {
+  display: none;
+  background: rgba(1, 4, 30, 0.98);
+  border-top: 1px solid rgba(72, 202, 228, 0.2);
+  border-bottom: 2px solid var(--c-cyan-500);
+  padding: 16px 20px 24px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+}
+
+.mobile-nav-drawer.open {
+  display: block;
+  animation: slideDownNav 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes slideDownNav {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.mobile-nav-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.mobile-nav-link {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: rgba(3, 16, 68, 0.5);
+  border: 1px solid rgba(72, 202, 228, 0.15);
+  color: var(--c-cyan-100);
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.mobile-nav-link i {
+  color: var(--c-cyan-400);
+  font-size: 1.1rem;
+  width: 20px;
+  text-align: center;
+}
+
+.mobile-nav-link:hover, .mobile-nav-link:active {
+  background: rgba(0, 180, 216, 0.2);
+  border-color: var(--c-cyan-400);
+  color: #ffffff;
+}
+
+.mobile-nav-link.crm-link {
+  background: rgba(168, 85, 247, 0.15);
+  border-color: rgba(168, 85, 247, 0.35);
+  color: #e9d5ff;
+}
+
+.mobile-nav-link.crm-link i {
+  color: #c084fc;
+}
+
+.mobile-nav-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(72, 202, 228, 0.15);
+}
+
+.btn-mobile-finder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 13px;
+  border-radius: 10px;
+  border: none;
+  background: linear-gradient(135deg, var(--c-blue-600), var(--c-cyan-400));
+  color: var(--c-navy-900);
+  font-weight: 800;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.btn-mobile-whatsapp {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 13px;
+  border-radius: 10px;
+  background: #25d366;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-decoration: none;
+}
   transition: var(--transition-fast);
 }
 
@@ -3011,15 +3180,53 @@ html, body {
 
 @media (max-width: 768px) {
   .site-header {
-    padding: 12px 16px;
+    padding: 0;
   }
-  .brand-logo img, .sunsolv-official-logo {
-    max-height: 36px;
+  .header-container {
+    padding: 10px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+  }
+  .brand-logo {
+    gap: 8px;
+  }
+  .brand-logo-badge {
+    padding: 2px 5px;
+    border-radius: 8px;
+  }
+  .sunsolv-official-logo {
+    height: 32px;
+    max-height: 34px;
     width: auto;
   }
+  .brand-main-name {
+    font-size: 0.98rem;
+  }
+  .brand-sub-name {
+    font-size: 0.58rem;
+    letter-spacing: 1px;
+  }
+  .nav-links {
+    display: none;
+  }
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
   .btn-header-cta {
-    padding: 8px 14px;
-    font-size: 0.84rem;
+    padding: 7px 12px;
+    font-size: 0.8rem;
+    gap: 6px;
+  }
+  .mobile-menu-toggle {
+    display: flex;
+    width: 36px;
+    height: 36px;
+    font-size: 1.05rem;
   }
   .hero-section {
     padding: 40px 16px 30px;

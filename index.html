@@ -33,8 +33,14 @@
   <!-- Header / Navigation -->
   <header class="site-header" id="siteHeader">
     <div class="header-container">
-      <a href="#" class="brand-logo" id="brandLogo">
-        <img src="logo.png" alt="Sunsolv Technologies" class="sunsolv-official-logo" />
+      <a href="index.html" class="brand-logo" id="brandLogo">
+        <div class="brand-logo-badge">
+          <img src="logo.png" alt="Sunsolv Technologies" class="sunsolv-official-logo" />
+        </div>
+        <div class="brand-text-block">
+          <span class="brand-main-name">SUNSOLV</span>
+          <span class="brand-sub-name">TECHNOLOGIES</span>
+        </div>
       </a>
 
       <nav class="nav-links">
@@ -50,6 +56,49 @@
           <span>Find Solution</span>
           <i class="fa-solid fa-arrow-right"></i>
         </button>
+        <button type="button" class="mobile-menu-toggle" id="mobileMenuToggleBtn" aria-label="Toggle navigation menu" onclick="toggleMobileMenu()">
+          <i class="fa-solid fa-bars" id="mobileMenuIcon"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Slide-Down Navigation Menu Drawer -->
+    <div class="mobile-nav-drawer" id="mobileNavDrawer">
+      <div class="mobile-nav-content">
+        <a href="#digitalAssessmentProduct" class="mobile-nav-link" onclick="closeMobileMenu()">
+          <i class="fa-solid fa-graduation-cap"></i>
+          <span>Assessment Platform</span>
+        </a>
+        <a href="#whyOutcomeApproach" class="mobile-nav-link" onclick="closeMobileMenu()">
+          <i class="fa-solid fa-lightbulb"></i>
+          <span>Our Approach</span>
+        </a>
+        <a href="#servicesCoverage" class="mobile-nav-link" onclick="closeMobileMenu()">
+          <i class="fa-solid fa-layer-group"></i>
+          <span>Capabilities</span>
+        </a>
+        <a href="#clientReviews" class="mobile-nav-link" onclick="closeMobileMenu()">
+          <i class="fa-solid fa-star"></i>
+          <span>Client Results</span>
+        </a>
+        <a href="#faqSection" class="mobile-nav-link" onclick="closeMobileMenu()">
+          <i class="fa-solid fa-circle-question"></i>
+          <span>FAQ</span>
+        </a>
+        <a href="crm.html" class="mobile-nav-link crm-link" onclick="closeMobileMenu()">
+          <i class="fa-solid fa-shield-halved"></i>
+          <span>Staff CRM Portal</span>
+        </a>
+        <div class="mobile-nav-actions">
+          <button type="button" class="btn btn-mobile-finder" onclick="closeMobileMenu(); scrollToSolutionFinder();">
+            <i class="fa-solid fa-wand-magic-sparkles"></i>
+            <span>Launch Solution Finder</span>
+          </button>
+          <a href="https://wa.me/919676868607?text=Hello%20Sunsolv%20Team%2C%20I%20would%20like%20to%20connect." target="_blank" class="btn btn-mobile-whatsapp" onclick="closeMobileMenu()">
+            <i class="fa-brands fa-whatsapp"></i>
+            <span>Chat on WhatsApp</span>
+          </a>
+        </div>
       </div>
     </div>
   </header>

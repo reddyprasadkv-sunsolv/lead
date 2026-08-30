@@ -54,9 +54,16 @@
   <header class="site-header" id="siteHeader">
     <div class="header-container">
       <a href="index.html" class="brand-logo">
-        <img src="logo.png" alt="Sunsolv Technologies" class="sunsolv-official-logo" />
+        <div class="brand-logo-badge">
+          <img src="logo.png" alt="Sunsolv Technologies" class="sunsolv-official-logo" />
+        </div>
+        <div class="brand-text-block">
+          <span class="brand-main-name">SUNSOLV</span>
+          <span class="brand-sub-name">TECHNOLOGIES</span>
+        </div>
       </a>
       <nav class="nav-links">
+        <a href="index.html#digitalAssessmentProduct" class="nav-link">Assessment Platform</a>
         <a href="index.html#whyOutcomeApproach" class="nav-link">Our Approach</a>
         <a href="index.html#servicesCoverage" class="nav-link">Capabilities</a>
         <a href="index.html#clientReviews" class="nav-link">Case Studies</a>
@@ -67,9 +74,57 @@
           <span>Find Solution</span>
           <i class="fa-solid fa-arrow-right"></i>
         </a>
+        <button type="button" class="mobile-menu-toggle" id="mobileMenuToggleBtn" aria-label="Toggle navigation menu" onclick="toggleLegalMobileMenu()">
+          <i class="fa-solid fa-bars" id="mobileMenuIcon"></i>
+        </button>
+      </div>
+    </div>
+    <!-- Mobile Slide-Down Navigation Menu Drawer -->
+    <div class="mobile-nav-drawer" id="mobileNavDrawer">
+      <div class="mobile-nav-content">
+        <a href="index.html#digitalAssessmentProduct" class="mobile-nav-link">
+          <i class="fa-solid fa-graduation-cap"></i>
+          <span>Assessment Platform</span>
+        </a>
+        <a href="index.html#whyOutcomeApproach" class="mobile-nav-link">
+          <i class="fa-solid fa-lightbulb"></i>
+          <span>Our Approach</span>
+        </a>
+        <a href="index.html#servicesCoverage" class="mobile-nav-link">
+          <i class="fa-solid fa-layer-group"></i>
+          <span>Capabilities</span>
+        </a>
+        <a href="index.html#clientReviews" class="mobile-nav-link">
+          <i class="fa-solid fa-star"></i>
+          <span>Client Results</span>
+        </a>
+        <a href="index.html#faqSection" class="mobile-nav-link">
+          <i class="fa-solid fa-circle-question"></i>
+          <span>FAQ</span>
+        </a>
+        <a href="crm.html" class="mobile-nav-link crm-link">
+          <i class="fa-solid fa-shield-halved"></i>
+          <span>Staff CRM Portal</span>
+        </a>
+        <div class="mobile-nav-actions">
+          <a href="index.html#solutionFinderApp" class="btn btn-mobile-finder">
+            <i class="fa-solid fa-wand-magic-sparkles"></i>
+            <span>Launch Solution Finder</span>
+          </a>
+        </div>
       </div>
     </div>
   </header>
+  <script>
+    function toggleLegalMobileMenu() {
+      const d = document.getElementById('mobileNavDrawer');
+      const i = document.getElementById('mobileMenuIcon');
+      if (d) {
+        const isOpen = d.classList.toggle('open');
+        if (i) i.className = isOpen ? 'fa-solid fa-xmark' : 'fa-solid fa-bars';
+      }
+    }
+  </script>
 
   <div class="legal-page-wrapper">
     <div class="legal-hero">
