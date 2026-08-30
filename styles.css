@@ -3214,27 +3214,214 @@ html, body {
     width: 100%;
     justify-content: center;
   }
+
+  /* Digital Assessment Platform Mobile Alignments */
+  .assessment-spotlight-section {
+    padding: 45px 16px 50px;
+  }
+  .spotlight-header {
+    margin: 0 auto 28px;
+    text-align: center;
+    padding: 0 4px;
+  }
+  .product-origin-badge {
+    font-size: 0.76rem;
+    padding: 5px 12px;
+    margin-bottom: 12px;
+  }
+  .spotlight-title {
+    font-size: 1.75rem;
+    line-height: 1.25;
+    margin-bottom: 10px;
+    word-break: break-word;
+  }
+  .spotlight-tagline {
+    font-size: 0.95rem;
+    line-height: 1.45;
+    margin-bottom: 10px;
+  }
+  .spotlight-subtitle {
+    font-size: 0.88rem;
+    line-height: 1.6;
+    margin-bottom: 22px;
+    text-align: center;
+  }
+  .spotlight-cta-row {
+    flex-direction: column;
+    width: 100%;
+    gap: 10px;
+    align-items: stretch;
+  }
+  .btn-product-live, .btn-product-blueprint, .btn-product-whatsapp {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+    padding: 13px 18px;
+    font-size: 0.9rem;
+    box-sizing: border-box;
+  }
+  .workflow-overview-wrapper {
+    padding: 22px 14px;
+    border-radius: 16px;
+    margin-bottom: 24px;
+  }
+  .workflow-header-row {
+    margin-bottom: 18px;
+    text-align: center;
+  }
+  .workflow-badge {
+    font-size: 0.72rem;
+  }
+  .workflow-header-row h3 {
+    font-size: 1.25rem;
+    line-height: 1.35;
+  }
   .workflow-steps-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
+    gap: 10px;
+  }
+  .step-card {
+    padding: 14px 10px;
+    border-radius: 12px;
+    text-align: center;
+  }
+  .step-num {
+    font-size: 1.1rem;
+    margin-bottom: 4px;
+  }
+  .step-card h4 {
+    font-size: 0.88rem;
+    margin-bottom: 4px;
+  }
+  .step-card p {
+    font-size: 0.76rem;
+    line-height: 1.4;
   }
   .pillars-grid {
     grid-template-columns: 1fr;
     gap: 16px;
+    margin-bottom: 24px;
+  }
+  .pillar-card {
+    padding: 20px 16px;
+    border-radius: 16px;
+    text-align: left;
+    align-items: flex-start;
+  }
+  .pillar-icon-box {
+    width: 44px;
+    height: 44px;
+    font-size: 1.25rem;
+    border-radius: 12px;
+    margin-bottom: 12px;
+  }
+  .pillar-role {
+    font-size: 0.72rem;
+    margin-bottom: 4px;
+  }
+  .pillar-card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 8px;
+    line-height: 1.3;
+  }
+  .pillar-card p {
+    font-size: 0.86rem;
+    line-height: 1.55;
+    margin-bottom: 14px;
+  }
+  .pillar-feature-list {
+    padding-top: 12px;
+    gap: 8px;
+    width: 100%;
+  }
+  .pillar-feature-list li {
+    font-size: 0.82rem;
+    line-height: 1.45;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .pillar-feature-list li i {
+    margin-top: 3px;
+    font-size: 0.75rem;
+    flex-shrink: 0;
+  }
+  .environments-section-card {
+    padding: 22px 14px;
+    border-radius: 16px;
+    margin-bottom: 24px;
+  }
+  .env-header {
+    margin-bottom: 18px;
+    text-align: center;
+  }
+  .env-badge {
+    font-size: 0.72rem;
+  }
+  .env-header h3 {
+    font-size: 1.25rem;
+    line-height: 1.35;
+    margin-bottom: 6px;
+  }
+  .env-header p {
+    font-size: 0.86rem;
+    line-height: 1.5;
   }
   .environments-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
+    gap: 10px;
+  }
+  .env-item {
+    padding: 14px 10px;
+    border-radius: 12px;
+    text-align: center;
+  }
+  .env-icon {
+    font-size: 1.75rem;
+    margin-bottom: 6px;
+  }
+  .env-item h4 {
+    font-size: 0.88rem;
+    margin-bottom: 4px;
+  }
+  .env-item p {
+    font-size: 0.76rem;
+    line-height: 1.4;
   }
   .product-preview-card {
     flex-direction: column;
-    align-items: flex-start;
-    padding: 22px 18px;
+    align-items: stretch;
+    text-align: center;
+    padding: 22px 16px;
     gap: 16px;
+    border-radius: 16px;
+  }
+  .preview-content {
+    text-align: center;
+    width: 100%;
+  }
+  .preview-tag {
+    font-size: 0.72rem;
+    margin-bottom: 4px;
+  }
+  .product-preview-card h3 {
+    font-size: 1.15rem;
+    line-height: 1.35;
+    margin-bottom: 6px;
+  }
+  .product-preview-card p {
+    font-size: 0.85rem;
+    line-height: 1.5;
+  }
+  .preview-actions {
+    width: 100%;
   }
   .btn-visit-portal {
     width: 100%;
     justify-content: center;
+    text-align: center;
+    font-size: 0.88rem;
+    padding: 12px 16px;
+    white-space: normal;
   }
   .footer-top-grid {
     grid-template-columns: 1fr;
@@ -3295,6 +3482,18 @@ html, body {
   }
   .step-title {
     font-size: 1.3rem;
+  }
+  .assessment-spotlight-section {
+    padding: 36px 12px 40px;
+  }
+  .spotlight-title {
+    font-size: 1.45rem;
+  }
+  .spotlight-tagline {
+    font-size: 0.9rem;
+  }
+  .spotlight-subtitle {
+    font-size: 0.84rem;
   }
   .workflow-steps-grid {
     grid-template-columns: 1fr;
