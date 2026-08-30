@@ -1061,6 +1061,10 @@ function prevStep() {
   if (finderState.currentStep > 1) {
     finderState.currentStep--;
     updateWizardUI();
+  } else {
+    // On step 1, Previous scrolls back up to the hero section
+    const hero = document.getElementById('hero') || document.querySelector('.hero-section') || document.body;
+    hero.scrollIntoView({ behavior: 'smooth' });
   }
 }
 
@@ -1097,10 +1101,11 @@ function updateWizardUI() {
   const nextBtn = document.getElementById('wizardNextBtn');
   const submitBtn = document.getElementById('wizardSubmitBtn');
   
-  if (finderState.currentStep === 1) {
-    if (backBtn) backBtn.style.display = 'none';
-  } else {
-    if (backBtn) backBtn.style.display = 'inline-flex';
+  // Always show back button; on step 1 it scrolls to hero, on other steps it goes back
+  if (backBtn) {
+    backBtn.style.display = 'inline-flex';
+    const backSpan = backBtn.querySelector('span');
+    if (backSpan) backSpan.textContent = finderState.currentStep === 1 ? 'Home' : 'Previous';
   }
   
   if (finderState.currentStep === finderState.totalSteps) {
