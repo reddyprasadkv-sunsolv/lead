@@ -807,6 +807,7 @@ export class SolutionFinderComponent implements OnInit {
       'Captured Timestamp': new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }) + ' (IST)'
     };
 
+    // 1. Dispatch FormSubmit email
     fetch('https://formsubmit.co/ajax/info@sunsolv.in', {
       method: 'POST',
       headers: {
@@ -815,6 +816,27 @@ export class SolutionFinderComponent implements OnInit {
       },
       body: JSON.stringify(notificationPayload)
     }).catch(e => console.warn('Lead email notification notice:', e));
+
+    // 2. Dispatch to live Google Sheets Web App
+    const googleSheetUrl = 'https://script.google.com/macros/s/AKfycbxTQwMOJksC78OC74XPThd1qgzZAf8XT_p0NYtBoJisBFuk64ES5fwxp-AkND8hqJ9lWA/exec';
+    fetch(googleSheetUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({
+        id: syncRecord.id,
+        createdAt: syncRecord.createdAt,
+        name: syncRecord.name,
+        company: syncRecord.company,
+        email: syncRecord.email,
+        phone: syncRecord.phone ? "'" + syncRecord.phone : '',
+        country: syncRecord.country,
+        category: syncRecord.category,
+        budget: syncRecord.budget,
+        timeline: syncRecord.timeline,
+        blueprintTitle: syncRecord.blueprintTitle,
+        status: 'NEW'
+      })
+    }).catch(() => {});
   }
 
   triggerCelebration() {

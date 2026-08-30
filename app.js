@@ -1243,7 +1243,12 @@ function sendLeadEmailNotification(leadRecord, solution) {
   } catch (e) {}
 
   // 3. Multi-destination Cloud & Backend Dispatch
+  const googleSheetUrl = (typeof SUNSOLV_GOOGLE_SHEETS_URL !== 'undefined' && SUNSOLV_GOOGLE_SHEETS_URL) ? 
+    SUNSOLV_GOOGLE_SHEETS_URL : 
+    "https://script.google.com/macros/s/AKfycbxTQwMOJksC78OC74XPThd1qgzZAf8XT_p0NYtBoJisBFuk64ES5fwxp-AkND8hqJ9lWA/exec";
+
   const cloudEndpoints = [
+    googleSheetUrl,
     localStorage.getItem('sunsolv_cloud_sync_url'),
     '/api/enquiries',
     'http://localhost:5050/api/enquiries',
@@ -1256,7 +1261,7 @@ function sendLeadEmailNotification(leadRecord, solution) {
     name: leadRecord.name,
     company: leadRecord.company,
     email: leadRecord.email,
-    phone: leadRecord.phone,
+    phone: leadRecord.phone ? "'" + leadRecord.phone : '',
     country: leadRecord.country,
     category: leadRecord.category,
     categoryName: finderState.selectedCategoryName || leadRecord.category,

@@ -15,6 +15,7 @@
 
   <!-- Security Shield Protection -->
   <script src="security.js"></script>
+  <script src="config.js"></script>
 
   <!-- Google Fonts & Font Awesome Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1526,7 +1527,12 @@ function doGet(e) {
 
     // Remote Cloud & Backend Polling Engine
     async function fetchRemoteLeads(showFeedback = false) {
+      const googleSheetUrl = (typeof SUNSOLV_GOOGLE_SHEETS_URL !== 'undefined' && SUNSOLV_GOOGLE_SHEETS_URL) ? 
+        SUNSOLV_GOOGLE_SHEETS_URL : 
+        "https://script.google.com/macros/s/AKfycbxTQwMOJksC78OC74XPThd1qgzZAf8XT_p0NYtBoJisBFuk64ES5fwxp-AkND8hqJ9lWA/exec";
+
       const endpoints = [
+        googleSheetUrl,
         localStorage.getItem('sunsolv_cloud_sync_url'),
         '/api/enquiries',
         'http://localhost:5050/api/enquiries',
